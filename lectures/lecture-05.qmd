@@ -1,0 +1,754 @@
+---
+title: "IT Architecture – Lecture 05"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-05/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 05
+
+Operating Systems
+Resource Management and Scheduling
+I/O Management and Scheduling
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Main Functions of the Operating System (review)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Concept of a Resource
+
+Resources are hardware and software components that the operating system makes available to processes so they can perform their tasks.
+
+Types:
+Physical resources: CPU, memory, secondary storage, network interface, peripherals
+Logical resources: files, ports, threads, mutexes, signals
+Virtual resources: VMs, containers, cloud services (e.g. virtual CPU, storage)
+Characteristics:
+They are managed by the operating system
+A resource may be:
+Static or dynamic
+Shared or exclusive
+Divisible or non-divisible
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Resource Scheduling
+
+Resource scheduling is the process by which the operating system decides which process may use a given resource, in what order, and for how long.
+
+Problem:
+Available resources are usually limited
+
+Goals:
+Efficient use of resources
+Fair allocation of resources among processes
+Avoiding and resolving conflicts
+
+Note:
+In a broader sense, resource scheduling also includes assigning cloud storage, compute, and network capacity to virtual machines and containers.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Resource Scheduling – Examples
+
+CPU scheduling
+Deciding which process gets the CPU and for how long.
+Goal: efficient CPU utilization, fast response time, fairness.
+Algorithms: FCFS, SJF, RR, priority scheduling, multilevel queue, etc.
+I/O scheduling – see later slides
+Determines the order of access to I/O devices.
+Goal: minimize waiting time and head movement, optimize I/O transfer.
+Algorithms: FCFS, SSTF, SCAN, C-SCAN, LOOK (hard disks)
+Modern aspect: SSD scheduling (Linux, Windows)
+Memory-resource scheduling – see later lectures
+Managing which processes and pages reside in memory.
+Goal: efficient memory use and minimizing paging operations.
+Algorithms: page replacement – FIFO, LRU, CLOCK, NRU, etc.
+Modern aspect: NUMA-aware scheduling, virtual memory, memory ballooning
+Other scheduling – partly covered in later lectures
+Network-resource scheduling (QoS, bandwidth allocation)
+Energy-resource scheduling (DVFS, power-aware CPU control)
+Cloud and container scheduling (e.g. Kubernetes)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Resource Allocation
+
+The process by which the operating system assigns limited resources (e.g. CPU, memory, I/O devices) to competing processes so they can perform their tasks.
+
+Resource-allocation lifecycle
+
+Processes request, use, and then release resources.
+The OS is responsible for:
+Tracking who is using what
+Approving or denying requests
+Ensuring that deadlocks do not occur
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Resource Allocation Graph
+
+A resource allocation graph is a directed graph showing how processes and resources are connected: which process holds which resource and which resource it is waiting for.
+
+Structure
+Nodes:
+Processes (P₁, P₂, …) → shown as circles
+Resources (R₁, R₂, …) → shown as squares
+Edges (directed arrows):
+P → R: the process requests the resource
+R → P: the resource is assigned to the process
+Characteristics
+The graph changes dynamically as resources are requested and released.
+A cycle in the graph indicates a potential deadlock.
+
+Resource Allocation Graph (RAG) – GeeksforGeeks
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Concept of Deadlock
+
+Conditions for deadlock:
+Mutual exclusion: at least one resource can be used by only one process at a time.
+Hold and wait: a process requests new resources while holding others and not releasing them.
+No preemption: the operating system cannot forcibly take away an allocated resource.
+Circular wait: processes wait for one another in a cycle.
+Management strategies:
+prevention, avoidance (e.g. Banker’s algorithm),
+detection and recovery.
+
+A deadlock occurs when processes mutually wait for resources held by one another.
+
+Introduction of Deadlock in Operating System – GeeksforGeeks
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Dining Philosophers Problem
+
+The problem models synchronization issues, deadlock, and starvation.
+Five philosophers sit around a table, with five forks (resources) between them.
+Each philosopher needs both adjacent forks to eat.
+If everyone picks up the left fork at the same time → deadlock.
+Solutions:
+resource ordering, asymmetric strategy, synchronization (mutex, semaphore).
+
+Dining Philosopher Solution using Semaphores – GeeksforGeeks
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Dining Philosophers Problem (cont.)
+
+What does the diagram show?
+Resource sharing
+Multiple processes (the philosophers) try to use shared, limited resources (the forks).
+Deadlock
+If every philosopher picks up the left fork and waits for the right one, nobody can eat → a classical deadlock situation.
+The conditions for deadlock are satisfied
+Starvation
+A slower-reacting philosopher may be excluded from eating
+
+Dining Philosopher Solution using Semaphores – GeeksforGeeks
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Solving the Dining Philosophers Problem
+
+Resource ordering
+Each fork receives a number (e.g. 1–5).
+Each philosopher always picks up the forks in the same order: first the lower-numbered one, then the higher-numbered one.
+Result: circular wait cannot occur → no deadlock.
+However, starvation may still occur if someone is always served late.
+Introducing a waiter (or monitor)
+Introduce a central controller (e.g. waiter/monitor) who allows only philosophers who can safely eat to pick up forks (i.e. both forks are free).
+A philosopher asks the waiter for permission to eat.
+→ No deadlock, because the waiter does not allow everyone to proceed at once.
+→ No starvation either if the waiter uses fair scheduling (e.g. FIFO).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Solving the Dining Philosophers Problem
+
+Asymmetric strategy (odd-even rule)
+Even-numbered philosophers pick up the left fork first; odd-numbered ones pick up the right fork first.
+Result: circular wait is broken → no deadlock.
+Starvation may still occur if the order does not change dynamically.
+Using synchronization primitives (semaphore / mutex)
+Each fork is represented by a mutex (lock).
+Philosophers request a fork with wait() and release it with signal().
+Add a limiting semaphore that allows at most four philosophers to try at the same time.
+→ This guarantees that at least one fork remains free.
+→ no deadlock and less starvation.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Banker’s Algorithm
+
+The OS grants a resource request only if the system remains in a safe state.
+Concepts related to the algorithm:
+Available: shows how many resource instances are not allocated to any process.
+Allocation: shows how many resources each process currently holds.
+Need: the number of resources still required by a process (maximum − allocated).
+Request: the process’s current request to the OS.
+Safe sequence: an execution order in which every process can complete without deadlock.
+The system behaves like a banker: it grants a loan only if repayment is guaranteed.
+(Client: process; loan: request; already granted loan: allocation; remaining credit needed: need; cash in the bank: available; safe lending: safe sequence)
+
+The Banker’s algorithm is Dijkstra’s deadlock-avoidance method.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Banker’s Algorithm
+
+The OS grants a resource request only if the system remains in a safe state.
+Concepts related to the algorithm:
+Available: shows how many resource instances are not allocated to any process.
+Allocation: shows how many resources each process currently holds.
+Need: the number of resources still required by a process (maximum − allocated).
+Request: the process’s current request to the OS.
+Safe sequence: an execution order in which every process can complete without deadlock.
+
+The Banker’s algorithm is Dijkstra’s deadlock-avoidance method.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – Example
+
+Claim:
+
+Safe sequence:
+P2 → P4 → P1 → P3 → P5
+
+Important:
+
+The algorithm is not deterministic
+Several safe sequences may exist
+Modern operating systems do not use this exact algorithm, but they do use its principles
+
+Given three resources (R1, R2, R3) and five processes (P1, P2, P3, P4, P5)
+Number of available resources: Available = (3, 3, 2)
+The current state is shown in the table below
+Is there a safe sequence for satisfying the requests?
+
+Initial state
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – P2 completes
+
+Available: (3, 3, 2)
+P2 Need = (1,2,2) ≤ Available (3,3,2) ✅
+Therefore P2 runs, completes its work, and releases its allocated resources: (2,0,0)
+New Available = (3,3,2) + (2,0,0) = (5,3,2)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – P4 completes
+
+Available: (5, 3, 2)
+P4 Need = (0,1,1) ≤ Available (5,3,2) ✅
+It releases its Allocation = (2,1,1) resources.
+New Available = (5,3,2) + (2,1,1) = (7,4,3)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – P1 completes
+
+Available: (7, 4, 3)
+P1 Need = (7,4,3) ≤ Available (7,4,3)✅
+It releases its Allocation = (0,1,0) resources.
+New Available = (7,4,3) + (0,1,0) = (7,5,3)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – P3 completes
+
+Available: (7, 5, 3)
+P3 Need = (6,0,0) ≤ Available (7,5,3) ✅
+It releases its Allocation = (3,0,2) resources.
+New Available = (7,5,3) + (3,0,2) = (10,5,5)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Banker’s Algorithm – P5 completes (end)
+
+Available: (10, 5, 5)
+P5 Need = (4,3,1) ≤ Available (10,5,5) ✅
+It releases its Allocation = (0,0,2) resources.
+New Available = (10,5,5) + (0,0,2) = (10,5,7)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Prevention
+
+Preventing mutual exclusion
+Use shared resources where possible (e.g. concurrent reading of read-only files).
+Preventing hold and wait:
+Some systems allocate resources in advance or allow requests only if the process requests everything at once.
+Preventing no-preemption:
+Some OS components allow resources to be reclaimed (e.g. from an interrupted process).
+Preventing circular wait:
+The kernel enforces a fixed order for locking resources (e.g. lower ID → higher ID).
+
+The goal is to prevent the four deadlock conditions from holding simultaneously
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Detection and Recovery
+
+The kernel or scheduler periodically scans the process list.
+If circular resource waiting is detected, one process is terminated or restarted.
+Timed locks: if a lock is not released within a given time, the waiting process receives a timeout error and can roll back, retry, or abort the operation.
+OS developers and drivers use deadlock-resistant patterns:
+hierarchical lock ordering,
+deadlock-free API design,
+synchronization primitives (mutex, semaphore, spinlock, condition variable)
+→ these follow system-level rules, e.g. “always lock A before B.”
+
+The system may allow deadlocks to occur, but periodically checks processes.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock vs. Freezing
+
+The program freezes: it does not respond, the cursor spins, “Not responding”.
+In the background, threads are waiting for one another (resource locks).
+The OS tries to give CPU time, but no progress occurs.
+After a while, the system detects the non-responsive process and offers to close it.
+Not every freeze is a deadlock, but every deadlock looks like a freeze.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Handling in Windows
+
+Main principles
+Deadlock detection and recovery – detection and intervention.
+Timeout-based lock handling – if a kernel object (e.g. mutex, file lock) remains locked too long, the system interrupts the operation or issues a warning.
+Debugger integration – the Windows kernel (NTOSKRNL) can inspect locks with commands such as !locks and !deadlock in WinDbg.
+Components
+Kernel-level synchronization: in the Windows kernel, structures such as KLOCK_QUEUE_HANDLE and ERESOURCE support lock hierarchy handling.
+File system (NTFS): NTFS includes a Resource Manager that can detect when two processes mutually lock files.
+I/O subsystem: the Windows I/O Manager uses timeouts and dependency graphs for deadlock detection.
+SQL Server / Exchange / IIS: built-in deadlock monitors watch transactions → if a circular dependency occurs, one transaction is automatically aborted.
+
+Windows does not try to prevent deadlocks globally; instead, it detects and handles them locally, component by component.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Handling in Linux
+
+The Linux kernel also does not try to prevent deadlocks globally; instead, it aims to make them easy to detect and eliminate.
+
+Main tools:
+Lockdep (Lock Debugging Framework):
+A kernel facility that monitors locking order.
+If two locks are acquired in opposite order → potential deadlock warning.
+Hung Task Detector:
+The kernel monitors tasks that remain blocked for too long (e.g. 120 seconds).
+In this case, the system writes a new entry to the log file.
+User-space solutions:
+For example, databases such as MySQL and PostgreSQL include their own deadlock detectors that analyze transaction graphs.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Handling in macOS
+
+Similar to Linux, but with stricter developer guidelines and GUI-level deadlock monitoring.
+
+At kernel level, interprocess communication (IPC) is time-limited, so if two processes wait for each other, the kernel eventually aborts the message wait with an error.
+File systems (APFS, HFS+) use built-in lock hierarchies, with a deterministic locking order → deadlock prevention.
+The graphical user interface layer can also detect deadlock-like situations.
+Apple development frameworks (Cocoa, Grand Central Dispatch, POSIX threads) include built-in mechanisms to help prevent deadlocks.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Deadlock Handling in Mobile Operating Systems
+
+If an app enters a deadlock, the system usually does not try to recover it; it terminates it. Preserving the user experience is the primary goal.
+
+🍎 iOS:
+Mach-based kernel, time-limited IPC.
+Grand Central Dispatch → automatic thread management.
+Main-thread watchdog (termination after 20 seconds).
+Deadlock = immediate app termination.
+🤖 Android:
+Linux kernel + Binder IPC.
+ANR detector monitors the main thread (5 seconds).
+User choice: Wait or Close app.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+I/O Management
+
+I/O management is the part of the operating system that:
+detects, controls, and communicates with peripherals (e.g. disk, printer, network, mouse, etc.),
+ensures that processes access devices in a uniform way,
+
+Main tasks:
+Managing device drivers – the OS communicates with each device through them.
+Buffering, spooling, caching – optimizing I/O operations through memory use.
+Providing an interface to processes (system calls such as read() and write()).
+Interrupt handling, DMA, error handling.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+I/O Scheduling
+
+I/O scheduling is an optimization layer of I/O management: it determines the order in which I/O requests are executed (e.g. disk reads).
+
+Tasks:
+Handling priorities (e.g. favouring real-time processes).
+Minimizing head movement (for disks).
+Ensuring fairness (avoid process starvation).
+Maintaining QoS (Quality of Service):
+Controlling priorities, bandwidth, and response time
+Achieving reliable, predictable performance
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-30.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Hard-Disk Scheduling Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-31.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+FCFS (First Come, First Served)
+
+Requests are served in the order they arrive.
+
+Movement: the read/write head moves linearly in the current direction.
+Simple but not optimal – average head movement can be high.
+Analogy: queuing – first come, first served.
+Advantage: easy to implement.
+Disadvantage: ignores the current head position → much unnecessary movement.
+
+Requests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67
+Initial head position: 53
+Disk size: tracks 0–199
+Average head movement: 80 tracks/request
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-32.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SSTF (Shortest Seek Time First)
+
+Always serves the request closest to the current head position first.
+
+Requests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67
+Initial head position: 53
+Disk size: tracks 0–199
+Average head movement: 29.50 tracks/request
+
+Goal: minimize head movement distance.
+Improves average access time, but…
+May cause starvation (distant requests may wait a long time).
+Advantage: better performance than FCFS.
+Disadvantage: not fair; inner areas of the disk may receive priority.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-33.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SCAN (Elevator Algorithm)
+
+The head moves like an elevator: it moves in one direction, serves all requests, then reverses direction.
+
+Requests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67
+Initial head position: 53
+Disk size: tracks 0–199
+Average head movement: 41.38 tracks/request
+
+More even service across positions.
+Also known as the elevator algorithm.
+Advantage: stable, little starvation.
+Disadvantage: requests near the outer tracks may wait slightly longer.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-34.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+C-SCAN (Circular SCAN)
+
+The head moves in only one direction, then jumps back to the beginning (circularly).
+
+Requests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67
+Initial head position: 53
+Disk size: tracks 0–199
+Average head movement: 47.75 tracks/request
+
+Goal: uniform waiting time for all requests.
+New requests are served in the next pass.
+Advantage: uniform and predictable response time.
+Disadvantage: the return jump is dead time and does not serve requests.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-35.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+LOOK Algorithm
+
+The head moves only as far as there are requests in the current direction, then immediately reverses (it does not go to the disk edge).
+
+Requests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67
+Initial head position: 53
+Disk size: tracks 0–199
+Average head movement: 37.38 tracks/request
+
+An improved version of SCAN
+It “looks” ahead and moves only as far as necessary.
+Advantage: shorter head movement than SCAN/C-SCAN.
+Disadvantage: more complex to implement than FCFS or SSTF.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-36.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of Hard-Disk Scheduling Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-37.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SSD Scheduling
+
+For SSDs, I/O scheduling focuses on parallelism and reducing latency.
+
+No mechanical movement
+All blocks have similar access time, so requests do not need to be optimized by track position (unlike SSTF, SCAN, LOOK).
+Traditional HDD algorithms (SCAN, C-SCAN, SSTF) provide no benefit for SSDs.
+Goals for SSDs
+Maximize IOPS (Input/Output Operations per Second)
+Maintain low latency
+Wear leveling – distribute writes evenly across cells
+Parallel I/O: reading/writing through multiple channels
+Queue-depth optimization (using NCQ / NVMe queues)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-38.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SSD Scheduling – Linux
+
+The Linux kernel provides several I/O schedulers for SSDs.
+
+Noop
+Simple FIFO-based queue
+No reordering; ideal for SSDs
+mq-deadline:	
+Deadline + multiqueue
+Low latency, suitable for real-time systems
+none (or none-mq):
+No scheduling
+For NVMe SSDs, when firmware performs the optimization
+kyber	
+QoS-oriented, latency-based
+Good balance between IOPS and latency
+:::
+
+
+---
+
+## {background-image="../slides/lecture-05/slide-39.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SSD Scheduling – Windows
+
+For SSDs, Windows automatically switches to a hardware-dependent, queue-based mode.
+
+Characteristics:
+The Windows Storage Stack detects SSDs (Trim and NVMe support).
+Classical HDD-optimized algorithms are not active for SSDs.
+For SSDs, the Windows I/O scheduler (part of the kernel):
+does not perform seek optimization,
+handles NCQ / NVMe queues (parallel processing),
+supports Storage QoS (in Hyper-V and Server editions).
+Important services:
+Trim – prepares deleted blocks for rewriting.
+Native NVMe scheduling with multiple queues (queue depth up to 64k).
+Windows Storage Spaces – virtualized storage with QoS-controlled I/O.
+:::

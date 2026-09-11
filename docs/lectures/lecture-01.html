@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <title>IT Architecture – IT Architecture – Lecture 01</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-0427d8d92a431aa6a6430e53ec02a470.css">
+  <link rel="stylesheet" href="../styles.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">IT Architecture – Lecture 01</h1>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="section" class="slide level2" data-background-image="../slides/lecture-01/slide-01.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>IT Architecture – Lecture 01</p>
+<p>Introduction Hardware Fundamentals I</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-1" class="slide level2" data-background-image="../slides/lecture-01/slide-02.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>What will we cover?</p>
+<p>Introduction Course requirements What will we learn? Hardware Fundamentals I Historical overview Computer components Von Neumann principles The processor, memory and peripherals</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-2" class="slide level2" data-background-image="../slides/lecture-01/slide-03.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Course requirements</p>
+<p>Requirements during the semester (prerequisites for taking the exam) Attendance at seminars (absences are permitted according to the Academic Regulations) Successful completion of the mid-term tests Submission of assignments by the deadlines End-of-semester requirement: Exam on the dates announced in Neptun Alternative option: Offered grade (for an overall result of at least Good)</p>
+<ul>
+<li>For details, see Moodle</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-3" class="slide level2" data-background-image="../slides/lecture-01/slide-04.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Planned assessment schedule</p>
+<p>Test 1 – at the beginning of Seminar 6 (Windows + Azure Shell + Lectures 1–5) Test 2 – at the beginning of Seminar 10 (Linux + Git + Docker + Lectures 6–9) End-of-semester test in Seminar 12  (all seminar topics + Lectures 10–12 + DevOps) Homework – 2 assignments, each with a one-week deadline (assigned in Seminars 4 and 8) Course assignment – 1 assignment  (assigned in Seminar 6, due by Seminar 12) Retake / make-up opportunity – Lecture/Seminar 13</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-4" class="slide level2" data-background-image="../slides/lecture-01/slide-05.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Assessment</p>
+<p>Mid-term tests – 30% Homework – 10% Course assignment – 20% End-of-semester test – 40%</p>
+<p>Offered grade: Excellent: from 90%, Good: from 80% Exam: from 60% to 80% Not eligible for the exam: below 60%, failure to meet the semester requirements, or insufficient seminar attendance Up to 10% bonus points can be earned during the semester</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-5" class="slide level2" data-background-image="../slides/lecture-01/slide-06.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>What will we learn?</p>
+<p>Theory Hardware fundamentals Operating systems Computer networks Cloud systems</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-6" class="slide level2" data-background-image="../slides/lecture-01/slide-07.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>What will we learn?</p>
+<p>Seminars Azure fundamentals Windows 10/11 and Windows Server Debian Linux</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-7" class="slide level2" data-background-image="../slides/lecture-01/slide-08.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>What will we learn?</p>
+<p>Optional topics: Other operating systems Kubernetes AWS fundamentals</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-8" class="slide level2" data-background-image="../slides/lecture-01/slide-09.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Why is knowledge of IT architecture useful?</p>
+<p>Writing software is not enough; it must also be operated so that it is available able to operate under load secure quickly recoverable cost-effective</p>
+<p>This requires specialized IT operations (Ops) knowledge.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-9" class="slide level2" data-background-image="../slides/lecture-01/slide-10.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>What does Ops do?</p>
+<p>Operates servers Builds and configures networks and infrastructure Monitors systems Ensures security Handles incidents</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-10" class="slide level2" data-background-image="../slides/lecture-01/slide-11.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Earlier trends</p>
+<p>Development (Dev) and Operations (Ops) were completely separated Developers (Dev) wrote the software Then handed it over to Operations In case of a software bug, the code went back to the developers Slow, cumbersome communication Many conflicts No one had an overview of both areas</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-11" class="slide level2" data-background-image="../slides/lecture-01/slide-12.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Current trends</p>
+<p>Today, Development and Operations are becoming increasingly closely integrated</p>
+<p>DevOps</p>
+<p>Image source: https://en.wikipedia.org/wiki/DevOps_toolchain</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-12" class="slide level2" data-background-image="../slides/lecture-01/slide-13.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>DevOps trends</p>
+<p>Image source: 8 Future DevOps Trends In 2025 – xMatters</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-13" class="slide level2" data-background-image="../slides/lecture-01/slide-14.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Hardware Fundamentals I</p>
+<p>Historical overview The concept and components of a computer Von Neumann principles The processor and its functions Memory and addressing Peripherals Bus system, interrupts and ports</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-14" class="slide level2" data-background-image="../slides/lecture-01/slide-15.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Historical overview</p>
+<p>From the beginnings … abacus, slide rule … Mechanical computers (Schickard, Pascal, Babbage) Electromechanical computers (Zuse) Electronic computers  computer generations</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-15" class="slide level2" data-background-image="../slides/lecture-01/slide-16.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Abacus (3rd millennium BC), slide rule (~1620)</p>
+<p>Primarily used for addition and subtraction The rods represent place values, while the beads represent digit values</p>
+<p>Abacus Simulator (uni-marburg.de)</p>
+<p>Slide Rule Simulator Emulator Replica Collection Scales that slide relative to each other In addition to basic arithmetic, it can be used to calculate roots, logarithms, and trigonometric functions Accuracy of 3–4 decimal digits</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-16" class="slide level2" data-background-image="../slides/lecture-01/slide-17.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Schickard’s calculating machine (1623)</p>
+<p>Capable of performing the four basic arithmetic operations Mechanical design: 6 pairs of gears (with10 and 1 tooth) Handled carry operations automatically The prototype under construction was destroyed in a fire Two replicas were built much later</p>
+<p>Multiplication with the Schickard Calculator from 1623 and with Napier’s Bones - YouTube</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-17" class="slide level2" data-background-image="../slides/lecture-01/slide-18.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Pascal’s adding machine (1643)</p>
+<p>Built using clock components Addition and subtraction only Also handled carry operations Pascal built 7 machines</p>
+<p>Pascaline – interactive simulations – eduMedia (edumedia-sciences.com)</p>
+<p>How the Pascaline Works - YouTube</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-18" class="slide level2" data-background-image="../slides/lecture-01/slide-19.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Babbage’s Difference Engine (~1820)</p>
+<p>Mechanical computer 15 tonnes 25,000 components Decimal number system Its construction was mainly hindered by technical limitations A working machine based on Babbage’s plans was not completed until 1991 31-digit representation Mathematical (polynomial) tables</p>
+<p>Babbage’s Difference Engine Simulation (drexel.edu)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-19" class="slide level2" data-background-image="../slides/lecture-01/slide-20.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Babbage’s Analytical Engine</p>
+<p>Programmable using punched cards Designed to store programs (addressable memory) Printer A precursor of modern computers The machine itself was never fully built, but programs were designed for it (Ada Lovelace) Web Analytical Engine Emulator (fourmilab.ch)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-20" class="slide level2" data-background-image="../slides/lecture-01/slide-21.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Zuse’s computers (Z1, Z2, Z3 …, from ~1941)</p>
+<p>Electromechanical computers (relays) More reliable than vacuum-tube computers Binary number system Program–controlled operation (Z3) Stored-program concept? (not published) Zuse Z3 (historicsimulations.com)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-21" class="slide level2" data-background-image="../slides/lecture-01/slide-22.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Computer generations</p>
+<p>Generations are the major stages in computer evolution.</p>
+<p>We distinguish 5 generations 6th generation?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-22" class="slide level2" data-background-image="../slides/lecture-01/slide-23.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>First-generation computers (~1945–55)</p>
+<p>Vacuum-tube computers Large size and weight Magnetic drum memory Unreliable operation Machine code Expensive</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-23" class="slide level2" data-background-image="../slides/lecture-01/slide-24.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>ENIAC (1946)</p>
+<p>Electronic Numerical Integrator And Computer Massive hardware 18,000 vacuum tubes 30 tonnes 2.5 m high, 30 m long Operation time on the order of milliseconds Decimal number system Military purposes (ballistic calculations) eniacrun.png (1900×1070) (drexel.edu)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-24" class="slide level2" data-background-image="../slides/lecture-01/slide-25.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>EDVAC (1949)</p>
+<p>Electronic Discrete -Variable Automatic Computer John von Neumann also participated in its development General-purpose computer Program stored in memory Binary arithmetic Input via a typewriter-like device Output via a printer</p>
+<p>EDVAC - YouTube</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-25" class="slide level2" data-background-image="../slides/lecture-01/slide-26.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Second-generation computers (~1955–65)</p>
+<p>Transistors (much smaller and more reliable than vacuum tubes) Produced in larger quantities (e.g.&nbsp;about 17,000 IBM 1400-series systems) Modular design Emergence of the first high-level programming languages (COBOL, Fortran) ~10⁵–10⁶ operations/s Batch processing – less idle time</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-26" class="slide level2" data-background-image="../slides/lecture-01/slide-27.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Third-generation computers (~1965–72)</p>
+<p>Integrated circuits (ICs) Smaller size and greater reliability – minicomputers also appeared Operating systems Keyboards and monitors became common Sales in the hundreds of thousands Semiconductor memory</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-27" class="slide level2" data-background-image="../slides/lecture-01/slide-28.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Fourth-generation computers (~1972–)</p>
+<p>Microprocessor High level of integration (LSI, VLSI, ULSI) 100 million operations/s Personal computers Graphical user interface Mouse Small size Low cost</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-28" class="slide level2" data-background-image="../slides/lecture-01/slide-29.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Fifth-generation computers (1986–)</p>
+<p>Artificial intelligence Speech recognition Natural-language input Learning capability Parallel processing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-29" class="slide level2" data-background-image="../slides/lecture-01/slide-30.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The development of semiconductors drives progress</p>
+<p>“The number of transistors on chips roughly doubles every two years” (Gordon Moore, 1965)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-30" class="slide level2" data-background-image="../slides/lecture-01/slide-31.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Computer</p>
+<p>Computer  Calculator</p>
+<p>A computer is a device capable of storing data and sequences of operations (programs) defined by humans and executing them automatically</p>
+<p>In a broader sense, the following devices can also be considered computers: Game consoles (Xbox, PlayStation) Embedded systems (mobile phones, smart devices, engine control electronics, GPS, etc.) some IoT* devices</p>
+<p>*IoT = Internet of Things</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-31" class="slide level2" data-background-image="../slides/lecture-01/slide-32.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Embedded systems</p>
+<p>Special-purpose computers designed to perform a specific task</p>
+<p>They do not look like computers from the outside They are usually small, but can also be large (e.g.&nbsp;traffic-light controllers) Their architecture usually includes: Central processing unit Sensors Output/communication interface Actuators (convert signals, e.g.&nbsp;into motion)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-32" class="slide level2" data-background-image="../slides/lecture-01/slide-33.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>IoT – Internet of Things</p>
+<p>Devices equipped with computing capability and network connectivity</p>
+<p>This also includes “smart” embedded systems.</p>
+<p>Characteristics: Utility Intelligence Dynamic nature Heterogeneity Security?</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-33" class="slide level2" data-background-image="../slides/lecture-01/slide-34.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Components of a computer</p>
+<p>Three main functional components: processor, memory and I/O unit</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-34" class="slide level2" data-background-image="../slides/lecture-01/slide-35.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The bus system</p>
+<p>A set of communication lines connecting the functional components of a computer. Types: Control bus Address bus Data bus</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-35" class="slide level2" data-background-image="../slides/lecture-01/slide-36.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Von Neumann principles</p>
+<p>Stored-program concept (data and instructions are stored in the same memory in the same way) Sequential instruction execution A fully electronic machine operating with the binary number system Functional units: separate input/output unit, control and processing unit, and memory General-purpose applicability</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-36" class="slide level2" data-background-image="../slides/lecture-01/slide-37.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The von Neumann architecture problem</p>
+<p>The main problem of the architecture is that the processor often has to wait for memory operations, so most of its processing time is unused (“von Neumann bottleneck”)</p>
+<p>Other architectures also exist, e.g.: Harvard architecture Parallel architectures</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-37" class="slide level2" data-background-image="../slides/lecture-01/slide-38.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Harvard architecture</p>
+<p>Separate data and instruction memory Greater security Better performance More complex design Applications: Microcontrollers CPUs</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-38" class="slide level2" data-background-image="../slides/lecture-01/slide-39.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Parallel architecture</p>
+<p>Processing multiple data items and/or instructions simultaneously Higher performance Several models More difficult to program</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-39" class="slide level2" data-background-image="../slides/lecture-01/slide-40.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Parallel architecture – example</p>
+<p>UMA – Uniform Memory Access The processors share memory equally Either all processors have equal access to peripherals (symmetric multiprocessing) or only certain processors do (asymmetric multiprocessing)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-40" class="slide level2" data-background-image="../slides/lecture-01/slide-41.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Aside: quantum computers</p>
+<p>They operate based on quantum mechanics Quantum bits (qubits) instead of bits Two key properties Superposition Entanglement Compared with conventional computers, they can be many orders of magnitude faster</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-41" class="slide level2" data-background-image="../slides/lecture-01/slide-42.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Quantum computers</p>
+<p>Challenges: Sensitive even to very small disturbances As the number of qubits increases, error detection and correction become increasingly difficult They require new algorithms and software</p>
+<p>It may still take 10–30 years before they become widespread</p>
+<p>Image source</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-42" class="slide level2" data-background-image="../slides/lecture-01/slide-43.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The processor (CPU – Central Processing Unit)</p>
+<p>The central processing unit of the computer interprets and executes instructions Components: Control Unit Arithmetic Logic Unit Registers</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-43" class="slide level2" data-background-image="../slides/lecture-01/slide-44.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The Control Unit (CU)</p>
+<p>The part of the processor that</p>
+<p>Controls data flow between the ALU and the registers Interprets instructions Converts instructions into control signals</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-44" class="slide level2" data-background-image="../slides/lecture-01/slide-45.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The machine instruction cycle</p>
+<p>Fetch: read the address of the next instruction from the PC register Decode: decode the instruction stored in the IR Execute: the CPU passes the required information to the ALU, which executes the instruction</p>
+<p>Image source: https://computersciencewiki.org/index.php/The_machine_ instruction_cycle</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-45" class="slide level2" data-background-image="../slides/lecture-01/slide-46.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The Arithmetic Logic Unit (ALU)</p>
+<p>Performs arithmetic and logical operations.</p>
+<p>Basic operations: Boolean operations Binary addition Complement operation Bit shifting right/left</p>
+<p>Image source</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-46" class="slide level2" data-background-image="../slides/lecture-01/slide-47.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Registers</p>
+<p>Small, very fast storage locations Typically 8, 16, 32 or 64 bits wide Usually implemented as static storage They can store</p>
+<p>Data: AX, BX, CX, DX Memory addresses: SI, DI, SP, BP, CS, DS, SS, ES, IR Status and control</p>
+<p>information: PC, IR, flags</p>
+<p>Image source</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-47" class="slide level2" data-background-image="../slides/lecture-01/slide-48.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>CISC and RISC processors</p>
+<p>CISC Complex instruction set<br>
+Compound instructions One instruction – multiple clock cycles<br>
+One register set Longer execution time</p>
+<p>RISC Reduced instruction set<br>
+Simple instructions One instruction – one clock cycle<br>
+Multiple register sets Shorter execution time</p>
+<p>CISC = Complex Instruction Set Computers RISC = Reduced Instruction Set Computers</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-48" class="slide level2" data-background-image="../slides/lecture-01/slide-49.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Main memory</p>
+<p>Stores programs currently being executed and the data they require Random access (RAM – Random Access Memory) The processor can access and address it directly Its contents are lost when power is turned off Usually dynamic RAM (DRAM) – requires refreshing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-49" class="slide level2" data-background-image="../slides/lecture-01/slide-50.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Memory addressing</p>
+<p>Main addressing modes (addresses are hexadecimal) Direct memory addressing Segment:offset addressing (segment register + offset) Indirect addressing (the address is stored in a register) Base-relative addressing (base register + offset)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-50" class="slide level2" data-background-image="../slides/lecture-01/slide-51.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Memory addressing</p>
+<p>Segment-offset addressing</p>
+<p>Direct memory addressing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-51" class="slide level2" data-background-image="../slides/lecture-01/slide-52.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Memory addressing</p>
+<p>Base-relative addressing</p>
+<p>Indirect memory addressing</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-52" class="slide level2" data-background-image="../slides/lecture-01/slide-53.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Memory hierarchy</p>
+<p>Cache memory bridges the speed gap between components operating at different speeds It has multiple levels; e.g.&nbsp;Level 1 cache between the CPU and main memory</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-53" class="slide level2" data-background-image="../slides/lecture-01/slide-54.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>The I/O unit (peripherals)</p>
+<p>Input devices (e.g.&nbsp;mouse, keyboard) Output devices (e.g.&nbsp;printer, monitor) I/O devices (e.g.&nbsp;hard disk drive)</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-54" class="slide level2" data-background-image="../slides/lecture-01/slide-55.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Ports</p>
+<p>A PORT is a computer interface used to communicate with peripheral devices. It provides a standardized connection between the CPU and peripherals via the system bus (external bus).</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-55" class="slide level2" data-background-image="../slides/lecture-01/slide-56.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Serial and parallel data transmission</p>
+<p>When data is transferred between the peripheral interface and the peripheral one bit at a time, sequentially, this is called serial data transmission. (e.g.&nbsp;mouse, modem) When groups of bits are transferred simultaneously between the peripheral interface and the peripheral, this is called parallel data transmission (e.g.&nbsp;printer). USB – high-speed serial transmission</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-56" class="slide level2" data-background-image="../slides/lecture-01/slide-57.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Interrupts</p>
+<p>The currently executing activity is suspended The data required to resume execution must be saved The interrupt service routine must be started</p>
+<p>The interrupt</p>
+<p>must be completed,</p>
+<p>and the original state must be restored Causes of interrupts: I/O devices, errors, keystrokes, etc.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="section-57" class="slide level2" data-background-image="../slides/lecture-01/slide-58.png" data-background-size="100% 100%" data-background-position="center" data-background-repeat="no-repeat">
+<h2></h2>
+<aside class="notes">
+<p>Interrupt vector table</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1600,
+
+        height: 900,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.1,
+
+        maxScale: 10,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

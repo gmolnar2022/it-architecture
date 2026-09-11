@@ -1,0 +1,1780 @@
+[
+  {
+    "objectID": "lectures/lecture-06.html#section",
+    "href": "lectures/lecture-06.html#section",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "IT Architecture – Lecture 06\n1\nOperating Systems Memory Management"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-1",
+    "href": "lectures/lecture-06.html#section-1",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Main Functions of the Operating System (review)"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-2",
+    "href": "lectures/lecture-06.html#section-2",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Memory Management\nIts goal is to provide safe, isolated, and efficient memory use for every running process.\nTypical tasks: Memory allocation: assigning memory to programs and processes during execution. Relocation: mapping a program’s logical addresses to physical memory addresses. Protection mechanisms: preventing a process from accessing another process’s or the OS’s memory. Memory deallocation: releasing and reusing memory that is no longer needed. Address translation: converting logical (virtual) addresses to physical addresses using the MMU. Virtual memory management: extending physical memory with secondary storage so larger programs can run. Efficiency: optimizing memory utilization (page replacement, caching, reducing fragmentation)."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-3",
+    "href": "lectures/lecture-06.html#section-3",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Memory Management – Historical Overview"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-4",
+    "href": "lectures/lecture-06.html#section-4",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Fixed Addressing (1950s)\nInitially, only one program resided in memory\nPrograms used fixed addresses Only one program could run at a time To run another program, the current one had to be written to secondary storage (swapping)\nAdvantage: simple and suitable for batch systems Disadvantage: poor memory utilization and no protection\nThe program could use the entire physical memory"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-5",
+    "href": "lectures/lecture-06.html#section-5",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Relative Addressing – Static Allocation (early 1960s)\nAllowed multiple programs to reside in memory if they fit\nWhen loading programs, the OS added a fixed offset to addresses (programs remained tied to a location) Programs contain relative addresses The actual address is formed from the relative address plus the offset Programs that did not fit in memory waited on secondary storage The OS swapped programs between memory and secondary storage\nAdvantages: better memory utilization and easier programming Disadvantages: more complex implementation, handling multi-part programs, lack of protection"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-6",
+    "href": "lectures/lecture-06.html#section-6",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Relative Addressing – Dynamic Allocation (mid-1960s)\nBase and limit registers were added to hardware, enabling dynamic address translation.\nFor each memory access, the physical address is the logical address plus the base register. The limit register prevented a program from accessing other processes’ memory. Programs could therefore be relocated during execution Programs received their own address spaces and no longer saw all physical memory Basic memory protection was achieved Address translation became hardware-supported (a predecessor of the MMU – Memory Management Unit)"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-7",
+    "href": "lectures/lecture-06.html#section-7",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Partitioned Systems (early/mid-1960s)\nMemory was divided into fixed- or variable-size partitions.\nFixed partitions: simpler, but cause internal fragmentation when a program is smaller than its partition Variable partitions: more flexible, but may cause external fragmentation when gaps remain between partitions The OS became responsible for tracking and managing free memory areas\nPhysical address = Base address (partition address) + Logical address (offset)\nManagement techniques: bitmap, linked list Algorithms: first fit, next fit, best fit, worst fit"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-8",
+    "href": "lectures/lecture-06.html#section-8",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Segmentation (around 1970)\nA program’s logical units can be organized into separate segments (code, data, stack, etc.).\nEach segment has its own base and limit values. Hardware support (segment-table management; segment registers: CS, DS, SS, ES) Permissions can be assigned to segments Segments can be shared Internal fragmentation is eliminated, but external fragmentation remains Can be combined with paging (see next slide)\n12.7: Segmentation - Engineering LibreTexts\nLogical address = (segment identifier, offset) Physical address = base + offset"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-9",
+    "href": "lectures/lecture-06.html#section-9",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Paging (early 1970s)\nMemory and programs are divided into equal-sized pages and frames.\nPage sizes were initially 4 KB or 8 KB, later up to 2 MB Permissions can be assigned to pages Goal: eliminate external fragmentation and enable more flexible memory management The program uses a contiguous address space, while pages may be scattered in physical memory Address translation uses a page table, which can become very large\nLogical address = [page identifier | offset] Physical address = frame address + offset\nOperating System - Memory Management"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-10",
+    "href": "lectures/lecture-06.html#section-10",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Page Tables and Their Implementation\nConcept A page table maps virtual addresses to physical addresses. Each process has its own virtual address space. Address translation is performed by the MMU (Memory Management Unit), often accelerated by a TLB. Implementation Single-level page table (per process) Multilevel page table (multilevel index) Hashed page table (lookup using a hash function) Inverted page table (stores information about physical frames in one shared table)\nOS - 2.6 (MV) (6) Multi-Level Page Tables\nHashed Page Tables in Operating System - GeeksforGeeks"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-11",
+    "href": "lectures/lecture-06.html#section-11",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Virtual Memory (mid-1970s)\nThe entire program does not need to be in memory – only currently used pages are loaded. The MMU (Memory Management Unit) performs address translation; the OS manages page replacement From the 1980s onward, the MMU became integrated into the CPU If a page is not in memory, a page fault occurs and the OS loads it from disk. Internal fragmentation may occur The apparent memory can be much larger than physical memory.\n9_05_PageTable.jpg (720×699)\nPhysical address = (frame address × page size) + offset"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-12",
+    "href": "lectures/lecture-06.html#section-12",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Modern Memory Management (from the 1980s)\nCombines paging, segmentation, and virtual memory management\nBased primarily on paging with fixed-size blocks Address translation is performed by the MMU and accelerated by the TLB (Translation Lookaside Buffer) Memory protection is especially important Some pages reside in RAM, while others are on secondary storage (virtual memory) Segmentation has become less important and today mainly appears logically at the programming level Various optimization techniques appeared: Prefetching: loading pages in advance Memory compaction: reducing fragmentation Modern page-replacement algorithms Larger pages to improve TLB efficiency"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-13",
+    "href": "lectures/lecture-06.html#section-13",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Windows 11 – Memory Management\nCharacteristics Fully paged virtual-memory system Each process has its own address space. Page size: 4 KB (normal), 2 MB / 1 GB (large pages). Paging file (pagefile.sys) Stores infrequently used pages on secondary storage. Copy-on-Write support When a process creates a new instance of itself, the OS does not copy pages immediately; copying occurs only when one instance writes to them. Memory compression (since Windows 10) Separation of kernel and user address spaces – protected kernel memory. Main components Memory Manager (ntoskrnl.exe) Page Frame Number (PFN) Database – tracks RAM pages Working Set Manager – determines which pages remain in RAM Standby and Free Lists – manage available pages"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-14",
+    "href": "lectures/lecture-06.html#section-14",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Linux – Memory Management\nCharacteristics Full virtual memory; each process has its own 64-bit address space. Demand paging: only pages actually used are loaded. Page size: 4 KB (x86_64); huge pages: 2 MB, 1 GB. Swap partition/file Copy-on-Write mmap (memory mapping): a system call that maps a file or device into a process’s virtual memory Shared memory: fast data exchange between processes without files NUMA support: with multiple CPUs, processes are placed on or near the CPU associated with their memory Transparent Huge Pages (THP): using larger pages when appropriate Components: MMU, TLB – hardware address translation Kernel Memory Manager (mm/) Page Cache – file cache OOM Killer – terminates processes when memory is exhausted"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-15",
+    "href": "lectures/lecture-06.html#section-15",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "macOS – Memory Management\nCharacteristics Mach-based virtual-memory system. Page size: 4 KB Compressed Memory – inactive pages are compressed in RAM. Unified Buffer Cache – shared file and memory cache. Copy-on-Write support Dynamic Pager (swapfile)\nComponents: MMU, TLB – hardware address translation Kernel Memory Manager (mm/) Page Cache – file cache OOM Killer – terminates processes when memory is exhausted"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-16",
+    "href": "lectures/lecture-06.html#section-16",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Mobile vs. Desktop OS Memory Management"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-17",
+    "href": "lectures/lecture-06.html#section-17",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Page-Replacement Algorithms\nIf a new page must be loaded and no free frame remains, the OS must select a page to replace.\nSteps: A program accesses a page not in memory (page fault) → page replacement The OS must load the page from secondary storage. If there is no free space in RAM, it must choose which existing page to evict. The new page replaces the selected page. If the page was modified, it must first be written to disk. If it was not modified, it can simply be discarded. Major page-replacement algorithms: FIFO, Optimal, LRU, LFU, Second Chance, NRU"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-18",
+    "href": "lectures/lecture-06.html#section-18",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "FIFO Algorithm\nCharacteristics: Simple queue-based implementation. Advantage: easy to implement, low overhead. Disadvantage: Belady’s anomaly – more memory (frames) does not always reduce page faults.\nExample: 3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.\nReplaces the page that has been in memory the longest."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-19",
+    "href": "lectures/lecture-06.html#section-19",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Optimal Algorithm\nCharacteristics: Cannot be implemented in real time Can serve as a reference for other algorithms\nExample: 3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.\nAlways replaces the page whose next use is farthest in the future (theoretical optimum).\nStep-by-step operation"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-20",
+    "href": "lectures/lecture-06.html#section-20",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "LRU (Least Recently Used) Algorithm\nCharacteristics: Assumes that recently used pages are likely to be used again. Used in modified/approximate forms by Linux and Windows A good practical approximation of the optimal algorithm. Disadvantage: more expensive to implement (requires timestamps or a stack).\nReplaces the least recently used page."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-21",
+    "href": "lectures/lecture-06.html#section-21",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "LFU (Least Frequently Used) Algorithm\nCharacteristics: Assumes that infrequently used pages are unlikely to be needed later. Disadvantage: aging problem – old pages may remain because of past usage counts. Less commonly used in general-purpose operating systems.\nExample: 3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.\nRemoves the least frequently used page."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-22",
+    "href": "lectures/lecture-06.html#section-22",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Second Chance (Clock) Algorithm\nCharacteristics: If R=1 → reset it and skip the page; If R=0 → replace the page. Fast; approximates LRU. Implementation: circular buffer (clock hand).\nExample: 3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.\nFIFO-based, but each page gets a “second chance” using an R-bit."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-23",
+    "href": "lectures/lecture-06.html#section-23",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "NRU (Not Recently Used) Algorithm\nCharacteristics: Classifies pages into four categories: (1) not referenced, not modified; (2) not referenced, modified; (3) referenced, not modified; (4) referenced, modified. Always selects a page from the lowest available category. Simple, fast approximation of LRU.\nExample: 3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.\nUses R (referenced) and M (modified) bits."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-24",
+    "href": "lectures/lecture-06.html#section-24",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Comparison of Page-Replacement Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-25",
+    "href": "lectures/lecture-06.html#section-25",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Page Replacement in Windows\nLRU approximation using multiple lists and adaptive page-fault monitoring\nBasic principle: an LRU variant using several lists: Active list: recently used pages Standby list: older pages still in memory Modified list: modified pages not yet written out Free/Zeroed list: free or zeroed pages The page-replacement approach can be viewed as combining Clock-Pro/LRU-like ideas. The Windows Working Set Manager manages each process’s working set: removes pages from the working set under memory pressure, can return them if they are needed again. It also monitors page-fault frequency (PFF)."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-26",
+    "href": "lectures/lecture-06.html#section-26",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Page Replacement in Linux\nLRU-based, two-list, adaptive page replacement\nBasic principle: two-list LRU-style implementation. Active list – recently used pages Inactive list – older pages; replacement candidates are selected here Both may contain: anonymous pages (e.g. heap, stack) page-cache pages (files, mmap, etc.) During page reclaim, pages are evicted from the Inactive list. The kernel uses Clock/Enhanced Second Chance-like techniques: pages have referenced and dirty flags (R/M-like bits), pages move between active and inactive lists over time. Additional modern features: kswapd daemon – monitors memory pressure and reclaims pages in the background, zswap / zram – compressed-memory techniques used before or instead of disk swap. NUMA awareness – preference for process-local, CPU-near memory."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-27",
+    "href": "lectures/lecture-06.html#section-27",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Page Replacement in macOS/iOS\nTwo-list LRU-style management + memory compression + priority-based memory handling.\nIn the XNU kernel, page-management logic includes BSD-derived concepts: Inactive queue + Active queue, LRU-style management. In modern macOS: Compressed Memory first tries to compress inactive pages before using disk-backed swap. Memory is managed with process/task priorities in mind (e.g. foreground vs. background work). iOS uses Jetsam/memorystatus mechanisms to terminate low-priority apps under memory pressure."
+  },
+  {
+    "objectID": "lectures/lecture-06.html#section-28",
+    "href": "lectures/lecture-06.html#section-28",
+    "title": "IT Architecture – Lecture 06",
+    "section": "",
+    "text": "Comparison of Page Replacement in Modern Operating Systems"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section",
+    "href": "lectures/lecture-04.html#section",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "IT Architecture – Lecture 04\nOperating Systems Process Scheduling"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-1",
+    "href": "lectures/lecture-04.html#section-1",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Main Functions of the Operating System (review)"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-2",
+    "href": "lectures/lecture-04.html#section-2",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "What Is Process Scheduling?\nProcess scheduling is one of the operating system’s most important tasks. The OS decides which process runs, when it runs, and for how long.\nPrinciples: Fairness: every process should get a chance to run. Efficiency: keep the CPU busy. Fast response: interactive processes (e.g. handling keystrokes) should respond quickly. Reduce average turnaround time: complete jobs as quickly as possible. Types (levels) of scheduling: Long-term: which processes are admitted to memory (job scheduling). Medium-term: which processes the OS suspends or resumes. Short-term: which process gets the CPU next (CPU scheduling). I/O scheduling: which process gets access to an I/O device."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-3",
+    "href": "lectures/lecture-04.html#section-3",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Scheduling Levels\nhttps://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/3_Processes.html\nProcesses are stored in a job queue. Ready processes are placed in a separate ready queue. Processes waiting for I/O are placed in separate I/O waiting queues. Other waiting queues may also exist.\nLong-term scheduler Medium-term scheduler Short-term scheduler I/O scheduler\njob pool"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-4",
+    "href": "lectures/lecture-04.html#section-4",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Context Switching\nContext switching is the process by which the OS saves the state of one process and loads the state of another.\nSteps: Interrupt / scheduling event (e.g. time quantum expires, I/O request, higher-priority process). Save the current process state to its PCB (program counter, registers, stack pointer, memory information). The scheduler selects the next process from the ready queue. Load the next process state from its PCB. The CPU resumes execution with the new process."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-5",
+    "href": "lectures/lecture-04.html#section-5",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Classification of Scheduling Algorithms\nPreemptive Scheduling A process can be interrupted before it finishes using the CPU. If a higher-priority process arrives or the time quantum expires, the OS takes the CPU away from the current process. Advantage: better response time; essential for interactive systems. Disadvantage: more context switches and higher overhead. Examples: Round Robin (RR), Shortest Remaining Time First (SRTF), preemptive priority scheduling. Non-preemptive Scheduling A process cannot be preempted: once it gets the CPU, it runs until it finishes or voluntarily releases it (e.g. for an I/O request). Simpler, with less overhead. Disadvantage: long-running processes can make shorter ones wait → longer turnaround time. Examples: First Come First Served (FCFS), Shortest Job First (SJF), non-preemptive priority scheduling."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-6",
+    "href": "lectures/lecture-04.html#section-6",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Scheduling Criteria\nCPU utilization: keep the CPU working whenever possible. Throughput: number of processes completed per unit of time. Turnaround time: total time from arrival to completion (waiting + execution + I/O). Waiting time: time a process spends in the ready queue waiting for the CPU. Response time: in interactive systems, time from submitting a request to the first response. Fairness: every process should get a chance to run → avoid starvation."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-7",
+    "href": "lectures/lecture-04.html#section-7",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Context Switching\nContext switching is the process by which the OS saves the state of one process and loads the state of another.\nSteps: Interrupt / scheduling event (e.g. time quantum expires, I/O request, higher-priority process). Save the current process state to its PCB (program counter, registers, stack pointer, memory information). The scheduler selects the next process from the ready queue. Load the next process state from its PCB. The CPU resumes execution with the new process."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-8",
+    "href": "lectures/lecture-04.html#section-8",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Classical Scheduling Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-9",
+    "href": "lectures/lecture-04.html#section-9",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Exercise\nConsider six processes with the following characteristics: P1: arrival=0, burst=8, prio=2 P2: arrival=1, burst=3, prio=1 P3: arrival=2, burst=6, prio=3 P4: arrival=5, burst=4, prio=2 P5: arrival=9, burst=2, prio=4 P6: arrival=7, burst=5, prio=1 where “arrival” is the arrival time, “burst” is the required CPU time, and “prio” is the process priority. In what order should the operating system execute the processes?"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-10",
+    "href": "lectures/lecture-04.html#section-10",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "FCFS (First-Come, First-Served)\nCharacteristics: Non-preemptive algorithm Easy to implement Fair Efficiency can depend heavily on process order. Long processes may delay shorter ones (convoy effect). Poor response time in interactive systems.\nProcesses receive the CPU in order of arrival.\nApplications: batch systems, Windows print queues, Linux I/O queues."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-11",
+    "href": "lectures/lecture-04.html#section-11",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – FCFS\nAverage turnaround time: (8 + 10 + 15 + 16 + 19 + 19) / 6 = 14.5 Average waiting time: (0 + 7 + 9 + 12 + 14 + 17) / 6 = 9.83 Average response time: (0 + 7 + 9 + 12 + 14 + 17) / 6 = 9.83\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-12",
+    "href": "lectures/lecture-04.html#section-12",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "SJF (Shortest Job First)\nCharacteristics: Non-preemptive: once a process starts, it runs to completion. Provides the optimal average waiting time. Disadvantage: requires advance knowledge of CPU burst times. Starvation may occur: if short processes keep arriving, long processes may never get CPU time.\nA scheduling algorithm that always selects the shortest available process.\nApplication: Unix/Linux (in modified forms)."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-13",
+    "href": "lectures/lecture-04.html#section-13",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – SJF\nAverage turnaround time: (8 + 10 + 4 + 12 + 15 + 26) / 6 = 12.50 Average waiting time: (0 + 7 + 2 + 8 + 10 + 20) / 6 = 7.83 Average response time: (0 + 7 + 2 + 8 + 10 + 20) / 6 = 7.83\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-14",
+    "href": "lectures/lecture-04.html#section-14",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Priority Scheduling (non-preemptive)\nCharacteristics: Easy to implement. Waiting time may be shorter for high-priority processes. Starvation may occur if low-priority processes are continually postponed. Often used in time-critical systems. Not necessarily optimal in terms of average waiting time.\nThe scheduler always selects the highest-priority process (e.g. the one with the lowest priority number).\nApplication: older Unix operating systems."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-15",
+    "href": "lectures/lecture-04.html#section-15",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – Priority Scheduling (non-preemptive)\nAverage turnaround time: (8 + 10 + 9 + 15 + 24 + 19) / 6 = 14.17 Average waiting time: (0 + 7 + 4 + 11 + 18 + 17) / 6 = 9.50 Average response time: (0 + 7 + 4 + 11 + 18 + 17) / 6 = 9.50\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-16",
+    "href": "lectures/lecture-04.html#section-16",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Round Robin (RR)\nCharacteristics: • Fair CPU allocation in interactive systems. • Response time is generally good, but context-switching overhead increases. • The quantum size is critical: too small → many context switches; too large → FCFS-like behaviour.\nCPU time is divided into fixed quanta; processes receive CPU time in round-robin order.\nApplication: modern operating systems (combining time-sharing and priority)."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-17",
+    "href": "lectures/lecture-04.html#section-17",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – Round Robin (q=2)\nAverage turnaround time: 17.17 Average waiting time: 12.50 Average response time: 3.50\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-18",
+    "href": "lectures/lecture-04.html#section-18",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "SRTF – Shortest Remaining Time First\nCharacteristics: • Preemptive: a newly arriving shorter process can preempt the current one. • Gives optimal average waiting time if burst times are known. • Long processes may starve if many short processes keep arriving.\nThe process with the shortest REMAINING CPU time always runs.\nRelated concept: Linux CFS (Completely Fair Scheduler)."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-19",
+    "href": "lectures/lecture-04.html#section-19",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – SRTF\nAverage turnaround time: 10.83 Average waiting time: 6.17 Average response time: 1.83\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-20",
+    "href": "lectures/lecture-04.html#section-20",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Priority Scheduling (preemptive)\nCharacteristics: • Flexible response to urgent tasks. • Risk of starvation for low-priority processes. • Priority inversion can be handled with protocols (e.g. priority inheritance).\nThe highest-priority process (lowest priority number) always runs. A newly arriving higher-priority process may preempt the current one.\nApplication: almost all modern operating systems."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-21",
+    "href": "lectures/lecture-04.html#section-21",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Example – Priority Scheduling (preemptive)\nAverage turnaround time: 13.67 Average waiting time: 9.00 Average response time: 7.67\nTurnaround = Completion − Arrival Waiting = Turnaround − Burst Response = Start − Arrival"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-22",
+    "href": "lectures/lecture-04.html#section-22",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Comparison of the Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-23",
+    "href": "lectures/lecture-04.html#section-23",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Comparison of Algorithms – Summary\nFCFS: Simple, but long processes cause the convoy effect. Moderate average times. Priority (non-preemptive): Slightly better, but low-priority processes may starve. Priority (preemptive): Flexible, short response time, but starvation is possible. Round Robin: Good response time in interactive systems, but many context switches → longer turnaround times. SJF: Low waiting and turnaround times, but CPU burst time must be estimated. SRTF: Optimal average times, but long processes may starve.\nImportant: 1) Operating systems can usually only estimate expected execution time. 2) These are theoretical algorithms; in practice, combinations or modified versions are used."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-24",
+    "href": "lectures/lecture-04.html#section-24",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Modern Scheduling Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-25",
+    "href": "lectures/lecture-04.html#section-25",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Multilevel Queue (MLQ)\nCharacteristics: • Simple but rigid structure. • Combines multiple algorithms. • Each queue may use its own scheduler (e.g. interactive: RR, batch: FCFS). • Processes cannot move between queues.\nApplications: • Older operating systems, batch systems.\nMultilevel queues: each process is assigned to a predefined queue."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-26",
+    "href": "lectures/lecture-04.html#section-26",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Multilevel Feedback Queue (MLFQ)\nCharacteristics: • Dynamically adapts to process behaviour (“learning”). • Interactive tasks respond quickly. • CPU-intensive tasks move to lower-priority queues.\nApplications: • Windows scheduler (priority classes), Linux CFS, macOS.\nMultilevel queues in which processes can move between queues based on CPU usage."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-27",
+    "href": "lectures/lecture-04.html#section-27",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Real-Time Scheduling\nCharacteristics: • Hard real-time: missing a deadline is unacceptable. • Soft real-time: some delay is tolerable. • Meeting deadlines is the primary goal rather than optimizing average times.\nApplications: • RTOS (pl. VxWorks, QNX), Linux RT patch, Windows RT.\nScheduling algorithms focused on meeting process deadlines."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-28",
+    "href": "lectures/lecture-04.html#section-28",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Real-Time Scheduling\nClassical algorithms and CFS target good average interactive performance (fair allocation, good response times). Real-time scheduling focuses on guarantees even in the worst case, rather than average performance. Therefore, real-time schedulers use specialized algorithms (RMS, EDF).\nPractical applications: Linux: PREEMPT_RT real-time kernel patch for real-time capabilities. Windows also has a real-time priority class, but it is closer to soft real-time (deadlines may occasionally be missed). Embedded systems: automotive controllers, robots, industrial control systems → hard real-time scheduling is common."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-29",
+    "href": "lectures/lecture-04.html#section-29",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Rate Monotonic Scheduling (RMS)\nCharacteristics: • Optimized for periodic tasks. • Provably optimal fixed-priority scheduler. • Simple implementation, low overhead.\nApplications: • Embedded systems, industrial controllers, real-time operating systems.\nFixed-priority algorithm: shorter period → higher (static) priority."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-30",
+    "href": "lectures/lecture-04.html#section-30",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Earliest Deadline First (EDF)\nCharacteristics: • Optimal dynamic method: if a feasible schedule exists, EDF can provide it. • Efficient resource utilization. • More complex implementation, higher overhead.\nApplications: • Real-time systems, Linux EDF module, embedded systems.\nDynamic priority: the task with the nearest deadline always runs."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-31",
+    "href": "lectures/lecture-04.html#section-31",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Scheduling in Multiprocessor Systems\nThe scheduling algorithms discussed so far were developed for single-processor (single-core) systems. What changes in multiprocessor (multicore) systems?\nIn multiprocessor systems, the scheduler must manage not only CPU time but also which core executes each process.\nRelevant mechanisms: CPU affinity: assigning a process to a specific CPU core → better cache efficiency and fewer migrations.\u000bExample: Linux – taskset command. Load balancing: distributing processes evenly across CPU cores → avoids overloaded cores. Example: handled automatically by the Linux kernel."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-32",
+    "href": "lectures/lecture-04.html#section-32",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Practical Example: Linux CFS (Completely Fair Scheduler)\nThe default Linux scheduler; it combines ideas from SJF, RR, and priority scheduling.\nCharacteristics: Fair-share principle: each process receives a proportional share of CPU time; no process can monopolize it. Red-black tree: a balanced data structure enabling efficient lookup and runtime tracking. Nice value: user-adjustable priority (−20 = high, +19 = low)."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-33",
+    "href": "lectures/lecture-04.html#section-33",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Practical Example: Windows Scheduling\nCharacteristics:\nMultilevel Feedback Queue (MLFQ) principle • Multiple priority queues; processes move dynamically between them. • Interactive tasks receive higher priority.\u000b\u000bPriority classes • 32 priority levels (0–31), including 16 dynamic levels. • User processes normally run in the Normal class (8–15).\u000b Quantum (time slice) • Changes dynamically by process type (shorter for interactive tasks, longer for batch tasks). \u000bExample: all Windows 10/11 editions and Windows Server."
+  },
+  {
+    "objectID": "lectures/lecture-04.html#section-34",
+    "href": "lectures/lecture-04.html#section-34",
+    "title": "IT Architecture – Lecture 04",
+    "section": "",
+    "text": "Practical Example: macOS Scheduling\nCharacteristics:\nXNU kernel scheduler • Combines the Mach microkernel with BSD scheduling logic.\u000b Hybrid MLFQ principle • Multilevel feedback queue + dynamic priority adjustment.\u000b QoS (Quality of Service) levels • System processes, interactive tasks, and background tasks receive different levels. • Developers can indicate task importance through an API (also in iOS apps).\u000b\u000bExample: macOS and iOS scheduling – consistent across the Apple ecosystem."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section",
+    "href": "lectures/lecture-02.html#section",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "IT Architecture – Lecture 02\nHardware Fundamentals II"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-1",
+    "href": "lectures/lecture-02.html#section-1",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "What will we cover?\nThe Motherboard and Its Components Processor Families Bus Systems RAM Secondary Storage Interfaces and Ports Jumpers"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-2",
+    "href": "lectures/lecture-02.html#section-2",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "The Motherboard and Its Components\nThe motherboard is the computer’s main printed circuit board.\nMain components CPU socket RAM slots Expansion cards (PCI, PCIe) Chipset, integrated controllers TPM chip BIOS/UEFI, CMOS Power connectors Cooling, fan connectors Storage connectors I/O ports Jumpers (rare today)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-3",
+    "href": "lectures/lecture-02.html#section-3",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Major Motherboard Manufacturers"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-4",
+    "href": "lectures/lecture-02.html#section-4",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Example: A Modern Motherboard"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-5",
+    "href": "lectures/lecture-02.html#section-5",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "CPU Socket\nThe CPU socket provides the connection between the processor and the motherboard.\nMain socket types LGA = Land Grid Array PGA = Pin Grid Array BGA = Ball Grid Array"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-6",
+    "href": "lectures/lecture-02.html#section-6",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "LGA Socket\nCharacteristics The pins are located in the socket They connect to the contacts on the underside of the CPU\nReduces processor manufacturing cost Stable electrical connection Examples: LGA 775 (2004), LGA 1156 (2009), LGA 1155 (2011), LGA 1150 (2013), LGA 1151 (2015), LGA 1200 (2020), LGA 1700 (2021), LGA 1851 (late 2025?)\nPrimarily used by Intel processors"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-7",
+    "href": "lectures/lecture-02.html#section-7",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "PGA Socket\nCharacteristics The pins are located on the processor They connect to the holes in the socket\nRequires more space Less durable Easier CPU installation Examples: Socket A (2000), Socket AM2 (2006), Socket AM3 (2009), Socket AM1 (2014), Socket AM4 (2016)\nToday, AMD also uses LGA sockets, e.g. Socket AM5 (2022)\nPrimarily used by AMD processors"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-8",
+    "href": "lectures/lecture-02.html#section-8",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "BGA Socket\nCharacteristics Small solder balls instead of pins The processor is fixed in place (soldered connection) Compact size Not replaceable Other components can also be integrated alongside the CPU\nExamples: BGA 437 (2009), BGA 956 (2013), BGA 1526 (2018), BGA 1787 (2021), BGA 2114 (2022), BGA (2540) ?\nPrimarily used in laptops and mobile devices"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-9",
+    "href": "lectures/lecture-02.html#section-9",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 4-bit\nIntel 4004 (1971) Clock speed: 740 kHz Transistors: 2,300 Registers: 16 Instructions: 46 Data: 4 bit Instructions: 8 bit Memory addresses: 12 bit"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-10",
+    "href": "lectures/lecture-02.html#section-10",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 8-bit\nIntel 8008 (1972) Clock speed: 0.5–0.8 MHz Transistors: ~3,000 Registers: 8 Instructions: 48 Data: 8 bit Instructions: 16 bit Memory addresses: 14 bit"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-11",
+    "href": "lectures/lecture-02.html#section-11",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 8-bit\nIntel 8080 (1974) Clock speed: 2 MHz Transistors: ~6,000 Registers: 14 Instructions: 78 Data: 8 bit Instructions: 8 bit Memory addresses: 16 bit\nIt powered the Altair 8800, one of the first PC-like computers."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-12",
+    "href": "lectures/lecture-02.html#section-12",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 16-bit\nIntel 8086, 8088, 80186, 80286 (1978 – 1982) Clock speed: 5–25 MHz Transistors: 29,000 Registers: 16 Instructions: 100–135 Data: 16 bit Instructions: 16 bit Memory addresses: 20–24 bit\nThe 8086 launched the x86 era, while the 8088 powered the first IBM PC."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-13",
+    "href": "lectures/lecture-02.html#section-13",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 32-bit\nIntel 80386, 80486, Pentium I–III, and early Celeron and Xeon processors (1985–1998) Clock speed: 12–200 MHz Transistors: 275,000–5.5 million Registers: 16 Instructions: 275 Data: 32 bit Instructions: 32 bit Memory addresses: 32 bit"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-14",
+    "href": "lectures/lecture-02.html#section-14",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Early Intel Processors – 64-bit\nIntel Itanium, Pentium 4F, Xeon, Core 2, Celeron (2001 – 2005)\nClock speed: 0.8–3.8 GHz Transistors: 25–400 million Registers: from a few dozen to ~200 Instructions: 250–400 Data: 64 bit Instructions: 64 bit Memory addresses: 64 bit\nIntel Celeron E1600\nThe first Intel x64 processors included the Pentium 4 and Xeon."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-15",
+    "href": "lectures/lecture-02.html#section-15",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 64-bit Today\nIntel Core i series: i3, i5, i7, i9 (since 2010) – desktop computers\n24 billion\nClock speed: 2–6 GHz Transistors: 382 million– Registers: 16 general-purpose and several hundred others Instructions: 300–4,500 Data: 64 bit Instructions: 64 bit Memory addresses: 64 bit"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-16",
+    "href": "lectures/lecture-02.html#section-16",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – i3 vs i5 vs i7 vs i9"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-17",
+    "href": "lectures/lecture-02.html#section-17",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – 64-bit: Present and Near Future\nIntel Xeon, Xeon W, Xeon Scalable – servers 56–60+ cores 120+ threads 1–8 CPUs Clock speed: 1.5–4 GHz Instructions: ~4,000 Transistors: tens of billions\nIntel Core Ultra 5, 7, 9 (2023) – mobile computers NPU (Neural Processing Unit) Integrated GPU Advanced manufacturing technology and improved energy efficiency"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-18",
+    "href": "lectures/lecture-02.html#section-18",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Intel Processors – What to Expect\nNova Lake (desktop) – from late 2026 / 2027 desktop use up to 52 cores in the top model support for high DDR5 frequencies (e.g. DDR5-8000)\nArrow Lake Refresh, Panther Lake Arrow Lake-S generation refresh in 2025/2026 Panther Lake mobile CPUs expected around Q2 2026\nNew process nodes and technologies 18A, 14A (Titan Lake) new socket type\nFocus on AI / acceleration"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-19",
+    "href": "lectures/lecture-02.html#section-19",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "ARM Processor Architecture\n64-bit RISC architecture Manufacturers: Apple, Qualcomm, MediaTek, Ampere, AWS Heterogeneous cores: P-cores (performance) + E-cores (efficiency); dynamic scheduling, DVFS. SoC integration: CPU + GPU + NPU + DSP + ISP + modem on a single chip Ecosystem: Android, iOS, Linux, macOS, Windows on ARM. Excellent performance per watt: dominant in mobile/IoT increasingly competitive in laptops and servers (e.g. Apple M, AWS Graviton, Ampere)."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-20",
+    "href": "lectures/lecture-02.html#section-20",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "What Is a CPU Core?\nIn multicore CPUs, each core has its own ALU, Control Unit (CU), and registers. The cores share main memory and the system bus. The cores share some of their resources. This allows the CPU to execute multiple instructions simultaneously."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-21",
+    "href": "lectures/lecture-02.html#section-21",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "What Is a CPU Thread?\nIn multithreaded processors, each physical core contains multiple logical processors. Threads share the resources of the core. The operating system treats them as physical processors."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-22",
+    "href": "lectures/lecture-02.html#section-22",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "CPUs – What to Expect (see also: Future Intel CPUs)\nIncreasing numbers of cores and threads Specialized processing units, e.g. GPUs, TPUs, NPUs Heterogeneous architectures (P/E cores) Improved energy efficiency Smaller process nodes (below 2 nm) New materials, e.g. graphene New technologies, e.g. 3D packaging AI integration (e.g. AI accelerators, encryption)\nBUT: physical limits remain"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-23",
+    "href": "lectures/lecture-02.html#section-23",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "RAM\nThe computer’s main memory\nTwo main types: Static RAM (SRAM) Does not require refreshing Fast but expensive Used as cache memory\n•\nDynamic RAM (DRAM)\nRequires refreshing Slower than SRAM Smaller and cheaper than SRAM Used as main memory"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-24",
+    "href": "lectures/lecture-02.html#section-24",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "RAM – SIMM or DIMM\nSIMM modules have a single row of contacts; DIMM modules have two.\nSIMM modules 1980 – 1998 May contain SRAM and DRAM chips Typical of 80486 and early Pentium systems\nDIMM modules (2000–) Used in modern computers Primarily DRAM Higher capacity and performance DDR1–DDR5, with DDR6 coming soon"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-25",
+    "href": "lectures/lecture-02.html#section-25",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Comparison of RAM Generations\n\nFrom 2026–2027"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-26",
+    "href": "lectures/lecture-02.html#section-26",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "RAM – What to Expect\nHigher capacity, potentially multi-terabyte modules Lower power consumption (DDR5 and DDR6) New technologies, e.g. 3D-stacked RAM New RAM types, e.g. MRAM, ReRAM Intel Optane: bridging the gap between RAM and SSDs\nLimitations: Physical size Cost Thermal management\n3D-stacked RAM (illustration)\nMRAM (illustration)\nReRAM (illustration)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-27",
+    "href": "lectures/lecture-02.html#section-27",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Expansion Cards – ISA Bus\nISA = Industry Standard Architecture\nCharacteristics: Introduced in 1984 16-bit data bus 8 MHz clock speed Supported cards (main types) Network card Sound card Graphics card Hard disk controller card Successor: EISA (1987)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-28",
+    "href": "lectures/lecture-02.html#section-28",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Expansion Cards – VESA Bus\nVESA = Video Electronis Standard Association\nCharacteristics: Introduced in the early 1990s 32-bit data bus 25–100 MHz clock speed Supported cards (main types) Graphics card Network card Hard disk controller card I/O card"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-29",
+    "href": "lectures/lecture-02.html#section-29",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Expansion Cards – PCI Bus\nPCI = Periferial Component Interconnect\nCharacteristics: Introduced in the early 1990s 32–64-bit data bus 33–66 MHz clock speed Plug and Play support for expansion cards Supports almost all types of expansion cards Versions: PCI 1.0, 2.0–2.3, PCI-X, PCI Express"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-30",
+    "href": "lectures/lecture-02.html#section-30",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Expansion Cards – AGP Bus\nAGP = Accelerated Graphics Port\nCharacteristics: Introduced in the late 1990s Designed for graphics cards Improved graphics performance Higher speed than PCI Versions: 1x, 2x, 4x, 8x"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-31",
+    "href": "lectures/lecture-02.html#section-31",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Expansion Cards – PCI Express Bus\nThe most common expansion bus in modern computers\nCharacteristics: Introduced in 2003 Serial bus Four main lane configurations; most devices use x4 or x16 Replaces earlier bus standards Versions: 1.0–6.0, with 7.0 coming soon Graphics cards, SSDs, network cards, sound cards, etc."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-32",
+    "href": "lectures/lecture-02.html#section-32",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "PCI Express Specifications\nPCIe will remain the main expansion-card standard in the near future."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-33",
+    "href": "lectures/lecture-02.html#section-33",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Chipset\nOne or more integrated circuits that manage data flow between the CPU and other motherboard components.\nMain functions: Communication hub Memory controller PCI Express lanes System bus Power management Overclocking support Security features\nImage source"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-34",
+    "href": "lectures/lecture-02.html#section-34",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "BIOS\nBIOS = Basic Input/Output System, the interface between the computer’s hardware and software.\nMain functions POST (Power On Self Test) Initializing hardware components Selecting the boot device Defining the boot order Loading the operating system CMOS settings Security features Firmware update Handling hardware interrupts"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-35",
+    "href": "lectures/lecture-02.html#section-35",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "CMOS\nCMOS = Complementary Metal-Oxide Semiconductor, a small memory used to store BIOS settings.\nMain functions Storing system settings (even when the computer is powered off) Communication with the BIOS Implementation Usually NVRAM (Non-Volatile RAM)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-36",
+    "href": "lectures/lecture-02.html#section-36",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "CMOS Setup Utility\nA utility for configuring BIOS settings\nSome important functions: Basic and advanced settings Hardware information and status Security settings Power management Restoring default (factory) settings"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-37",
+    "href": "lectures/lecture-02.html#section-37",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "BIOS vs UEFI\nUEFI = Unified Extensible Firmware Interface, the modern successor to BIOS.\nImage source\nNear future: BIOS gradually disappearing Automatic updates More modern user interface\nAdvanced security features"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-38",
+    "href": "lectures/lecture-02.html#section-38",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "TPM\nTPM = Trusted Platform Module\nA dedicated motherboard chip that provides security functions. Key storage Disk encryption Secure Boot Password protection Secure updates Windows 11 requires TPM 2.0."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-39",
+    "href": "lectures/lecture-02.html#section-39",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Power Supply Connectors\nProvide power to the motherboard, processor, fans, and some peripherals.\nPower connector types: AT (older computers, ribbon-style connector) ATX (Advanced Technology Extended), 20/24-pin – motherboard power EPS (Extended Power Supply), 4+4 or 8+8-pin – CPU power PCIe – power for graphics cards and high-power expansion cards SATA 15-pin – primarily powers storage devices Molex (older computers, 4-pin)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-40",
+    "href": "lectures/lecture-02.html#section-40",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Motherboard Cooling\nMain motherboard components requiring cooling: CPU → dedicated cooler (fan + heatsink, or liquid cooling). VRM (Voltage Regulator Module) → heatsinks around the CPU to maintain stable power delivery. Chipset → often actively cooled in older systems; usually a passive heatsink today. M.2 SSDs → often use dedicated heatsinks because they can run hot at high speeds.\nCooling solutions: Passive cooling → aluminium heatsinks (chipset, VRM). Active cooling → small fan (older chipsets, high-end motherboards). Additional cooling → liquid-cooling blocks on premium motherboards.\nCPU fan\nheatsink"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-41",
+    "href": "lectures/lecture-02.html#section-41",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Fan Connectors\nOlder types Molex (4-pin peripheral connector) Powered directly from the PSU (typically 12 V). No speed control. Now obsolete; used with older case fans.\nModern motherboard connectors 3-pin fan connector (DC) 1: ground, 2: +12 V, 3: tachometer (speed feedback). Controlled by voltage regulation. 4-pin fan connector (PWM) 1: ground, 2: +12 V, 3: tachometer, 4: PWM control signal. More precise speed control and quieter operation. Current standard for CPU and case fans."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-42",
+    "href": "lectures/lecture-02.html#section-42",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Storage Connectors\nEnable communication between the computer and storage devices.\nMain types IDE (Integrated Drive Electronics) SCSI (Small Computer System Interface) SATA (Serial Advanced Technology Attachment) RAID (Redundant Array of Independent Disks) M.2, U.2 PCIe"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-43",
+    "href": "lectures/lecture-02.html#section-43",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Secondary Storage\nStorage devices can hold large amounts of data and retain their contents when the computer is powered off.\nCommon storage devices Hard disk drive (HDD) CD, DVD, Blu-ray SSD USB flash drive"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-44",
+    "href": "lectures/lecture-02.html#section-44",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Optical Storage – CD, DVD, Blu-ray\nOptical storage media in which information is encoded in the physical structure of the disc.\nImage source\nLight reflects differently from pits (indentations) and lands (surface)\nTypical interfaces: IDE, SATA, SCSI, USB"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-45",
+    "href": "lectures/lecture-02.html#section-45",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Optical Storage – Advantages and Disadvantages\nAdvantages Archiving and storing movies Capacity up to 100 GB (Blu-ray XL) Redundant data storage Potentially long lifespan Disadvantages Slow (CD: 150 KB/s – Blu-ray: 216 MB/s) Obsolete – many computers no longer include optical drives Prone to physical damage Future Declining use However: new technologies, e.g. holographic data storage"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-46",
+    "href": "lectures/lecture-02.html#section-46",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Secondary Storage – Hard Disk Drives (HDDs)\nMagnetic storage devices in which information is stored in a magnetic layer.\nImage source\nTypical interfaces: IDE, SATA, SCSI"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-47",
+    "href": "lectures/lecture-02.html#section-47",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "HDD – Advantages and Disadvantages\nAdvantages High capacity (up to 24 TB) Low-cost storage Reliable for long-term storage Multiple interfaces: IDE, SCSI, SATA, SAS Disadvantages Slow (150–300 MB/s) Sensitive to physical shock Moving parts Future Servers and data centres (low cost, high capacity) New technologies, e.g. laser-assisted writing and reading Capacity expected to reach 30–40 TB"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-48",
+    "href": "lectures/lecture-02.html#section-48",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Secondary Storage – SSDs\nAn SSD (Solid State Drive) is an internal storage device based on NAND flash memory.\nNAND flash memory Memory cells are arranged in a grid\nA memory cell can store one or more bits (SLC – Single-Level Cell, MLC, TLC, QLC) Cells contain one or more floating-gate transistors\nThe state of the memory cell is determined by the presence or absence of charge on the floating gate.\nTypical interfaces: SATA, M.2, U.2, PCIe"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-49",
+    "href": "lectures/lecture-02.html#section-49",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "SSD – Advantages and Disadvantages\nAdvantages Significantly faster data transfer than HDDs No moving parts Lower power consumption Compact size, multiple form factors Multiple interfaces/protocols: SATA, PCIe, NVMe, etc. Disadvantages Higher cost Limited write endurance Future Higher speeds (PCIe) and capacities (up to 100 TB), with broader adoption"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-50",
+    "href": "lectures/lecture-02.html#section-50",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Data Storage – What to Expect\nEmergence of new memory technologies Memristor – fast, durable, non-volatile memory bridging RAM and secondary storage Phase-change memory (PCM) – stores 0 and 1 using phase changes in a material STT-MRAM (Spin-Transfer Torque Magnetic RAM) – magnetic, energy-efficient, durable memory ReRAM (Resistive RAM) – data storage based on changes in electrical resistance\nIncreasing data density HAMR (Heat-Assisted Magnetic Recording) and MAMR (Microwave-Assisted Magnetic Recording) for HDDs Holographic storage – 3D laser-based storage with theoretical TB–PB capacities\nNew theoretical directions Quantum data storage – using quantum bits (qubits) DNA data storage – storing data in biological molecules at extremely high density and with long lifespan\nUsage trends Growth of cloud storage – supplementing or replacing local physical storage Edge storage – handling data closer to its source (IoT, smart devices)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-51",
+    "href": "lectures/lecture-02.html#section-51",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "USB Flash Drive\nA USB (Universal Serial Bus) flash drive is an external storage device based on NAND flash memory.\nCharacteristics Portable storage Connects to a USB port Typical capacity: 32–512 GB Typical transfer speed: Limited write endurance\nUSB Connector Types\nLatest USB Standards\nA USB-C port can support USB 2.0–USB4, Thunderbolt 3/4, and DisplayPort."
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-52",
+    "href": "lectures/lecture-02.html#section-52",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Thunderbolt 3 and 4\nA high-speed universal interface using the USB-C connector.\nSupported devices External storage External graphics cards External network adapters Monitors Docking stations, etc.\nCharacteristics High data transfer speed Compatibility with USB-C devices Combined functions (data, video, power)\nThunderbolt 3 vs. 4: What’s The Difference? (iboysoft.com)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-53",
+    "href": "lectures/lecture-02.html#section-53",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Monitor Connectors\nVGA (Video Graphics Array, D-Sub, analogue) Introduced in 1987; the PC monitor standard for decades. Analogue signal only; practical high-quality limit around Full HD. Now obsolete, but still occasionally found on projectors.\nDVI (Digital Visual Interface, digital/analogue) Introduced in 1999 as the digital successor to VGA. Variants: DVI-D (digital), DVI-A (analogue), DVI-I (combined). Max. 1920×1200 (Single Link) or 2560×1600 (Dual Link). Also being phased out.\nHDMI (High-Definition Multimedia Interface) Introduced in 2003, primarily for TVs and home entertainment devices. Digital video + audio over a single cable. Still widely used today, including on monitors and laptops. Versions include HDMI 1.4 (Full HD/4K), HDMI 2.0 (4K 60 Hz), HDMI 2.1 (8K, 120 Hz).\nDisplayPort (see later) + others (Mini DisplayPort, USB-C, Thunderbolt)"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-54",
+    "href": "lectures/lecture-02.html#section-54",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "HDMI (High-Definition Multimedia Interface)\nPrimarily used to transmit audio and video between computers and monitors.\nCharacteristics: Introduced: 2003 Signal: digital video + audio over one cable + additional data Main uses: TVs, monitors, game consoles, home cinema\nMain versions HDMI 1.4 (2009) → 4K @ 30 Hz HDMI 2.0 (2013) → 4K @ 60 Hz HDMI 2.1 (2017) → 8K @ 60 Hz or 4K @ 120 Hz (gaming, VRR, eARC) HDMI 2.2 (2025) → 16K @ 60 Hz, 12K @ 120 Hz, 4K @ 240 Hz; new Ultra96 cable required\nAdvantages Widely adopted and compatible Standard connector for TVs and consoles\nDisadvantages Less flexible than DisplayPort for monitors (fewer displays over one cable) Shorter supported cable lengths at high resolutions"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-55",
+    "href": "lectures/lecture-02.html#section-55",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "DisplayPort\nPrimarily used to transmit audio and video between computers and monitors.\nCharacteristics Supports video signals up to 16K resolution Daisy-chaining displays Sharp, high-contrast image High bandwidth (up to 77 Gb/s) Multiple connector formats (standard, Mini DisplayPort, USB-C)\nMultiple versions (1.2, 1.3, 1.4, 2.0) Backward compatible with HDMI, DVI, and VGA via adapters\nWhich Is Better: DisplayPort or HDMI? – iVANKY"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-56",
+    "href": "lectures/lecture-02.html#section-56",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Monitor Resolutions"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-57",
+    "href": "lectures/lecture-02.html#section-57",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Monitor Connectors and Resolutions"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-58",
+    "href": "lectures/lecture-02.html#section-58",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "I/O Connectors\nAllow external peripherals to be connected to the computer.\nOlder / disappearing: PS/2, VGA, serial/parallel ports Current basics: USB-A (2.0 / 3.x), LAN (RJ-45), audio jack Modern: USB-C, HDMI/DisplayPort, optical audio, Wi-Fi antenna Premium: multiple LAN ports, 2.5G/10G Ethernet, Thunderbolt 3/4 (USB-C connector)\nMotherboards Explained: I/O Panel"
+  },
+  {
+    "objectID": "lectures/lecture-02.html#section-59",
+    "href": "lectures/lecture-02.html#section-59",
+    "title": "IT Architecture – Lecture 02",
+    "section": "",
+    "text": "Jumpers\nJumpers are small plastic caps containing a U-shaped conductor. They connect or disconnect two pins, allowing switching between two fixed hardware settings.\nModern motherboards have few jumpers; typical uses include: CPU configuration (e.g. clock speed, voltage) Chipset configuration (e.g. bus speed) Boot configuration (e.g. boot order) CMOS reset PnP"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "IT Architecture",
+    "section": "",
+    "text": "Lecture 01 – Hardware Fundamentals I\nLecture 02 – Hardware Fundamentals II\nLecture 03 – Operating Systems: Introduction\nLecture 04 – Operating Systems: Process Scheduling\nLecture 05 – Operating Systems: Resource Management and I/O Scheduling\nLecture 06 – Operating Systems: Memory Management\n\nThe presentations use the completed English PowerPoint slides as full-canvas Reveal.js slides for consistent visual appearance."
+  },
+  {
+    "objectID": "index.html#lectures",
+    "href": "index.html#lectures",
+    "title": "IT Architecture",
+    "section": "",
+    "text": "Lecture 01 – Hardware Fundamentals I\nLecture 02 – Hardware Fundamentals II\nLecture 03 – Operating Systems: Introduction\nLecture 04 – Operating Systems: Process Scheduling\nLecture 05 – Operating Systems: Resource Management and I/O Scheduling\nLecture 06 – Operating Systems: Memory Management\n\nThe presentations use the completed English PowerPoint slides as full-canvas Reveal.js slides for consistent visual appearance."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section",
+    "href": "lectures/lecture-01.html#section",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "IT Architecture – Lecture 01\nIntroduction Hardware Fundamentals I"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-1",
+    "href": "lectures/lecture-01.html#section-1",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "What will we cover?\nIntroduction Course requirements What will we learn? Hardware Fundamentals I Historical overview Computer components Von Neumann principles The processor, memory and peripherals"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-2",
+    "href": "lectures/lecture-01.html#section-2",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Course requirements\nRequirements during the semester (prerequisites for taking the exam) Attendance at seminars (absences are permitted according to the Academic Regulations) Successful completion of the mid-term tests Submission of assignments by the deadlines End-of-semester requirement: Exam on the dates announced in Neptun Alternative option: Offered grade (for an overall result of at least Good)\n\nFor details, see Moodle"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-3",
+    "href": "lectures/lecture-01.html#section-3",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Planned assessment schedule\nTest 1 – at the beginning of Seminar 6 (Windows + Azure Shell + Lectures 1–5) Test 2 – at the beginning of Seminar 10 (Linux + Git + Docker + Lectures 6–9) End-of-semester test in Seminar 12 \u000b (all seminar topics + Lectures 10–12 + DevOps) Homework – 2 assignments, each with a one-week deadline \u000b(assigned in Seminars 4 and 8) Course assignment – 1 assignment \u000b (assigned in Seminar 6, due by Seminar 12) Retake / make-up opportunity – Lecture/Seminar 13"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-4",
+    "href": "lectures/lecture-01.html#section-4",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Assessment\nMid-term tests – 30% Homework – 10% Course assignment – 20% End-of-semester test – 40%\nOffered grade: Excellent: from 90%, Good: from 80% Exam: from 60% to 80% Not eligible for the exam: below 60%, failure to meet the semester requirements, or insufficient seminar attendance Up to 10% bonus points can be earned during the semester"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-5",
+    "href": "lectures/lecture-01.html#section-5",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "What will we learn?\nTheory Hardware fundamentals Operating systems Computer networks Cloud systems"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-6",
+    "href": "lectures/lecture-01.html#section-6",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "What will we learn?\nSeminars Azure fundamentals Windows 10/11 and Windows Server Debian Linux"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-7",
+    "href": "lectures/lecture-01.html#section-7",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "What will we learn?\nOptional topics: Other operating systems Kubernetes AWS fundamentals"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-8",
+    "href": "lectures/lecture-01.html#section-8",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Why is knowledge of IT architecture useful?\nWriting software is not enough; it must also be operated so that it is available able to operate under load secure quickly recoverable cost-effective\nThis requires specialized IT operations (Ops) knowledge."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-9",
+    "href": "lectures/lecture-01.html#section-9",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "What does Ops do?\nOperates servers Builds and configures networks and infrastructure Monitors systems Ensures security Handles incidents"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-10",
+    "href": "lectures/lecture-01.html#section-10",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Earlier trends\nDevelopment (Dev) and Operations (Ops) were completely separated Developers (Dev) wrote the software Then handed it over to Operations In case of a software bug, the code went back to the developers Slow, cumbersome communication Many conflicts No one had an overview of both areas"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-11",
+    "href": "lectures/lecture-01.html#section-11",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Current trends\nToday, Development and Operations are becoming increasingly closely integrated\nDevOps\nImage source: https://en.wikipedia.org/wiki/DevOps_toolchain"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-12",
+    "href": "lectures/lecture-01.html#section-12",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "DevOps trends\nImage source: 8 Future DevOps Trends In 2025 – xMatters"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-13",
+    "href": "lectures/lecture-01.html#section-13",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Hardware Fundamentals I\nHistorical overview The concept and components of a computer Von Neumann principles The processor and its functions Memory and addressing Peripherals Bus system, interrupts and ports"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-14",
+    "href": "lectures/lecture-01.html#section-14",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Historical overview\nFrom the beginnings … abacus, slide rule … Mechanical computers (Schickard, Pascal, Babbage) Electromechanical computers (Zuse) Electronic computers  computer generations"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-15",
+    "href": "lectures/lecture-01.html#section-15",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Abacus (3rd millennium BC), slide rule (~1620)\nPrimarily used for addition and subtraction The rods represent place values, while the beads represent digit values\nAbacus Simulator (uni-marburg.de)\nSlide Rule Simulator Emulator Replica Collection Scales that slide relative to each other In addition to basic arithmetic, it can be used to calculate roots, logarithms, and trigonometric functions Accuracy of 3–4 decimal digits"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-16",
+    "href": "lectures/lecture-01.html#section-16",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Schickard’s calculating machine (1623)\nCapable of performing the four basic arithmetic operations Mechanical design: 6 pairs of gears (with10 and 1 tooth) Handled carry operations automatically The prototype under construction was destroyed in a fire Two replicas were built much later\nMultiplication with the Schickard Calculator from 1623 and with Napier’s Bones - YouTube"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-17",
+    "href": "lectures/lecture-01.html#section-17",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Pascal’s adding machine (1643)\nBuilt using clock components Addition and subtraction only Also handled carry operations Pascal built 7 machines\nPascaline – interactive simulations – eduMedia (edumedia-sciences.com)\nHow the Pascaline Works - YouTube"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-18",
+    "href": "lectures/lecture-01.html#section-18",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Babbage’s Difference Engine (~1820)\nMechanical computer 15 tonnes 25,000 components Decimal number system Its construction was mainly hindered by technical limitations A working machine based on Babbage’s plans was not completed until 1991 31-digit representation Mathematical (polynomial) tables\nBabbage’s Difference Engine Simulation (drexel.edu)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-19",
+    "href": "lectures/lecture-01.html#section-19",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Babbage’s Analytical Engine\nProgrammable using punched cards Designed to store programs (addressable memory) Printer A precursor of modern computers The machine itself was never fully built, but programs were designed for it (Ada Lovelace) Web Analytical Engine Emulator (fourmilab.ch)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-20",
+    "href": "lectures/lecture-01.html#section-20",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Zuse’s computers (Z1, Z2, Z3 …, from ~1941)\nElectromechanical computers (relays) More reliable than vacuum-tube computers Binary number system Program–controlled operation (Z3) Stored-program concept? (not published) Zuse Z3 (historicsimulations.com)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-21",
+    "href": "lectures/lecture-01.html#section-21",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Computer generations\nGenerations are the major stages in computer evolution.\nWe distinguish 5 generations 6th generation?"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-22",
+    "href": "lectures/lecture-01.html#section-22",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "First-generation computers (~1945–55)\nVacuum-tube computers Large size and weight Magnetic drum memory Unreliable operation Machine code Expensive"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-23",
+    "href": "lectures/lecture-01.html#section-23",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "ENIAC (1946)\nElectronic Numerical Integrator And Computer Massive hardware 18,000 vacuum tubes 30 tonnes 2.5 m high, 30 m long Operation time on the order of milliseconds Decimal number system Military purposes (ballistic calculations) eniacrun.png (1900×1070) (drexel.edu)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-24",
+    "href": "lectures/lecture-01.html#section-24",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "EDVAC (1949)\nElectronic Discrete -Variable Automatic Computer John von Neumann also participated in its development General-purpose computer Program stored in memory Binary arithmetic Input via a typewriter-like device Output via a printer\nEDVAC - YouTube"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-25",
+    "href": "lectures/lecture-01.html#section-25",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Second-generation computers (~1955–65)\nTransistors (much smaller and more reliable than vacuum tubes) Produced in larger quantities (e.g. about 17,000 IBM 1400-series systems) Modular design Emergence of the first high-level programming languages (COBOL, Fortran) ~10⁵–10⁶ operations/s Batch processing – less idle time"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-26",
+    "href": "lectures/lecture-01.html#section-26",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Third-generation computers (~1965–72)\nIntegrated circuits (ICs) Smaller size and greater reliability – minicomputers also appeared Operating systems Keyboards and monitors became common Sales in the hundreds of thousands Semiconductor memory"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-27",
+    "href": "lectures/lecture-01.html#section-27",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Fourth-generation computers (~1972–)\nMicroprocessor High level of integration (LSI, VLSI, ULSI) 100 million operations/s Personal computers Graphical user interface Mouse Small size Low cost"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-28",
+    "href": "lectures/lecture-01.html#section-28",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Fifth-generation computers (1986–)\nArtificial intelligence Speech recognition Natural-language input Learning capability Parallel processing"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-29",
+    "href": "lectures/lecture-01.html#section-29",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The development of semiconductors drives progress\n“The number of transistors on chips roughly doubles every two years” (Gordon Moore, 1965)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-30",
+    "href": "lectures/lecture-01.html#section-30",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Computer\nComputer  Calculator\nA computer is a device capable of storing data and sequences of operations (programs) defined by humans and executing them automatically\nIn a broader sense, the following devices can also be considered computers: Game consoles (Xbox, PlayStation) Embedded systems (mobile phones, smart devices, engine control electronics, GPS, etc.) some IoT* devices\n*IoT = Internet of Things"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-31",
+    "href": "lectures/lecture-01.html#section-31",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Embedded systems\nSpecial-purpose computers designed to perform a specific task\nThey do not look like computers from the outside They are usually small, but can also be large (e.g. traffic-light controllers) Their architecture usually includes: Central processing unit Sensors Output/communication interface Actuators (convert signals, e.g. into motion)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-32",
+    "href": "lectures/lecture-01.html#section-32",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "IoT – Internet of Things\nDevices equipped with computing capability and network connectivity\nThis also includes “smart” embedded systems.\nCharacteristics: Utility Intelligence Dynamic nature Heterogeneity Security?"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-33",
+    "href": "lectures/lecture-01.html#section-33",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Components of a computer\nThree main functional components: processor, memory and I/O unit"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-34",
+    "href": "lectures/lecture-01.html#section-34",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The bus system\nA set of communication lines connecting the functional components of a computer. Types: Control bus Address bus Data bus"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-35",
+    "href": "lectures/lecture-01.html#section-35",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Von Neumann principles\nStored-program concept (data and instructions are stored in the same memory in the same way) Sequential instruction execution A fully electronic machine operating with the binary number system Functional units: separate input/output unit, control and processing unit, and memory General-purpose applicability"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-36",
+    "href": "lectures/lecture-01.html#section-36",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The von Neumann architecture problem\nThe main problem of the architecture is that the processor often has to wait for memory operations, so most of its processing time is unused (“von Neumann bottleneck”)\nOther architectures also exist, e.g.: Harvard architecture Parallel architectures"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-37",
+    "href": "lectures/lecture-01.html#section-37",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Harvard architecture\nSeparate data and instruction memory Greater security Better performance More complex design Applications: Microcontrollers CPUs"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-38",
+    "href": "lectures/lecture-01.html#section-38",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Parallel architecture\nProcessing multiple data items and/or instructions simultaneously Higher performance Several models More difficult to program"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-39",
+    "href": "lectures/lecture-01.html#section-39",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Parallel architecture – example\nUMA – Uniform Memory Access The processors share memory equally Either all processors have equal access to peripherals (symmetric multiprocessing) or only certain processors do (asymmetric multiprocessing)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-40",
+    "href": "lectures/lecture-01.html#section-40",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Aside: quantum computers\nThey operate based on quantum mechanics Quantum bits (qubits) instead of bits Two key properties Superposition Entanglement Compared with conventional computers, they can be many orders of magnitude faster"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-41",
+    "href": "lectures/lecture-01.html#section-41",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Quantum computers\nChallenges: Sensitive even to very small disturbances As the number of qubits increases, error detection and correction become increasingly difficult They require new algorithms and software\nIt may still take 10–30 years before they become widespread\nImage source"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-42",
+    "href": "lectures/lecture-01.html#section-42",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The processor (CPU – Central Processing Unit)\nThe central processing unit of the computer interprets and executes instructions Components: Control Unit Arithmetic Logic Unit Registers"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-43",
+    "href": "lectures/lecture-01.html#section-43",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The Control Unit (CU)\nThe part of the processor that\nControls data flow between the ALU and the registers Interprets instructions Converts instructions into control signals"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-44",
+    "href": "lectures/lecture-01.html#section-44",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The machine instruction cycle\nFetch: read the address of the next instruction from the PC register Decode: decode the instruction stored in the IR Execute: the CPU passes the required information to the ALU, which executes the instruction\nImage source: https://computersciencewiki.org/index.php/The_machine_ instruction_cycle"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-45",
+    "href": "lectures/lecture-01.html#section-45",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The Arithmetic Logic Unit (ALU)\nPerforms arithmetic and logical operations.\nBasic operations: Boolean operations Binary addition Complement operation Bit shifting right/left\nImage source"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-46",
+    "href": "lectures/lecture-01.html#section-46",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Registers\nSmall, very fast storage locations Typically 8, 16, 32 or 64 bits wide Usually implemented as static storage They can store\nData: AX, BX, CX, DX Memory addresses: SI, DI, SP, BP, CS, DS, SS, ES, IR Status and control\ninformation: PC, IR, flags\nImage source"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-47",
+    "href": "lectures/lecture-01.html#section-47",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "CISC and RISC processors\nCISC Complex instruction set\nCompound instructions One instruction – multiple clock cycles\nOne register set Longer execution time\nRISC Reduced instruction set\nSimple instructions One instruction – one clock cycle\nMultiple register sets Shorter execution time\nCISC = Complex Instruction Set Computers RISC = Reduced Instruction Set Computers"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-48",
+    "href": "lectures/lecture-01.html#section-48",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Main memory\nStores programs currently being executed and the data they require Random access (RAM – Random Access Memory) The processor can access and address it directly Its contents are lost when power is turned off Usually dynamic RAM (DRAM) – requires refreshing"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-49",
+    "href": "lectures/lecture-01.html#section-49",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Memory addressing\nMain addressing modes (addresses are hexadecimal) Direct memory addressing Segment:offset addressing (segment register + offset) Indirect addressing (the address is stored in a register) Base-relative addressing (base register + offset)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-50",
+    "href": "lectures/lecture-01.html#section-50",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Memory addressing\nSegment-offset addressing\nDirect memory addressing"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-51",
+    "href": "lectures/lecture-01.html#section-51",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Memory addressing\nBase-relative addressing\nIndirect memory addressing"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-52",
+    "href": "lectures/lecture-01.html#section-52",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Memory hierarchy\nCache memory bridges the speed gap between components operating at different speeds It has multiple levels; e.g. Level 1 cache between the CPU and main memory"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-53",
+    "href": "lectures/lecture-01.html#section-53",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "The I/O unit (peripherals)\nInput devices (e.g. mouse, keyboard) Output devices (e.g. printer, monitor) I/O devices (e.g. hard disk drive)"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-54",
+    "href": "lectures/lecture-01.html#section-54",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Ports\nA PORT is a computer interface used to communicate with peripheral devices. It provides a standardized connection between the CPU and peripherals via the system bus (external bus)."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-55",
+    "href": "lectures/lecture-01.html#section-55",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Serial and parallel data transmission\nWhen data is transferred between the peripheral interface and the peripheral one bit at a time, sequentially, this is called serial data transmission. (e.g. mouse, modem) When groups of bits are transferred simultaneously between the peripheral interface and the peripheral, this is called parallel data transmission (e.g. printer). USB – high-speed serial transmission"
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-56",
+    "href": "lectures/lecture-01.html#section-56",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Interrupts\nThe currently executing activity is suspended The data required to resume execution must be saved The interrupt service routine must be started\nThe interrupt\nmust be completed,\nand the original state must be restored Causes of interrupts: \u000bI/O devices, errors, keystrokes, etc."
+  },
+  {
+    "objectID": "lectures/lecture-01.html#section-57",
+    "href": "lectures/lecture-01.html#section-57",
+    "title": "IT Architecture – Lecture 01",
+    "section": "",
+    "text": "Interrupt vector table"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section",
+    "href": "lectures/lecture-03.html#section",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "IT Architecture – Lecture 03\nOperating Systems Introduction"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-1",
+    "href": "lectures/lecture-03.html#section-1",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "What will we cover?\nOperating Systems Historical Overview Basic Concepts"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-2",
+    "href": "lectures/lecture-03.html#section-2",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Historical Overview – First Generation\nNo operating system yet – the open-shop era Machine-code programming Plugboards, later punched cards Single-tasking operation The programmer also operated the computer Queuing for machine time\nProblems: time-consuming, inefficient, no protection mechanisms\nPlugboard (IBM 1401) – HubPages\nPunched card"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-3",
+    "href": "lectures/lecture-03.html#section-3",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Historical Overview – Second Generation\nA dedicated operator ran the computer – closed-shop model The operator collected programmers’ punched cards Their contents were copied to magnetic tape Jobs were grouped into batches and executed (batch processing) Output was written to magnetic tape and then printed By the end of the era, a program took over the operator’s role (Monitor, e.g. GM-NAA I/O) Advantage: better resource utilization. Disadvantages: still single-tasking, long waiting times\nImage source: Andrew S. Tanenbaum – Modern Operating Systems"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-4",
+    "href": "lectures/lecture-03.html#section-4",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Historical Overview – Third Generation\nThe first operating systems appeared (OS/360) Multiprogramming – multiple programs in memory Spooling systems – I/O operations overlap with program execution Time-sharing systems – CPU time was divided into slices; terminals appeared Advantages: higher efficiency, user-friendly, interactive. Disadvantages: greater hardware requirements, more complex systems\nTime-Sharing Operating System – GeeksforGeeks\nMultiprogramming"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-5",
+    "href": "lectures/lecture-03.html#section-5",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Historical Overview – Fourth Generation\nEmergence of modern operating systems Multitasking – one user running multiple programs Multiuser – multiple users at the same time Widespread use of network and real-time operating systems Emergence of graphical user interfaces (GUI) Security and protection – user isolation, permissions, access control Virtual memory – secondary storage used as an extension of main memory\nAdvantages: usability, networking, standardization Disadvantages: complexity, resource requirements, vulnerabilities"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-6",
+    "href": "lectures/lecture-03.html#section-6",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Historical Overview – Fifth Generation\nToday’s operating systems Parallel and distributed systems → clusters, grid computing, shared resource management across multiple computers. Network and Internet integration → networking (e.g. TCP/IP) is a core part of the OS. Mobile and embedded operating systems → Android, iOS, RTOS solutions. Virtualization and containers → multiple virtual machines and containers on one physical system. Security and access control → encryption, sandboxing, permission management. Intelligent, self-adaptive operation → AI-based resource optimization, power management, predictive scheduling. Cloud-oriented operating systems → designed for entire infrastructures rather than a single computer (e.g. container and VM management systems)."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-7",
+    "href": "lectures/lecture-03.html#section-7",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "What Is an Operating System?\nAn operating system is a collection of programs that manages computer resources and interacts with users.\nHardware provides the computer’s physical resources (CPU, memory, secondary storage, network, peripherals). The operating system controls and manages these resources and provides a secure, consistent environment for running programs. Applications access hardware through the operating system, so they do not need to communicate directly with physical devices."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-8",
+    "href": "lectures/lecture-03.html#section-8",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Typical Functions of Operating Systems\nProcess management and scheduling – controlling running programs and enabling multitasking. Memory management – allocating memory to programs and protecting against invalid access. File-system management – managing files and directories and providing access to them. I/O device management – handling keyboards, monitors, printers, network adapters, etc. User interface – providing a command-line or graphical environment. Protection and security – access control and permission management."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-9",
+    "href": "lectures/lecture-03.html#section-9",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Optional Functions of Operating Systems\nNetwork services – communication protocols and network connectivity. Virtual-machine and container management – isolated execution environments. User and workgroup management – for example, on server systems. Built-in applications and utilities – e.g. text editors and media players. Power management – especially on mobile devices. Special security features – encryption, firewall, antivirus protection."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-10",
+    "href": "lectures/lecture-03.html#section-10",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Classification of Operating Systems – Classical Categories\nMainframe operating systems – run on mainframes and manage very large resources (e.g. IBM z/OS). Server operating systems – provide network services to many clients (e.g. Windows Server, Linux server distributions). Multiprocessor operating systems – run on multi-CPU or multicore systems and are optimized for parallel processing. Personal-computer operating systems – desktop and laptop systems with user-friendly interfaces (e.g. Windows 11, macOS, desktop Linux). Handheld-device operating systems – mobile phones, PDAs, tablets (e.g. Android, iOS). Embedded operating systems – specialized hardware (e.g. cars, routers, IoT devices; often Linux variants or an RTOS). Sensor-network operating systems – for small, resource-constrained sensors (e.g. TinyOS, Contiki). Real-time operating systems (RTOS) – provide guaranteed response times in industrial, military, or medical systems (e.g. VxWorks, QNX)."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-11",
+    "href": "lectures/lecture-03.html#section-11",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Classification of Operating Systems – New Categories\nCloud-oriented operating systems Foundation for virtual machines and services Examples: ChromeOS, Azure Sphere, AWS Firecracker Container-focused operating systems Minimal systems optimized for running containers Examples: CoreOS, RancherOS, k3OS Edge/IoT-specific operating systems For small, resource-constrained devices Examples: RIOT OS, Zephyr, TinyOS"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-12",
+    "href": "lectures/lecture-03.html#section-12",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Operating Systems – The Role of Unix\nAdaptable Unix was originally developed in the 1960s–70s at AT&T Bell Labs. It was small, portable, and modular → easy to adapt to different hardware. As a result, it spread rapidly in universities and research environments.\nStandard-setting. Unix introduced concepts still used today: file-system hierarchy (/usr, /bin, etc.), the “everything is a file” principle (files can represent devices, processes, text), pipes, processes, and permissions. Unix formed the basis of the POSIX standard → it still shapes Linux, macOS, and many other operating systems.\nA common ancestor. Many modern operating systems descend from Unix or Unix-like systems: Linux (a Unix-like system in the free/open-source tradition). BSD systems (FreeBSD, NetBSD, OpenBSD; later forming part of the basis of macOS). Android is also based on the Linux kernel. This is why Unix is often called a “common ancestor” → its philosophy remains present in many modern operating systems, even when the code is different."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-13",
+    "href": "lectures/lecture-03.html#section-13",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Process\nA process is a program in execution. It includes the program code, data, and execution state.\nEach process has an address space, registers, open files, and resources The OS records process states in the process table Scheduling: the OS can suspend and resume a process Process tree: parent and child processes, cooperation, and IPC (Interprocess Communication) Signals: handling asynchronous events (e.g. timer, error) Each process is associated with a user (UID, GID)\nProcess tree"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-14",
+    "href": "lectures/lecture-03.html#section-14",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Process States\nPossible states: New – the process is being created. Ready – the process is ready to run and waiting for CPU time. Running – the process is currently executing on the CPU. Waiting / Blocked – the process cannot run because it is waiting for an event (e.g. completion of an I/O operation). Terminated – the process has finished and the OS releases its resources.\nSpecial states: Suspended / Stopped – the process is not running but can be resumed. Zombie – the process has finished, but its parent has not yet collected its status → an entry remains in the process table. Orphan – the parent has terminated, but the child process continues running"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-15",
+    "href": "lectures/lecture-03.html#section-15",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Process states"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-16",
+    "href": "lectures/lecture-03.html#section-16",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Process Control Block\nThe Process Control Block (PCB) is an OS data structure containing all information required to manage a process.\nContents Identifiers: PID (Process ID), user ID (UID), group ID (GID) State: current process state (Running, Ready, Waiting, …) Registers: saved program counter, stack pointer, and CPU registers Memory information: address space, page or segment tables Files and resources: list of open files, I/O connections Scheduling data: priority, CPU time, quotas\nRole The OS uses PCBs to track and manage processes. If the scheduler suspends a process, the PCB stores its complete state → execution can later resume exactly where it stopped."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-17",
+    "href": "lectures/lecture-03.html#section-17",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Threads\nA thread is an execution unit within a process.\nThreads share the process resources (address space, files). Each thread has its own program counter, stack, and registers The operating system provides thread management and scheduling. Types: kernel threads – managed by the OS; user threads – implemented by libraries rather than directly by the OS Relationship: process = resources + threads that execute the program. Threads are lighter-weight than processes (faster context switching). Concurrency: multiple threads can run within one process (e.g. in a browser, one thread downloads while another renders). Efficient on multicore processors: threads can execute truly in parallel."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-18",
+    "href": "lectures/lecture-03.html#section-18",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Address Spaces\nAn address space is the range of memory a process can use.\nIt consists of addresses ranging from 0 to a maximum value. It determines which memory a process can access Address spaces prevent processes from accessing each other’s memory (isolation, protection) An address space contains: program code (instructions), program data (variables, global data), the stack (function calls, local variables). Modern applications: sandboxing, virtualization, containers"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-19",
+    "href": "lectures/lecture-03.html#section-19",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Files\nA file is a named unit of data maintained by the operating system for persistent storage and management.\nIt may contain text, binary data, program code, images, video, etc. It exists within a namespace (file system, directories). Files have metadata (size, creation time, permissions). The OS provides access → read, write, delete, append.\nModern applications: Files may be network-based (NFS, SMB) or distributed/object-based (HDFS, Amazon S3) Non-file-system storage also exists (e.g. NoSQL databases, object stores)."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-20",
+    "href": "lectures/lecture-03.html#section-20",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Input/Output\nI/O is the OS subsystem that manages input and output devices. It includes device-independent mechanisms and device-specific drivers.\nDevice-independent I/O The OS provides general mechanisms that apply to all devices. Example: abstractions for opening files and reading/writing. Device-dependent I/O Handled by device drivers → each hardware device requires a specific driver. Example: printer or graphics-card driver.\nModern applications: Plug & Play, virtual I/O in cloud VMs"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-21",
+    "href": "lectures/lecture-03.html#section-21",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Protection\nThe operating system is responsible for keeping data (e.g. emails, business plans, tax returns) protected and confidential.\nGoal: process and data isolation, permission management User and group identifiers (UID, GID) control access Superuser / Administrator with special privileges\nModern applications: With Zero Trust, the OS must continuously verify who is running each process or establishing each network connection and whether access to the resource is authorized Hardware security (TPM, SGX): the OS provides the appropriate interface"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-22",
+    "href": "lectures/lecture-03.html#section-22",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Shell\nShell = command interpreter, an interface between the user and the operating system.\nA system program that uses OS services. Its role is to accept and execute commands (launch programs, invoke system calls). Supports I/O redirection (&gt; and &lt;), pipes (|), and background processes (&) A GUI serves a similar role → a user interface to the OS. The shell is often used alongside the GUI\nModern applications: Automation and scripting (DevOps and cloud workflows) Managing cloud resources"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-23",
+    "href": "lectures/lecture-03.html#section-23",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – Kernel\nKernel = the core of the operating system; it directly manages hardware and provides resources to applications.\nMain functions (largely the core functions of the operating system) Process management – creating, scheduling, and terminating processes Memory management – virtual memory, address spaces, isolation File system – managing data and metadata I/O management – device drivers and abstracted hardware access Protection and permissions – access control Modern applications: Monolithic kernel – all functions in one large unit (e.g. Linux) Microkernel – minimal kernel; many services run in user space (e.g. MINIX, QNX) Hybrid kernel – combines both approaches (e.g. Windows, macOS XNU)"
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-24",
+    "href": "lectures/lecture-03.html#section-24",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Kernel Types\nMonolithic kernel All major services (process management, memory management, I/O, file system, drivers) are part of the kernel. Fast → all functions are directly accessible. Disadvantage: large and complex; faults can affect the whole system. Microkernel The kernel contains only essential functions (process management, messaging, minimal memory management); other services (file system, drivers, networking) run as separate user-space processes. Advantage: modularity, stability, easier debugging. Disadvantage: messaging overhead can reduce performance. Hybrid kernel A middle ground: conceptually microkernel-based, but many services run in kernel mode for performance. Attempts to combine stability and speed. Nanokernel An extremely small kernel → mainly interrupt handling and only minimal functionality. Example: some embedded systems. Exokernel (experimental approach) The OS kernel provides direct access to hardware rather than high-level abstractions → applications build their own abstractions. Highly flexible, but complex for developers. Example: MIT Exokernel project."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-25",
+    "href": "lectures/lecture-03.html#section-25",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Operating-System Architectures\nClassical: Monolithic system – everything runs in one large kernel (e.g. early UNIX). Layered system – a well-structured OS divided into layers (e.g. THE system). Virtual machine – hardware virtualization allowing multiple independent operating systems (e.g. IBM VM/370). Exokernel – minimal kernel for resource allocation; abstractions implemented in user space (MIT project). Microkernel – only core functions in the kernel; other services in user space (e.g. MINIX 3, QNX).\nModern: Hybrid kernel – microkernel principles, but many modules run in kernel mode for performance (e.g. Windows NT, macOS). Container-based isolation – an OS feature (Linux namespaces, cgroups), used in modern virtualization. Cloud/distributed OS – managing resources across a cluster or cloud (e.g. Kubernetes as a “cluster OS”)."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-26",
+    "href": "lectures/lecture-03.html#section-26",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – System Calls\nA user program cannot access hardware directly; instead, it asks the OS to perform operations through system calls.\nMain areas: process management, file management, I/O, memory, communication and protection. Role Security: the kernel checks whether the call is authorized. Abstraction: the program does not need to know hardware details. Consistent interface: all programs access OS functions in the same way."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-27",
+    "href": "lectures/lecture-03.html#section-27",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Basic Concepts – User Mode and Kernel Mode\nUser mode User programs run in user mode. Restricted access: programs cannot directly access hardware, memory, or I/O devices. For privileged operations (e.g. opening files, memory management, networking), the program uses a system call handled by the kernel. Goal: protection → faulty or malicious programs cannot crash the entire system. Kernel mode (supervisor / privileged mode) The kernel and device drivers run here. Full access to hardware, memory, and CPU instructions. This is where the core of the operating system runs. When control enters kernel mode, the OS has full privileges."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-28",
+    "href": "lectures/lecture-03.html#section-28",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Example – Windows 11 Architecture\nHybrid kernel Neither purely microkernel nor purely monolithic. Originally based on microkernel principles (NT design), but many components remained in kernel mode for performance → hence the hybrid design. Main characteristics Kernel mode: NT kernel, device drivers, memory management, scheduler. User mode: Win32 subsystem, UWP, former POSIX compatibility, .NET CLR. Subsystems: Windows provides multiple APIs for compatibility. Security model: ACLs, UAC, sandboxing, and mandatory TPM 2.0 hardware support in Windows 11. Examples of architecture layers User space: graphical interface (Explorer, UWP apps), system programs. Kernel space: hybrid NT kernel, HAL (Hardware Abstraction Layer), drivers."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-29",
+    "href": "lectures/lecture-03.html#section-29",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Example – Linux Architecture\nCharacteristics Monolithic kernel, but dynamically extensible through kernel modules. User space and kernel space are clearly separated. Device drivers and file systems are part of the kernel and can be loaded as modules. Hardware abstraction (device drivers, architecture-specific code). Supports containers (namespaces, cgroups) and virtual machines (KVM)."
+  },
+  {
+    "objectID": "lectures/lecture-03.html#section-30",
+    "href": "lectures/lecture-03.html#section-30",
+    "title": "IT Architecture – Lecture 03",
+    "section": "",
+    "text": "Example – macOS Architecture\nCharacteristics UNIX-based (POSIX-compatible, built partly on BSD). Hybrid kernel: XNU (X is Not Unix). Microkernel elements: Mach (process management, IPC, memory). Monolithic elements: BSD (file system, networking, security). I/O Kit: object-oriented driver model."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section",
+    "href": "lectures/lecture-05.html#section",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "IT Architecture – Lecture 05\nOperating Systems Resource Management and Scheduling I/O Management and Scheduling"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-1",
+    "href": "lectures/lecture-05.html#section-1",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Main Functions of the Operating System (review)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-2",
+    "href": "lectures/lecture-05.html#section-2",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Concept of a Resource\nResources are hardware and software components that the operating system makes available to processes so they can perform their tasks.\nTypes: Physical resources: CPU, memory, secondary storage, network interface, peripherals Logical resources: files, ports, threads, mutexes, signals Virtual resources: VMs, containers, cloud services (e.g. virtual CPU, storage) Characteristics: They are managed by the operating system A resource may be: Static or dynamic Shared or exclusive Divisible or non-divisible"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-3",
+    "href": "lectures/lecture-05.html#section-3",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Resource Scheduling\nResource scheduling is the process by which the operating system decides which process may use a given resource, in what order, and for how long.\nProblem: Available resources are usually limited\nGoals: Efficient use of resources Fair allocation of resources among processes Avoiding and resolving conflicts\nNote: In a broader sense, resource scheduling also includes assigning cloud storage, compute, and network capacity to virtual machines and containers."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-4",
+    "href": "lectures/lecture-05.html#section-4",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Resource Scheduling – Examples\nCPU scheduling Deciding which process gets the CPU and for how long. Goal: efficient CPU utilization, fast response time, fairness. Algorithms: FCFS, SJF, RR, priority scheduling, multilevel queue, etc. I/O scheduling – see later slides Determines the order of access to I/O devices. Goal: minimize waiting time and head movement, optimize I/O transfer. Algorithms: FCFS, SSTF, SCAN, C-SCAN, LOOK (hard disks) Modern aspect: SSD scheduling (Linux, Windows) Memory-resource scheduling – see later lectures Managing which processes and pages reside in memory. Goal: efficient memory use and minimizing paging operations. Algorithms: page replacement – FIFO, LRU, CLOCK, NRU, etc. Modern aspect: NUMA-aware scheduling, virtual memory, memory ballooning Other scheduling – partly covered in later lectures Network-resource scheduling (QoS, bandwidth allocation) Energy-resource scheduling (DVFS, power-aware CPU control) Cloud and container scheduling (e.g. Kubernetes)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-5",
+    "href": "lectures/lecture-05.html#section-5",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Resource Allocation\nThe process by which the operating system assigns limited resources (e.g. CPU, memory, I/O devices) to competing processes so they can perform their tasks.\nResource-allocation lifecycle\nProcesses request, use, and then release resources. The OS is responsible for: Tracking who is using what Approving or denying requests Ensuring that deadlocks do not occur"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-6",
+    "href": "lectures/lecture-05.html#section-6",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Resource Allocation Graph\nA resource allocation graph is a directed graph showing how processes and resources are connected: which process holds which resource and which resource it is waiting for.\nStructure Nodes: Processes (P₁, P₂, …) → shown as circles Resources (R₁, R₂, …) → shown as squares Edges (directed arrows): P → R: the process requests the resource R → P: the resource is assigned to the process Characteristics The graph changes dynamically as resources are requested and released. A cycle in the graph indicates a potential deadlock.\nResource Allocation Graph (RAG) – GeeksforGeeks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-7",
+    "href": "lectures/lecture-05.html#section-7",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Concept of Deadlock\nConditions for deadlock: Mutual exclusion: at least one resource can be used by only one process at a time. Hold and wait: a process requests new resources while holding others and not releasing them. No preemption: the operating system cannot forcibly take away an allocated resource. Circular wait: processes wait for one another in a cycle. Management strategies: prevention, avoidance (e.g. Banker’s algorithm), detection and recovery.\nA deadlock occurs when processes mutually wait for resources held by one another.\nIntroduction of Deadlock in Operating System – GeeksforGeeks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-8",
+    "href": "lectures/lecture-05.html#section-8",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Dining Philosophers Problem\nThe problem models synchronization issues, deadlock, and starvation. Five philosophers sit around a table, with five forks (resources) between them. Each philosopher needs both adjacent forks to eat. If everyone picks up the left fork at the same time → deadlock. Solutions: resource ordering, asymmetric strategy, synchronization (mutex, semaphore).\nDining Philosopher Solution using Semaphores – GeeksforGeeks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-9",
+    "href": "lectures/lecture-05.html#section-9",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Dining Philosophers Problem (cont.)\nWhat does the diagram show? Resource sharing Multiple processes (the philosophers) try to use shared, limited resources (the forks). Deadlock If every philosopher picks up the left fork and waits for the right one, nobody can eat → a classical deadlock situation. The conditions for deadlock are satisfied Starvation A slower-reacting philosopher may be excluded from eating\nDining Philosopher Solution using Semaphores – GeeksforGeeks"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-10",
+    "href": "lectures/lecture-05.html#section-10",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Solving the Dining Philosophers Problem\nResource ordering Each fork receives a number (e.g. 1–5). Each philosopher always picks up the forks in the same order: first the lower-numbered one, then the higher-numbered one. Result: circular wait cannot occur → no deadlock. However, starvation may still occur if someone is always served late. Introducing a waiter (or monitor) Introduce a central controller (e.g. waiter/monitor) who allows only philosophers who can safely eat to pick up forks (i.e. both forks are free). A philosopher asks the waiter for permission to eat. → No deadlock, because the waiter does not allow everyone to proceed at once. → No starvation either if the waiter uses fair scheduling (e.g. FIFO)."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-11",
+    "href": "lectures/lecture-05.html#section-11",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Solving the Dining Philosophers Problem\nAsymmetric strategy (odd-even rule) Even-numbered philosophers pick up the left fork first; odd-numbered ones pick up the right fork first. Result: circular wait is broken → no deadlock. Starvation may still occur if the order does not change dynamically. Using synchronization primitives (semaphore / mutex) Each fork is represented by a mutex (lock). Philosophers request a fork with wait() and release it with signal(). Add a limiting semaphore that allows at most four philosophers to try at the same time. → This guarantees that at least one fork remains free. → no deadlock and less starvation."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-12",
+    "href": "lectures/lecture-05.html#section-12",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Banker’s Algorithm\nThe OS grants a resource request only if the system remains in a safe state. Concepts related to the algorithm: Available: shows how many resource instances are not allocated to any process. Allocation: shows how many resources each process currently holds. Need: the number of resources still required by a process (maximum − allocated). Request: the process’s current request to the OS. Safe sequence: an execution order in which every process can complete without deadlock. The system behaves like a banker: it grants a loan only if repayment is guaranteed. (Client: process; loan: request; already granted loan: allocation; remaining credit needed: need; cash in the bank: available; safe lending: safe sequence)\nThe Banker’s algorithm is Dijkstra’s deadlock-avoidance method."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-13",
+    "href": "lectures/lecture-05.html#section-13",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "The Banker’s Algorithm\nThe OS grants a resource request only if the system remains in a safe state. Concepts related to the algorithm: Available: shows how many resource instances are not allocated to any process. Allocation: shows how many resources each process currently holds. Need: the number of resources still required by a process (maximum − allocated). Request: the process’s current request to the OS. Safe sequence: an execution order in which every process can complete without deadlock.\nThe Banker’s algorithm is Dijkstra’s deadlock-avoidance method."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-14",
+    "href": "lectures/lecture-05.html#section-14",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – Example\nClaim:\nSafe sequence: P2 → P4 → P1 → P3 → P5\nImportant:\nThe algorithm is not deterministic Several safe sequences may exist Modern operating systems do not use this exact algorithm, but they do use its principles\nGiven three resources (R1, R2, R3) and five processes (P1, P2, P3, P4, P5) Number of available resources: Available = (3, 3, 2) The current state is shown in the table below Is there a safe sequence for satisfying the requests?\nInitial state"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-15",
+    "href": "lectures/lecture-05.html#section-15",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – P2 completes\nAvailable: (3, 3, 2) P2 Need = (1,2,2) ≤ Available (3,3,2) ✅ Therefore P2 runs, completes its work, and releases its allocated resources: (2,0,0) New Available = (3,3,2) + (2,0,0) = (5,3,2)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-16",
+    "href": "lectures/lecture-05.html#section-16",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – P4 completes\nAvailable: (5, 3, 2) P4 Need = (0,1,1) ≤ Available (5,3,2) ✅ It releases its Allocation = (2,1,1) resources. New Available = (5,3,2) + (2,1,1) = (7,4,3)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-17",
+    "href": "lectures/lecture-05.html#section-17",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – P1 completes\nAvailable: (7, 4, 3) P1 Need = (7,4,3) ≤ Available (7,4,3)✅ It releases its Allocation = (0,1,0) resources. New Available = (7,4,3) + (0,1,0) = (7,5,3)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-18",
+    "href": "lectures/lecture-05.html#section-18",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – P3 completes\nAvailable: (7, 5, 3) P3 Need = (6,0,0) ≤ Available (7,5,3) ✅ It releases its Allocation = (3,0,2) resources. New Available = (7,5,3) + (3,0,2) = (10,5,5)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-19",
+    "href": "lectures/lecture-05.html#section-19",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Banker’s Algorithm – P5 completes (end)\nAvailable: (10, 5, 5) P5 Need = (4,3,1) ≤ Available (10,5,5) ✅ It releases its Allocation = (0,0,2) resources. New Available = (10,5,5) + (0,0,2) = (10,5,7)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-20",
+    "href": "lectures/lecture-05.html#section-20",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Prevention\nPreventing mutual exclusion Use shared resources where possible (e.g. concurrent reading of read-only files). Preventing hold and wait: Some systems allocate resources in advance or allow requests only if the process requests everything at once. Preventing no-preemption: Some OS components allow resources to be reclaimed (e.g. from an interrupted process). Preventing circular wait: The kernel enforces a fixed order for locking resources (e.g. lower ID → higher ID).\nThe goal is to prevent the four deadlock conditions from holding simultaneously"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-21",
+    "href": "lectures/lecture-05.html#section-21",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Detection and Recovery\nThe kernel or scheduler periodically scans the process list. If circular resource waiting is detected, one process is terminated or restarted. Timed locks: if a lock is not released within a given time, the waiting process receives a timeout error and can roll back, retry, or abort the operation. OS developers and drivers use deadlock-resistant patterns: hierarchical lock ordering, deadlock-free API design, synchronization primitives (mutex, semaphore, spinlock, condition variable) → these follow system-level rules, e.g. “always lock A before B.”\nThe system may allow deadlocks to occur, but periodically checks processes."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-22",
+    "href": "lectures/lecture-05.html#section-22",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock vs. Freezing\nThe program freezes: it does not respond, the cursor spins, “Not responding”. In the background, threads are waiting for one another (resource locks). The OS tries to give CPU time, but no progress occurs. After a while, the system detects the non-responsive process and offers to close it. Not every freeze is a deadlock, but every deadlock looks like a freeze."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-23",
+    "href": "lectures/lecture-05.html#section-23",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Handling in Windows\nMain principles Deadlock detection and recovery – detection and intervention. Timeout-based lock handling – if a kernel object (e.g. mutex, file lock) remains locked too long, the system interrupts the operation or issues a warning. Debugger integration – the Windows kernel (NTOSKRNL) can inspect locks with commands such as !locks and !deadlock in WinDbg. Components Kernel-level synchronization: in the Windows kernel, structures such as KLOCK_QUEUE_HANDLE and ERESOURCE support lock hierarchy handling. File system (NTFS): NTFS includes a Resource Manager that can detect when two processes mutually lock files. I/O subsystem: the Windows I/O Manager uses timeouts and dependency graphs for deadlock detection. SQL Server / Exchange / IIS: built-in deadlock monitors watch transactions → if a circular dependency occurs, one transaction is automatically aborted.\nWindows does not try to prevent deadlocks globally; instead, it detects and handles them locally, component by component."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-24",
+    "href": "lectures/lecture-05.html#section-24",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Handling in Linux\nThe Linux kernel also does not try to prevent deadlocks globally; instead, it aims to make them easy to detect and eliminate.\nMain tools: Lockdep (Lock Debugging Framework): A kernel facility that monitors locking order. If two locks are acquired in opposite order → potential deadlock warning. Hung Task Detector: The kernel monitors tasks that remain blocked for too long (e.g. 120 seconds). In this case, the system writes a new entry to the log file. User-space solutions: For example, databases such as MySQL and PostgreSQL include their own deadlock detectors that analyze transaction graphs."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-25",
+    "href": "lectures/lecture-05.html#section-25",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Handling in macOS\nSimilar to Linux, but with stricter developer guidelines and GUI-level deadlock monitoring.\nAt kernel level, interprocess communication (IPC) is time-limited, so if two processes wait for each other, the kernel eventually aborts the message wait with an error. File systems (APFS, HFS+) use built-in lock hierarchies, with a deterministic locking order → deadlock prevention. The graphical user interface layer can also detect deadlock-like situations. Apple development frameworks (Cocoa, Grand Central Dispatch, POSIX threads) include built-in mechanisms to help prevent deadlocks."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-26",
+    "href": "lectures/lecture-05.html#section-26",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Deadlock Handling in Mobile Operating Systems\nIf an app enters a deadlock, the system usually does not try to recover it; it terminates it. Preserving the user experience is the primary goal.\n🍎 iOS: Mach-based kernel, time-limited IPC. Grand Central Dispatch → automatic thread management. Main-thread watchdog (termination after 20 seconds). Deadlock = immediate app termination. 🤖 Android: Linux kernel + Binder IPC. ANR detector monitors the main thread (5 seconds). User choice: Wait or Close app."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-27",
+    "href": "lectures/lecture-05.html#section-27",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "I/O Management\nI/O management is the part of the operating system that: detects, controls, and communicates with peripherals (e.g. disk, printer, network, mouse, etc.), ensures that processes access devices in a uniform way,\nMain tasks: Managing device drivers – the OS communicates with each device through them. Buffering, spooling, caching – optimizing I/O operations through memory use. Providing an interface to processes (system calls such as read() and write()). Interrupt handling, DMA, error handling."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-28",
+    "href": "lectures/lecture-05.html#section-28",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "I/O Scheduling\nI/O scheduling is an optimization layer of I/O management: it determines the order in which I/O requests are executed (e.g. disk reads).\nTasks: Handling priorities (e.g. favouring real-time processes). Minimizing head movement (for disks). Ensuring fairness (avoid process starvation). Maintaining QoS (Quality of Service): Controlling priorities, bandwidth, and response time Achieving reliable, predictable performance"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-29",
+    "href": "lectures/lecture-05.html#section-29",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Hard-Disk Scheduling Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-30",
+    "href": "lectures/lecture-05.html#section-30",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "FCFS (First Come, First Served)\nRequests are served in the order they arrive.\nMovement: the read/write head moves linearly in the current direction. Simple but not optimal – average head movement can be high. Analogy: queuing – first come, first served. Advantage: easy to implement. Disadvantage: ignores the current head position → much unnecessary movement.\nRequests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67 Initial head position: 53 Disk size: tracks 0–199 Average head movement: 80 tracks/request"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-31",
+    "href": "lectures/lecture-05.html#section-31",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "SSTF (Shortest Seek Time First)\nAlways serves the request closest to the current head position first.\nRequests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67 Initial head position: 53 Disk size: tracks 0–199 Average head movement: 29.50 tracks/request\nGoal: minimize head movement distance. Improves average access time, but… May cause starvation (distant requests may wait a long time). Advantage: better performance than FCFS. Disadvantage: not fair; inner areas of the disk may receive priority."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-32",
+    "href": "lectures/lecture-05.html#section-32",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "SCAN (Elevator Algorithm)\nThe head moves like an elevator: it moves in one direction, serves all requests, then reverses direction.\nRequests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67 Initial head position: 53 Disk size: tracks 0–199 Average head movement: 41.38 tracks/request\nMore even service across positions. Also known as the elevator algorithm. Advantage: stable, little starvation. Disadvantage: requests near the outer tracks may wait slightly longer."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-33",
+    "href": "lectures/lecture-05.html#section-33",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "C-SCAN (Circular SCAN)\nThe head moves in only one direction, then jumps back to the beginning (circularly).\nRequests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67 Initial head position: 53 Disk size: tracks 0–199 Average head movement: 47.75 tracks/request\nGoal: uniform waiting time for all requests. New requests are served in the next pass. Advantage: uniform and predictable response time. Disadvantage: the return jump is dead time and does not serve requests."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-34",
+    "href": "lectures/lecture-05.html#section-34",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "LOOK Algorithm\nThe head moves only as far as there are requests in the current direction, then immediately reverses (it does not go to the disk edge).\nRequests (track numbers): 98, 183, 37, 122, 14, 124, 65, 67 Initial head position: 53 Disk size: tracks 0–199 Average head movement: 37.38 tracks/request\nAn improved version of SCAN It “looks” ahead and moves only as far as necessary. Advantage: shorter head movement than SCAN/C-SCAN. Disadvantage: more complex to implement than FCFS or SSTF."
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-35",
+    "href": "lectures/lecture-05.html#section-35",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "Comparison of Hard-Disk Scheduling Algorithms"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-36",
+    "href": "lectures/lecture-05.html#section-36",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "SSD Scheduling\nFor SSDs, I/O scheduling focuses on parallelism and reducing latency.\nNo mechanical movement All blocks have similar access time, so requests do not need to be optimized by track position (unlike SSTF, SCAN, LOOK). Traditional HDD algorithms (SCAN, C-SCAN, SSTF) provide no benefit for SSDs. Goals for SSDs Maximize IOPS (Input/Output Operations per Second) Maintain low latency Wear leveling – distribute writes evenly across cells Parallel I/O: reading/writing through multiple channels Queue-depth optimization (using NCQ / NVMe queues)"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-37",
+    "href": "lectures/lecture-05.html#section-37",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "SSD Scheduling – Linux\nThe Linux kernel provides several I/O schedulers for SSDs.\nNoop Simple FIFO-based queue No reordering; ideal for SSDs mq-deadline:\nDeadline + multiqueue Low latency, suitable for real-time systems none (or none-mq): No scheduling For NVMe SSDs, when firmware performs the optimization kyber\nQoS-oriented, latency-based Good balance between IOPS and latency"
+  },
+  {
+    "objectID": "lectures/lecture-05.html#section-38",
+    "href": "lectures/lecture-05.html#section-38",
+    "title": "IT Architecture – Lecture 05",
+    "section": "",
+    "text": "SSD Scheduling – Windows\nFor SSDs, Windows automatically switches to a hardware-dependent, queue-based mode.\nCharacteristics: The Windows Storage Stack detects SSDs (Trim and NVMe support). Classical HDD-optimized algorithms are not active for SSDs. For SSDs, the Windows I/O scheduler (part of the kernel): does not perform seek optimization, handles NCQ / NVMe queues (parallel processing), supports Storage QoS (in Hyper-V and Server editions). Important services: Trim – prepares deleted blocks for rewriting. Native NVMe scheduling with multiple queues (queue depth up to 64k). Windows Storage Spaces – virtualized storage with QoS-controlled I/O."
+  }
+]

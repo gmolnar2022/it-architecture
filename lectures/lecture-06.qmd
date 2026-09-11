@@ -1,0 +1,568 @@
+---
+title: "IT Architecture – Lecture 06"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-06/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 06
+
+1
+
+Operating Systems
+Memory Management
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Main Functions of the Operating System (review)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory Management
+
+Its goal is to provide safe, isolated, and efficient memory use for every running process.
+
+Typical tasks:
+Memory allocation: assigning memory to programs and processes during execution.
+Relocation: mapping a program's logical addresses to physical memory addresses.
+Protection mechanisms: preventing a process from accessing another process's or the OS's memory.
+Memory deallocation: releasing and reusing memory that is no longer needed.
+Address translation: converting logical (virtual) addresses to physical addresses using the MMU.
+Virtual memory management: extending physical memory with secondary storage so larger programs can run.
+Efficiency: optimizing memory utilization (page replacement, caching, reducing fragmentation).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory Management – Historical Overview
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Fixed Addressing (1950s)
+
+Initially, only one program resided in memory
+
+Programs used fixed addresses
+Only one program could run at a time
+To run another program, the current one had to be written to secondary storage (swapping)
+
+Advantage: simple and suitable for batch systems
+Disadvantage: poor memory utilization and no protection
+
+The program could use the entire physical memory
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Relative Addressing – Static Allocation (early 1960s)
+
+Allowed multiple programs to reside in memory if they fit
+
+When loading programs, the OS added a fixed offset to addresses (programs remained tied to a location)
+Programs contain relative addresses
+The actual address is formed from the relative address plus the offset
+Programs that did not fit in memory waited on secondary storage
+The OS swapped programs between memory and secondary storage
+
+Advantages: better memory utilization and easier programming
+Disadvantages: more complex implementation, handling multi-part programs, lack of protection
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Relative Addressing – Dynamic Allocation (mid-1960s)
+
+Base and limit registers were added to hardware, enabling dynamic address translation.
+
+For each memory access, the physical address is the logical address plus the base register.
+The limit register prevented a program from accessing other processes' memory.
+Programs could therefore be relocated during execution
+Programs received their own address spaces and no longer saw all physical memory
+Basic memory protection was achieved
+Address translation became hardware-supported (a predecessor of the MMU – Memory Management Unit)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Partitioned Systems (early/mid-1960s)
+
+Memory was divided into fixed- or variable-size partitions.
+
+Fixed partitions: simpler, but cause internal fragmentation when a program is smaller than its partition
+Variable partitions: more flexible, but may cause external fragmentation when gaps remain between partitions
+The OS became responsible for tracking and managing free memory areas
+
+Physical address = 
+Base address (partition address) + Logical address (offset)
+
+Management techniques: bitmap, linked list
+Algorithms: first fit, next fit, best fit, worst fit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Segmentation (around 1970)
+
+A program's logical units can be organized into separate segments (code, data, stack, etc.).
+
+Each segment has its own base and limit values.
+Hardware support (segment-table management; segment registers: CS, DS, SS, ES)
+Permissions can be assigned to segments
+Segments can be shared
+Internal fragmentation is eliminated, but external fragmentation remains
+Can be combined with paging (see next slide)
+
+12.7: Segmentation - Engineering LibreTexts
+
+Logical address = (segment identifier, offset)
+Physical address = base + offset
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Paging (early 1970s)
+
+Memory and programs are divided into equal-sized pages and frames.
+
+Page sizes were initially 4 KB or 8 KB, later up to 2 MB
+Permissions can be assigned to pages
+Goal: eliminate external fragmentation and enable more flexible memory management
+The program uses a contiguous address space, while pages may be scattered in physical memory
+Address translation uses a page table, which can become very large
+
+Logical address = [page identifier | offset]
+Physical address = frame address + offset
+
+Operating System - Memory Management
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Page Tables and Their Implementation
+
+Concept
+A page table maps virtual addresses to physical addresses.
+Each process has its own virtual address space.
+Address translation is performed by the MMU (Memory Management Unit), often accelerated by a TLB.
+Implementation
+Single-level page table (per process)
+Multilevel page table (multilevel index)
+Hashed page table (lookup using a hash function)
+Inverted page table (stores information about physical frames in one shared table)
+
+OS - 2.6 (MV) (6) Multi-Level Page Tables
+
+Hashed Page Tables in 
+Operating System 
+- GeeksforGeeks
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Virtual Memory (mid-1970s)
+
+The entire program does not need to be in memory – only currently used pages are loaded.
+The MMU (Memory Management Unit) performs address translation; the OS manages page replacement
+From the 1980s onward, the MMU became integrated into the CPU
+If a page is not in memory, a page fault occurs and the OS loads it from disk.
+Internal fragmentation may occur
+The apparent memory can be much larger than physical memory.
+
+9_05_PageTable.jpg (720×699)
+
+Physical address = (frame address × page size) + offset
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Modern Memory Management 
+(from the 1980s)
+
+Combines paging, segmentation, and virtual memory management
+
+Based primarily on paging with fixed-size blocks
+Address translation is performed by the MMU and accelerated by the TLB (Translation Lookaside Buffer)
+Memory protection is especially important
+Some pages reside in RAM, while others are on secondary storage (virtual memory)
+Segmentation has become less important and today mainly appears logically at the programming level
+Various optimization techniques appeared:
+Prefetching: loading pages in advance
+Memory compaction: reducing fragmentation
+Modern page-replacement algorithms
+Larger pages to improve TLB efficiency
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Windows 11 – Memory Management
+
+Characteristics
+Fully paged virtual-memory system
+Each process has its own address space.
+Page size: 4 KB (normal), 2 MB / 1 GB (large pages).
+Paging file (pagefile.sys)
+Stores infrequently used pages on secondary storage.
+Copy-on-Write support
+When a process creates a new instance of itself, the OS does not copy pages immediately; copying occurs only when one instance writes to them.
+Memory compression (since Windows 10)
+Separation of kernel and user address spaces – protected kernel memory.
+Main components
+Memory Manager (ntoskrnl.exe)
+Page Frame Number (PFN) Database – tracks RAM pages
+Working Set Manager – determines which pages remain in RAM
+Standby and Free Lists – manage available pages
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Linux – Memory Management
+
+Characteristics
+Full virtual memory; each process has its own 64-bit address space.
+Demand paging: only pages actually used are loaded.
+Page size: 4 KB (x86_64); huge pages: 2 MB, 1 GB.
+Swap partition/file
+Copy-on-Write
+mmap (memory mapping): a system call that maps a file or device into a process's virtual memory
+Shared memory: fast data exchange between processes without files
+NUMA support: with multiple CPUs, processes are placed on or near the CPU associated with their memory
+Transparent Huge Pages (THP): using larger pages when appropriate
+Components:
+MMU, TLB – hardware address translation
+Kernel Memory Manager (mm/)
+Page Cache – file cache
+OOM Killer – terminates processes when memory is exhausted
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+macOS – Memory Management
+
+Characteristics
+Mach-based virtual-memory system.
+Page size: 4 KB
+Compressed Memory – inactive pages are compressed in RAM.
+Unified Buffer Cache – shared file and memory cache.
+Copy-on-Write support
+Dynamic Pager (swapfile)
+
+Components:
+MMU, TLB – hardware address translation
+Kernel Memory Manager (mm/)
+Page Cache – file cache
+OOM Killer – terminates processes when memory is exhausted
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Mobile vs. Desktop OS Memory Management
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Page-Replacement Algorithms
+
+If a new page must be loaded and no free frame remains, the OS must select a page to replace.
+
+Steps:
+A program accesses a page not in memory (page fault) → page replacement
+The OS must load the page from secondary storage.
+If there is no free space in RAM, it must choose which existing page to evict.
+The new page replaces the selected page.
+If the page was modified, it must first be written to disk.
+If it was not modified, it can simply be discarded.
+Major page-replacement algorithms:
+FIFO, Optimal, LRU, LFU, Second Chance, NRU
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+FIFO Algorithm
+
+Characteristics:
+Simple queue-based implementation.
+Advantage: easy to implement, low overhead.
+Disadvantage: Belady's anomaly – more memory (frames) does not always reduce page faults.
+
+Example:
+3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.
+
+Replaces the page that has been in memory the longest.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Optimal Algorithm
+
+Characteristics:
+Cannot be implemented in real time
+Can serve as a reference for other algorithms
+
+Example:
+3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.
+
+Always replaces the page whose next use is farthest in the future (theoretical
+ optimum).
+
+Step-by-step operation
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+LRU (Least Recently Used) Algorithm
+
+Characteristics:
+Assumes that recently used pages are likely to be used again.
+Used in modified/approximate forms by Linux and Windows
+A good practical approximation of the optimal algorithm.
+Disadvantage: more expensive to implement (requires timestamps or a stack).
+
+Replaces the least recently used page.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+LFU (Least Frequently Used) Algorithm
+
+Characteristics:
+Assumes that infrequently used pages are unlikely to be needed later.
+Disadvantage: aging problem – old pages may remain because of past usage counts.
+Less commonly used in general-purpose operating systems.
+
+Example:
+3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.
+
+Removes the least frequently used page.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Second Chance (Clock) Algorithm
+
+Characteristics:
+If R=1 → reset it and skip the page;
+If R=0 → replace the page.
+Fast; approximates LRU.
+Implementation: circular buffer (clock hand).
+
+
+Example:
+3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.
+
+FIFO-based, but each page gets a “second chance” using an R-bit.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+NRU (Not Recently Used) Algorithm
+
+Characteristics:
+Classifies pages into four categories:
+(1) not referenced, not modified;
+(2) not referenced, modified;
+(3) referenced, not modified;
+(4) referenced, modified.
+Always selects a page from the lowest available category.
+Simple, fast approximation of LRU.
+
+Example:
+3 frames; page-reference string: 7,0,1,2,0,3,0,4,2,3.
+
+Uses R (referenced) and M (modified) bits.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of Page-Replacement Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Page Replacement in Windows
+
+LRU approximation using multiple lists and adaptive page-fault monitoring
+
+Basic principle: an LRU variant using several lists:
+Active list: recently used pages
+Standby list: older pages still in memory
+Modified list: modified pages not yet written out
+Free/Zeroed list: free or zeroed pages
+The page-replacement approach can be viewed as combining Clock-Pro/LRU-like ideas.
+The Windows Working Set Manager manages each process's working set:
+removes pages from the working set under memory pressure,
+can return them if they are needed again.
+It also monitors page-fault frequency (PFF).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Page Replacement in Linux
+
+LRU-based, two-list, adaptive page replacement
+
+Basic principle: two-list LRU-style implementation.
+Active list – recently used pages
+Inactive list – older pages; replacement candidates are selected here
+Both may contain:
+anonymous pages (e.g. heap, stack)
+page-cache pages (files, mmap, etc.)
+During page reclaim, pages are evicted from the Inactive list.
+The kernel uses Clock/Enhanced Second Chance-like techniques:
+pages have referenced and dirty flags (R/M-like bits),
+pages move between active and inactive lists over time.
+Additional modern features:
+kswapd daemon – monitors memory pressure and reclaims pages in the background,
+zswap / zram – compressed-memory techniques used before or instead of disk swap.
+NUMA awareness – preference for process-local, CPU-near memory.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Page Replacement in macOS/iOS
+
+Two-list LRU-style management + memory compression + priority-based memory
+ handling.
+
+In the XNU kernel, page-management logic includes BSD-derived concepts:
+Inactive queue + Active queue, LRU-style management.
+In modern macOS:
+Compressed Memory first tries to compress inactive pages before using disk-backed swap.
+Memory is managed with process/task priorities in mind (e.g. foreground vs. background work).
+iOS uses Jetsam/memorystatus mechanisms to terminate low-priority apps under memory pressure.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-06/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of Page Replacement in Modern Operating Systems
+:::
+

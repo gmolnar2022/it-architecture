@@ -1,0 +1,612 @@
+---
+title: "IT Architecture – Lecture 03"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-03/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 03
+
+Operating Systems
+Introduction
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we cover?
+
+Operating Systems
+Historical Overview
+Basic Concepts
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical Overview – First Generation
+
+No operating system yet – the open-shop era
+Machine-code programming
+Plugboards, later punched cards
+Single-tasking operation
+The programmer also operated the computer
+Queuing for machine time
+
+Problems: time-consuming, inefficient, no protection mechanisms
+
+Plugboard (IBM 1401) – HubPages
+
+Punched card
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical Overview – Second Generation
+
+A dedicated operator ran the computer – closed-shop model
+The operator collected programmers' punched cards
+Their contents were copied to magnetic tape
+Jobs were grouped into batches and executed (batch processing)
+Output was written to magnetic tape and then printed
+By the end of the era, a program took over the operator's role (Monitor, e.g. GM-NAA I/O)
+Advantage: better resource utilization. 
+Disadvantages: still single-tasking, long waiting times
+
+Image source: Andrew S. Tanenbaum – Modern Operating Systems
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical Overview – Third Generation
+
+The first operating systems appeared (OS/360)
+Multiprogramming – multiple programs in memory
+Spooling systems – I/O operations overlap with program execution
+Time-sharing systems – CPU time was divided into slices; terminals appeared
+Advantages: higher efficiency, user-friendly, interactive. 
+Disadvantages: greater hardware requirements, more complex systems
+
+Time-Sharing Operating System – GeeksforGeeks
+
+Multiprogramming
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical Overview – Fourth Generation
+
+Emergence of modern operating systems
+Multitasking – one user running multiple programs
+Multiuser – multiple users at the same time
+Widespread use of network and real-time operating systems
+Emergence of graphical user interfaces (GUI)
+Security and protection – user isolation, permissions, access control
+Virtual memory – secondary storage used as an extension of main memory
+
+Advantages: usability, networking, standardization
+Disadvantages: complexity, resource requirements, vulnerabilities
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical Overview – Fifth Generation
+
+Today's operating systems
+Parallel and distributed systems → clusters, grid computing, shared resource management across multiple computers.
+Network and Internet integration → networking (e.g. TCP/IP) is a core part of the OS.
+Mobile and embedded operating systems → Android, iOS, RTOS solutions.
+Virtualization and containers → multiple virtual machines and containers on one physical system.
+Security and access control → encryption, sandboxing, permission management.
+Intelligent, self-adaptive operation → AI-based resource optimization, power management, predictive scheduling.
+Cloud-oriented operating systems → designed for entire infrastructures rather than a single computer (e.g. container and VM management systems).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What Is an Operating System?
+
+An operating system is a collection of programs that manages computer resources and interacts with users.
+
+Hardware provides the computer's physical resources (CPU, memory, secondary storage, network, peripherals).
+The operating system controls and manages these resources and provides a secure, consistent environment for running programs.
+Applications access hardware through the operating system, so they do not need to communicate directly with physical devices.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Typical Functions of Operating Systems
+
+Process management and scheduling – controlling running programs and enabling multitasking.
+Memory management – allocating memory to programs and protecting against invalid access.
+File-system management – managing files and directories and providing access to them.
+I/O device management – handling keyboards, monitors, printers, network adapters, etc.
+User interface – providing a command-line or graphical environment.
+Protection and security – access control and permission management.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Optional Functions of Operating Systems
+
+Network services – communication protocols and network connectivity.
+Virtual-machine and container management – isolated execution environments.
+User and workgroup management – for example, on server systems.
+Built-in applications and utilities – e.g. text editors and media players.
+Power management – especially on mobile devices.
+Special security features – encryption, firewall, antivirus protection.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Classification of Operating Systems – Classical Categories
+
+Mainframe operating systems – run on mainframes and manage very large resources (e.g. IBM z/OS).
+Server operating systems – provide network services to many clients (e.g. Windows Server, Linux server distributions).
+Multiprocessor operating systems – run on multi-CPU or multicore systems and are optimized for parallel processing.
+Personal-computer operating systems – desktop and laptop systems with user-friendly interfaces (e.g. Windows 11, macOS, desktop Linux).
+Handheld-device operating systems – mobile phones, PDAs, tablets (e.g. Android, iOS).
+Embedded operating systems – specialized hardware (e.g. cars, routers, IoT devices; often Linux variants or an RTOS).
+Sensor-network operating systems – for small, resource-constrained sensors (e.g. TinyOS, Contiki).
+Real-time operating systems (RTOS) – provide guaranteed response times in industrial, military, or medical systems (e.g. VxWorks, QNX).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Classification of Operating Systems – New Categories
+
+Cloud-oriented operating systems
+Foundation for virtual machines and services
+Examples: ChromeOS, Azure Sphere, AWS Firecracker
+Container-focused operating systems
+Minimal systems optimized for running containers
+Examples: CoreOS, RancherOS, k3OS
+Edge/IoT-specific operating systems
+For small, resource-constrained devices
+Examples: RIOT OS, Zephyr, TinyOS
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Operating Systems – The Role of Unix
+
+Adaptable
+Unix was originally developed in the 1960s–70s at AT&T Bell Labs.
+It was small, portable, and modular → easy to adapt to different hardware.
+As a result, it spread rapidly in universities and research environments.
+
+Standard-setting. Unix introduced concepts still used today:
+file-system hierarchy (/usr, /bin, etc.),
+the “everything is a file” principle (files can represent devices, processes, text),
+pipes, processes, and permissions.
+Unix formed the basis of the POSIX standard → it still shapes Linux, macOS, and many other operating systems.
+
+A common ancestor. Many modern operating systems descend from Unix or Unix-like systems:
+Linux (a Unix-like system in the free/open-source tradition).
+BSD systems (FreeBSD, NetBSD, OpenBSD; later forming part of the basis of macOS).
+Android is also based on the Linux kernel.
+This is why Unix is often called a “common ancestor” → its philosophy remains present in many modern operating systems, even when the code is different.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Process
+
+A process is a program in execution. It includes the program code, data, and execution state.
+
+Each process has an address space, registers, open files, and resources
+The OS records process states in the process table
+Scheduling: the OS can suspend and resume a process
+Process tree: parent and child processes, cooperation, and IPC (Interprocess Communication)
+Signals: handling asynchronous events (e.g. timer, error)
+Each process is associated with a user (UID, GID)
+
+Process tree
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Process States
+
+Possible states:
+New – the process is being created.
+Ready – the process is ready to run and waiting for CPU time.
+Running – the process is currently executing on the CPU.
+Waiting / Blocked – the process cannot run because it is waiting for an event (e.g. completion of an I/O operation).
+Terminated – the process has finished and the OS releases its resources.
+
+Special states:
+Suspended / Stopped – the process is not running but can be resumed.
+Zombie – the process has finished, but its parent has not yet collected its status → an entry remains in the process table.
+Orphan – the parent has terminated, but the child process continues running
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Process states
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Process Control Block
+
+The Process Control Block (PCB) is an OS data structure containing all information required to manage a process.
+
+Contents
+Identifiers: PID (Process ID), user ID (UID), group ID (GID)
+State: current process state (Running, Ready, Waiting, …)
+Registers: saved program counter, stack pointer, and CPU registers
+Memory information: address space, page or segment tables
+Files and resources: list of open files, I/O connections
+Scheduling data: priority, CPU time, quotas
+
+Role
+The OS uses PCBs to track and manage processes.
+If the scheduler suspends a process, the PCB stores its complete state → execution can later resume exactly where it stopped.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Threads
+
+A thread is an execution unit within a process.
+
+Threads share the process resources (address space, files).
+Each thread has its own program counter, stack, and registers
+The operating system provides thread management and scheduling.
+Types: kernel threads – managed by the OS; user threads – implemented by libraries rather than directly by the OS
+Relationship: process = resources + threads that execute the program.
+Threads are lighter-weight than processes (faster context switching).
+Concurrency: multiple threads can run within one process (e.g. in a browser, one thread downloads while another renders).
+Efficient on multicore processors: threads can execute truly in parallel.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Address Spaces
+
+An address space is the range of memory a process can use.
+
+It consists of addresses ranging from 0 to a maximum value.
+It determines which memory a process can access
+Address spaces prevent processes from accessing each other's memory (isolation, protection)
+An address space contains:
+program code (instructions),
+program data (variables, global data),
+the stack (function calls, local variables).
+Modern applications: sandboxing, virtualization, containers
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Files
+
+A file is a named unit of data maintained by the operating system for persistent storage and management.
+
+It may contain text, binary data, program code, images, video, etc.
+It exists within a namespace (file system, directories).
+Files have metadata (size, creation time, permissions).
+The OS provides access → read, write, delete, append.
+
+Modern applications:
+Files may be network-based (NFS, SMB) or distributed/object-based (HDFS, Amazon S3)
+Non-file-system storage also exists (e.g. NoSQL databases, object stores).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Input/Output
+
+I/O is the OS subsystem that manages input and output devices. It includes device-independent mechanisms and device-specific drivers.
+
+Device-independent I/O
+The OS provides general mechanisms that apply to all devices.
+Example: abstractions for opening files and reading/writing.
+Device-dependent I/O
+Handled by device drivers → each hardware device requires a specific driver.
+Example: printer or graphics-card driver.
+
+Modern applications: Plug & Play, virtual I/O in cloud VMs
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Protection
+
+The operating system is responsible for keeping data (e.g. emails, business plans, tax returns) protected and confidential.
+
+Goal: process and data isolation, permission management
+User and group identifiers (UID, GID) control access
+Superuser / Administrator with special privileges
+
+Modern applications:
+With Zero Trust, the OS must continuously verify who is running each process or establishing each network connection and whether access to the resource is authorized
+Hardware security (TPM, SGX): the OS provides the appropriate interface
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Shell
+
+Shell = command interpreter, an interface between the user and the operating system.
+
+A system program that uses OS services.
+Its role is to accept and execute commands (launch programs, invoke system calls).
+Supports I/O redirection (> and <), pipes (|), and background processes (&)
+A GUI serves a similar role → a user interface to the OS.
+The shell is often used alongside the GUI
+
+Modern applications:
+Automation and scripting (DevOps and cloud workflows)
+Managing cloud resources
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – Kernel
+
+Kernel = the core of the operating system; it directly manages hardware and provides resources to applications.
+
+Main functions (largely the core functions of the operating system)
+Process management – creating, scheduling, and terminating processes
+Memory management – virtual memory, address spaces, isolation
+File system – managing data and metadata
+I/O management – device drivers and abstracted hardware access
+Protection and permissions – access control
+Modern applications:
+Monolithic kernel – all functions in one large unit (e.g. Linux)
+Microkernel – minimal kernel; many services run in user space (e.g. MINIX, QNX)
+Hybrid kernel – combines both approaches (e.g. Windows, macOS XNU)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Kernel Types
+
+Monolithic kernel
+All major services (process management, memory management, I/O, file system, drivers) are part of the kernel.
+Fast → all functions are directly accessible.
+Disadvantage: large and complex; faults can affect the whole system.
+Microkernel
+The kernel contains only essential functions (process management, messaging, minimal memory management); other services (file system, drivers, networking) run as separate user-space processes.
+Advantage: modularity, stability, easier debugging. Disadvantage: messaging overhead can reduce performance.
+Hybrid kernel
+A middle ground: conceptually microkernel-based, but many services run in kernel mode for performance.
+Attempts to combine stability and speed.
+Nanokernel
+An extremely small kernel → mainly interrupt handling and only minimal functionality.
+Example: some embedded systems.
+Exokernel (experimental approach)
+The OS kernel provides direct access to hardware rather than high-level abstractions → applications build their own abstractions.
+Highly flexible, but complex for developers. Example: MIT Exokernel project.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Operating-System Architectures
+
+Classical:
+Monolithic system – everything runs in one large kernel (e.g. early UNIX).
+Layered system – a well-structured OS divided into layers (e.g. THE system).
+Virtual machine – hardware virtualization allowing multiple independent operating systems (e.g. IBM VM/370).
+Exokernel – minimal kernel for resource allocation; abstractions implemented in user space (MIT project).
+Microkernel – only core functions in the kernel; other services in user space (e.g. MINIX 3, QNX).
+
+Modern:
+Hybrid kernel – microkernel principles, but many modules run in kernel mode for performance (e.g. Windows NT, macOS).
+Container-based isolation – an OS feature (Linux namespaces, cgroups), used in modern virtualization.
+Cloud/distributed OS – managing resources across a cluster or cloud (e.g. Kubernetes as a “cluster OS”).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – System Calls
+
+A user program cannot access hardware directly; instead, it asks the OS to perform operations through system calls.
+
+Main areas:
+process management,
+file management,
+I/O, 
+memory,
+communication and protection.
+Role
+Security: the kernel checks whether the call is authorized.
+Abstraction: the program does not need to know hardware details.
+Consistent interface: all programs access OS functions in the same way.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Basic Concepts – User Mode and Kernel Mode
+
+User mode
+User programs run in user mode.
+Restricted access: programs cannot directly access hardware, memory, or I/O devices.
+For privileged operations (e.g. opening files, memory management, networking), the program uses a system call handled by the kernel.
+Goal: protection → faulty or malicious programs cannot crash the entire system.
+Kernel mode (supervisor / privileged mode)
+The kernel and device drivers run here.
+Full access to hardware, memory, and CPU instructions.
+This is where the core of the operating system runs.
+When control enters kernel mode, the OS has full privileges.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – Windows 11 Architecture
+
+Hybrid kernel
+Neither purely microkernel nor purely monolithic.
+Originally based on microkernel principles (NT design), but many components remained in kernel mode for performance → hence the hybrid design.
+Main characteristics
+Kernel mode: NT kernel, device drivers, memory management, scheduler.
+User mode: Win32 subsystem, UWP, former POSIX compatibility, .NET CLR.
+Subsystems: Windows provides multiple APIs for compatibility.
+Security model: ACLs, UAC, sandboxing, and mandatory TPM 2.0 hardware support in Windows 11.
+Examples of architecture layers
+User space: graphical interface (Explorer, UWP apps), system programs.
+Kernel space: hybrid NT kernel, HAL (Hardware Abstraction Layer), drivers.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-30.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – Linux Architecture
+
+Characteristics
+Monolithic kernel, but dynamically extensible through kernel modules.
+User space and kernel space are clearly separated.
+Device drivers and file systems are part of the kernel and can be loaded as modules.
+Hardware abstraction (device drivers, architecture-specific code).
+Supports containers (namespaces, cgroups) and virtual machines (KVM).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-31.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – macOS Architecture
+
+Characteristics
+UNIX-based (POSIX-compatible, built partly on BSD).
+Hybrid kernel: XNU (X is Not Unix).
+Microkernel elements: Mach (process management, IPC, memory).
+Monolithic elements: BSD (file system, networking, security).
+I/O Kit: object-oriented driver model.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-03/slide-32.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}

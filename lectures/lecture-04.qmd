@@ -1,0 +1,626 @@
+---
+title: "IT Architecture – Lecture 04"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-04/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 04
+
+Operating Systems
+Process Scheduling
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Main Functions of the Operating System (review)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What Is Process Scheduling?
+
+Process scheduling is one of the operating system's most important tasks. The OS decides which process runs, when it runs, and for how long.
+
+Principles:
+Fairness: every process should get a chance to run.
+Efficiency: keep the CPU busy.
+Fast response: interactive processes (e.g. handling keystrokes) should respond quickly.
+Reduce average turnaround time: complete jobs as quickly as possible.
+Types (levels) of scheduling:
+Long-term: which processes are admitted to memory (job scheduling).
+Medium-term: which processes the OS suspends or resumes.
+Short-term: which process gets the CPU next (CPU scheduling).
+I/O scheduling: which process gets access to an I/O device.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Scheduling Levels
+
+https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/3_Processes.html
+
+Processes are stored in a job queue.
+Ready processes are placed in a separate ready queue.
+Processes waiting for I/O are placed in separate I/O waiting queues.
+Other waiting queues may also exist.
+
+Long-term scheduler
+Medium-term scheduler
+Short-term scheduler
+I/O scheduler
+
+job pool
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Context Switching
+
+Context switching is the process by which the OS saves the state of one process and loads the state of another.
+
+Steps:
+Interrupt / scheduling event (e.g. time quantum expires, I/O request, higher-priority process).
+Save the current process state to its PCB (program counter, registers, stack pointer, memory information).
+The scheduler selects the next process from the ready queue.
+Load the next process state from its PCB.
+The CPU resumes execution with the new process.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Classification of Scheduling Algorithms
+
+Preemptive Scheduling
+A process can be interrupted before it finishes using the CPU.
+If a higher-priority process arrives or the time quantum expires, the OS takes the CPU away from the current process.
+Advantage: better response time; essential for interactive systems.
+Disadvantage: more context switches and higher overhead.
+Examples: Round Robin (RR), Shortest Remaining Time First (SRTF), preemptive priority scheduling.
+Non-preemptive Scheduling
+A process cannot be preempted: once it gets the CPU, it runs until it finishes or voluntarily releases it (e.g. for an I/O request).
+Simpler, with less overhead.
+Disadvantage: long-running processes can make shorter ones wait → longer turnaround time.
+Examples: First Come First Served (FCFS), Shortest Job First (SJF), non-preemptive priority scheduling.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Scheduling Criteria
+
+CPU utilization: keep the CPU working whenever possible.
+Throughput: number of processes completed per unit of time.
+Turnaround time: total time from arrival to completion (waiting + execution + I/O).
+Waiting time: time a process spends in the ready queue waiting for the CPU.
+Response time: in interactive systems, time from submitting a request to the first response.
+Fairness: every process should get a chance to run → avoid starvation.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Context Switching
+
+Context switching is the process by which the OS saves the state of one process and loads the state of another.
+
+Steps:
+Interrupt / scheduling event (e.g. time quantum expires, I/O request, higher-priority process).
+Save the current process state to its PCB (program counter, registers, stack pointer, memory information).
+The scheduler selects the next process from the ready queue.
+Load the next process state from its PCB.
+The CPU resumes execution with the new process.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Classical Scheduling Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Exercise
+
+Consider six processes with the following characteristics:
+P1: arrival=0, burst=8, prio=2
+P2: arrival=1, burst=3, prio=1
+P3: arrival=2, burst=6, prio=3
+P4: arrival=5, burst=4, prio=2
+P5: arrival=9, burst=2, prio=4
+P6: arrival=7, burst=5, prio=1
+where “arrival” is the arrival time, “burst” is the required CPU time, and “prio” is the process priority.
+In what order should the operating system execute the processes?
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+FCFS (First-Come, First-Served)
+
+Characteristics:
+Non-preemptive algorithm
+Easy to implement
+Fair
+Efficiency can depend heavily on process order.
+Long processes may delay shorter ones (convoy effect).
+Poor response time in interactive systems.
+
+Processes receive the CPU in order of arrival.
+
+Applications: batch systems, Windows print queues, Linux I/O queues.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – FCFS
+
+Average turnaround time: (8 + 10 + 15 + 16 + 19 + 19) / 6 = 14.5
+Average waiting time: (0 + 7 + 9 + 12 + 14 + 17) / 6 = 9.83
+Average response time: (0 + 7 + 9 + 12 + 14 + 17) / 6 = 9.83
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SJF (Shortest Job First)
+
+Characteristics:
+Non-preemptive: once a process starts, it runs to completion.
+Provides the optimal average waiting time.
+Disadvantage: requires advance knowledge of CPU burst times.
+Starvation may occur: if short processes keep arriving, long processes may never get CPU time.
+
+A scheduling algorithm that always selects the shortest available process.
+
+Application: Unix/Linux (in modified forms).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – SJF
+
+Average turnaround time: (8 + 10 + 4 + 12 + 15 + 26) / 6 = 12.50
+Average waiting time: (0 + 7 + 2 + 8 + 10 + 20) / 6 = 7.83
+Average response time: (0 + 7 + 2 + 8 + 10 + 20) / 6 = 7.83
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Priority Scheduling (non-preemptive)
+
+Characteristics:
+Easy to implement.
+Waiting time may be shorter for high-priority processes.
+Starvation may occur if low-priority processes are continually postponed.
+Often used in time-critical systems.
+Not necessarily optimal in terms of average waiting time.
+
+The scheduler always selects the highest-priority process (e.g. the one with the lowest priority number).
+
+Application: older Unix operating systems.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – Priority Scheduling (non-preemptive)
+
+Average turnaround time: (8 + 10 + 9 + 15 + 24 + 19) / 6 = 14.17
+Average waiting time: (0 + 7 + 4 + 11 + 18 + 17) / 6 = 9.50
+Average response time: (0 + 7 + 4 + 11 + 18 + 17) / 6 = 9.50
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Round Robin (RR)
+
+Characteristics:
+• Fair CPU allocation in interactive systems.
+• Response time is generally good, but context-switching overhead increases.
+• The quantum size is critical:
+too small → many context switches;
+too large → FCFS-like behaviour.
+
+CPU time is divided into fixed quanta; processes receive CPU time in round-robin
+ order.
+
+Application: modern operating systems (combining time-sharing and priority).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – Round Robin (q=2)
+
+Average turnaround time: 17.17
+Average waiting time: 12.50
+Average response time: 3.50
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SRTF – Shortest Remaining Time First
+
+Characteristics:
+• Preemptive: a newly arriving shorter process can preempt the current one.
+• Gives optimal average waiting time if burst times are known.
+• Long processes may starve if many short processes keep arriving.
+
+The process with the shortest REMAINING CPU time always runs.
+
+Related concept: Linux CFS (Completely Fair Scheduler).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – SRTF
+
+Average turnaround time: 10.83
+Average waiting time: 6.17
+Average response time: 1.83
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Priority Scheduling (preemptive)
+
+Characteristics:
+• Flexible response to urgent tasks.
+• Risk of starvation for low-priority processes.
+• Priority inversion can be handled with protocols (e.g. priority inheritance).
+
+The highest-priority process (lowest priority number) always runs. A newly arriving higher-priority process may preempt the current one.
+
+Application: almost all modern operating systems.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example – Priority Scheduling (preemptive)
+
+Average turnaround time: 13.67
+Average waiting time: 9.00
+Average response time: 7.67
+
+Turnaround = Completion − Arrival
+Waiting = Turnaround − Burst
+Response = Start − Arrival
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of the Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of Algorithms – Summary
+
+FCFS: Simple, but long processes cause the convoy effect. Moderate average times.
+Priority (non-preemptive): Slightly better, but low-priority processes may starve.
+Priority (preemptive): Flexible, short response time, but starvation is possible.
+Round Robin: Good response time in interactive systems, but many context switches → longer turnaround times.
+SJF: Low waiting and turnaround times, but CPU burst time must be estimated.
+SRTF: Optimal average times, but long processes may starve.
+
+Important: 
+1) Operating systems can usually only estimate expected execution time.
+2) These are theoretical algorithms; in practice, combinations or modified versions are used.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Modern Scheduling Algorithms
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Multilevel Queue (MLQ)
+
+Characteristics:
+• Simple but rigid structure.
+• Combines multiple algorithms.
+• Each queue may use its own scheduler (e.g. interactive: RR, batch: FCFS).
+• Processes cannot move between queues.
+
+Applications:
+• Older operating systems, batch systems.
+
+Multilevel queues: each process is assigned to a predefined queue.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Multilevel Feedback Queue (MLFQ)
+
+Characteristics:
+• Dynamically adapts to process behaviour (“learning”).
+• Interactive tasks respond quickly.
+• CPU-intensive tasks move to lower-priority queues.
+
+Applications:
+• Windows scheduler (priority classes), Linux CFS, macOS.
+
+Multilevel queues in which processes can move between queues based on CPU usage.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Real-Time Scheduling
+
+Characteristics:
+• Hard real-time: missing a deadline is unacceptable.
+• Soft real-time: some delay is tolerable.
+• Meeting deadlines is the primary goal rather than optimizing average times.
+
+Applications:
+• RTOS (pl. VxWorks, QNX), Linux RT patch, Windows RT.
+
+Scheduling algorithms focused on meeting process deadlines.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Real-Time Scheduling
+
+Classical algorithms and CFS target good average interactive performance (fair allocation, good response times).
+Real-time scheduling focuses on guarantees even in the worst case, rather than average performance.
+Therefore, real-time schedulers use specialized algorithms (RMS, EDF).
+
+Practical applications:
+Linux: PREEMPT_RT real-time kernel patch for real-time capabilities.
+Windows also has a real-time priority class, but it is closer to soft real-time (deadlines may occasionally be missed).
+Embedded systems: automotive controllers, robots, industrial control systems → hard real-time scheduling is common.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-30.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Rate Monotonic Scheduling (RMS)
+
+Characteristics:
+• Optimized for periodic tasks.
+• Provably optimal fixed-priority scheduler.
+• Simple implementation, low overhead.
+
+Applications:
+• Embedded systems, industrial controllers, real-time operating systems.
+
+Fixed-priority algorithm: shorter period → higher (static) priority.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-31.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Earliest Deadline First (EDF)
+
+Characteristics:
+• Optimal dynamic method: if a feasible schedule exists, EDF can provide it.
+• Efficient resource utilization.
+• More complex implementation, higher overhead.
+
+Applications:
+• Real-time systems, Linux EDF module, embedded systems.
+
+Dynamic priority: the task with the nearest deadline always runs.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-32.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Scheduling in Multiprocessor Systems
+
+The scheduling algorithms discussed so far were developed for single-processor (single-core) systems. What changes in multiprocessor (multicore) systems?
+
+In multiprocessor systems, the scheduler must manage not only CPU time but also which core executes each process.
+
+Relevant mechanisms:
+CPU affinity: assigning a process to a specific CPU core → better cache efficiency and fewer migrations.Example: Linux – taskset command.
+Load balancing: distributing processes evenly across CPU cores → avoids overloaded cores.
+Example: handled automatically by the Linux kernel.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-33.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Practical Example: Linux CFS (Completely Fair Scheduler)
+
+The default Linux scheduler; it combines ideas from SJF, RR, and priority scheduling.
+
+Characteristics:
+Fair-share principle: each process receives a proportional share of CPU time; no process can monopolize it.
+Red-black tree: a balanced data structure enabling efficient lookup and runtime tracking.
+Nice value: user-adjustable priority (−20 = high, +19 = low).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-34.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Practical Example: Windows Scheduling
+
+Characteristics:
+
+Multilevel Feedback Queue (MLFQ) principle
+• Multiple priority queues; processes move dynamically between them.
+• Interactive tasks receive higher priority.Priority classes
+• 32 priority levels (0–31), including 16 dynamic levels.
+• User processes normally run in the Normal class (8–15).
+Quantum (time slice)
+• Changes dynamically by process type (shorter for interactive tasks, longer for batch tasks).
+Example: all Windows 10/11 editions and Windows Server.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-04/slide-35.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Practical Example: macOS Scheduling
+
+Characteristics:
+
+XNU kernel scheduler
+• Combines the Mach microkernel with BSD scheduling logic.
+Hybrid MLFQ principle
+• Multilevel feedback queue + dynamic priority adjustment.
+QoS (Quality of Service) levels
+• System processes, interactive tasks, and background tasks receive different levels.
+• Developers can indicate task importance through an API (also in iOS apps).Example: macOS and iOS scheduling – consistent across the Apple ecosystem.
+:::

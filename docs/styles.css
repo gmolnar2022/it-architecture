@@ -1,0 +1,32 @@
+
+/* Uniform PPT-like presentation mode.
+   Every Reveal.js slide uses the finished PowerPoint slide as a full-canvas background. */
+
+.reveal,
+.reveal .slides,
+.reveal .slides section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal section[data-background-image] > h2 {
+  display: none;
+}
+
+/* Remove Reveal's default visual spacing so the 16:9 PowerPoint canvas
+   reaches the edges of the Reveal slide. */
+.reveal .slide-background-content {
+  background-size: 100% 100% !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+.reveal .controls,
+.reveal .progress,
+.reveal .slide-number {
+  z-index: 50;
+}

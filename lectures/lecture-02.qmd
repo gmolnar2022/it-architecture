@@ -1,0 +1,1173 @@
+---
+title: "IT Architecture – Lecture 02"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-02/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 02
+
+Hardware Fundamentals II
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we cover?
+
+The Motherboard and Its Components
+Processor Families
+Bus Systems
+RAM
+Secondary Storage
+Interfaces and Ports
+Jumpers
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Motherboard and Its Components
+
+The motherboard is the computer's main printed circuit board.
+
+Main components
+CPU socket
+RAM slots
+Expansion cards (PCI, PCIe)
+Chipset, integrated controllers
+TPM chip
+BIOS/UEFI, CMOS
+Power connectors
+Cooling, fan connectors
+Storage connectors
+I/O ports
+Jumpers (rare today)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Major Motherboard Manufacturers
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Example: A Modern Motherboard
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+CPU Socket
+
+The CPU socket provides the connection between the processor and the motherboard.
+
+Main socket types
+LGA = Land Grid Array
+PGA = Pin Grid Array
+BGA = Ball Grid Array
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+LGA Socket
+
+Characteristics
+The pins are located in the socket
+They connect to the contacts on the underside of the CPU
+
+Reduces processor manufacturing cost
+Stable electrical connection
+Examples: LGA 775 (2004), LGA 1156 (2009),
+LGA 1155 (2011), LGA 1150 (2013), LGA
+1151 (2015), LGA 1200 (2020), LGA 1700
+(2021), LGA 1851 (late 2025?)
+
+Primarily used by Intel processors
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+PGA Socket
+
+Characteristics
+The pins are located on the processor
+They connect to the holes in the socket
+
+Requires more space
+Less durable
+Easier CPU installation
+Examples: Socket A (2000), Socket AM2 (2006), Socket AM3 (2009), Socket AM1
+(2014), Socket AM4 (2016)
+
+Today, AMD also uses LGA sockets, e.g. Socket AM5 (2022)
+
+Primarily used by AMD processors
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+BGA Socket
+
+Characteristics
+Small solder balls instead of pins
+The processor is fixed in place (soldered connection)
+Compact size
+Not replaceable
+Other components can also be integrated alongside the CPU
+
+Examples: BGA 437 (2009), BGA 956 (2013),
+BGA 1526 (2018), BGA 1787 (2021), BGA 2114 (2022), BGA (2540) ?
+
+Primarily used in laptops and mobile devices
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 4-bit
+
+Intel 4004 (1971)
+Clock speed: 740 kHz
+Transistors: 2,300
+Registers: 16
+Instructions: 46
+Data: 4 bit
+Instructions: 8 bit
+Memory addresses: 12 bit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 8-bit
+
+Intel 8008 (1972)
+Clock speed: 0.5–0.8 MHz
+Transistors: ~3,000
+Registers: 8
+Instructions: 48
+Data: 8 bit
+Instructions: 16 bit
+Memory addresses: 14 bit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 8-bit
+
+Intel 8080 (1974)
+Clock speed: 2 MHz
+Transistors: ~6,000
+Registers: 14
+Instructions: 78
+Data: 8 bit
+Instructions: 8 bit
+Memory addresses: 16 bit
+
+It powered the Altair 8800, one of the first PC-like computers.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 16-bit
+
+Intel 8086, 8088, 80186, 80286 (1978 – 1982)
+Clock speed: 5–25 MHz
+Transistors: 29,000
+Registers: 16
+Instructions: 100–135
+Data: 16 bit
+Instructions: 16 bit
+Memory addresses: 20–24 bit
+
+The 8086 launched the x86 era, while the 8088 powered the first IBM PC.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 32-bit
+
+Intel 80386, 80486, Pentium I–III, and early Celeron and Xeon processors (1985–1998)
+Clock speed: 12–200 MHz
+Transistors: 275,000–5.5 million
+Registers: 16
+Instructions: 275
+Data: 32 bit
+Instructions: 32 bit
+Memory addresses: 32 bit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Early Intel Processors – 64-bit
+
+Intel Itanium, Pentium 4F, Xeon, Core 2, Celeron (2001 – 2005)
+
+Clock speed: 0.8–3.8 GHz
+Transistors: 25–400 million
+Registers: from a few dozen to ~200
+Instructions: 250–400
+Data: 64 bit
+Instructions: 64 bit
+Memory addresses: 64 bit
+
+Intel Celeron E1600
+
+The first Intel x64 processors included the Pentium 4 and Xeon.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 64-bit Today
+
+Intel Core i series: i3, i5, i7, i9 (since 2010) – desktop computers
+
+24 billion
+
+Clock speed: 2–6 GHz
+Transistors: 382 million–
+Registers: 16 general-purpose and several hundred others
+Instructions: 300–4,500
+Data: 64 bit
+Instructions: 64 bit
+Memory addresses: 64 bit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – i3 vs i5 vs i7 vs i9
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – 64-bit: Present and Near Future
+
+Intel Xeon, Xeon W, Xeon Scalable – servers
+56–60+ cores
+120+ threads
+1–8 CPUs
+Clock speed: 1.5–4 GHz
+Instructions: ~4,000
+Transistors: tens of billions
+
+Intel Core Ultra 5, 7, 9 (2023) – mobile computers
+NPU (Neural Processing Unit)
+Integrated GPU
+Advanced manufacturing technology and improved energy efficiency
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Intel Processors – What to Expect
+
+Nova Lake (desktop) – from late 2026 / 2027
+desktop use
+up to 52 cores in the top model
+support for high DDR5 frequencies (e.g. DDR5-8000)
+
+Arrow Lake Refresh, Panther Lake
+Arrow Lake-S generation refresh in 2025/2026
+Panther Lake mobile CPUs expected around Q2 2026
+
+New process nodes and technologies
+18A, 14A (Titan Lake)
+new socket type
+
+Focus on AI / acceleration
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+ARM Processor Architecture
+
+64-bit RISC architecture
+Manufacturers: Apple, Qualcomm, MediaTek, Ampere, AWS
+Heterogeneous cores: P-cores (performance) + E-cores (efficiency); dynamic scheduling, DVFS.
+SoC integration: CPU + GPU + NPU + DSP + ISP + modem on a single chip
+Ecosystem: Android, iOS, Linux, macOS, Windows on ARM.
+Excellent performance per watt: dominant in mobile/IoT
+increasingly competitive in laptops and servers (e.g. Apple M, AWS Graviton, Ampere).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What Is a CPU Core?
+
+In multicore CPUs, each core has its own ALU, Control Unit (CU), and registers.
+The cores share main memory and the system bus.
+The cores share some of their resources.
+This allows the CPU to execute multiple instructions simultaneously.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What Is a CPU Thread?
+
+In multithreaded processors, each physical core contains multiple logical processors.
+Threads share the resources of the core.
+The operating system treats them as physical processors.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+CPUs – What to Expect (see also: Future Intel CPUs)
+
+Increasing numbers of cores and threads
+Specialized processing units,
+e.g. GPUs, TPUs, NPUs
+Heterogeneous architectures (P/E cores)
+Improved energy efficiency
+Smaller process nodes (below 2 nm)
+New materials, e.g. graphene
+New technologies, e.g. 3D packaging
+AI integration (e.g. AI accelerators, encryption)
+
+BUT: physical limits remain
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+RAM
+
+The computer's main memory
+
+Two main types:
+Static RAM (SRAM)
+Does not require refreshing
+Fast but expensive
+Used as cache memory
+
+•
+
+Dynamic RAM (DRAM)
+
+Requires refreshing
+Slower than SRAM
+Smaller and cheaper than SRAM
+Used as main memory
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+RAM – SIMM or DIMM
+
+SIMM modules have a single row of contacts; DIMM modules have two.
+
+SIMM modules
+1980 – 1998
+May contain SRAM and DRAM chips
+Typical of 80486 and early Pentium systems
+
+DIMM modules (2000–)
+Used in modern computers
+Primarily DRAM
+Higher capacity and performance
+DDR1–DDR5, with DDR6 coming soon
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Comparison of RAM Generations
+
+* From 2026–2027
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+RAM – What to Expect
+
+Higher capacity, potentially multi-terabyte modules
+Lower power consumption (DDR5 and DDR6)
+New technologies, e.g. 3D-stacked RAM
+New RAM types, e.g. MRAM, ReRAM
+Intel Optane: bridging the gap between RAM and SSDs
+
+Limitations:
+Physical size
+Cost
+Thermal management
+
+3D-stacked RAM (illustration)
+
+MRAM (illustration)
+
+ReRAM (illustration)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Expansion Cards – ISA Bus
+
+ISA = Industry Standard Architecture
+
+Characteristics:
+Introduced in 1984
+16-bit data bus
+8 MHz clock speed
+Supported cards (main types)
+Network card
+Sound card
+Graphics card
+Hard disk controller card
+Successor: EISA (1987)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Expansion Cards – VESA Bus
+
+VESA = Video Electronis Standard Association
+
+Characteristics:
+Introduced in the early 1990s
+32-bit data bus
+25–100 MHz clock speed
+Supported cards (main types)
+Graphics card
+Network card
+Hard disk controller card
+I/O card
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-30.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Expansion Cards – PCI Bus
+
+PCI = Periferial Component Interconnect
+
+Characteristics:
+Introduced in the early 1990s
+32–64-bit data bus
+33–66 MHz clock speed
+Plug and Play support for expansion cards
+Supports almost all types of expansion cards
+Versions: PCI 1.0, 2.0–2.3, PCI-X, PCI Express
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-31.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Expansion Cards – AGP Bus
+
+AGP = Accelerated Graphics Port
+
+Characteristics:
+Introduced in the late 1990s
+Designed for graphics cards
+Improved graphics performance
+Higher speed than PCI
+Versions: 1x, 2x, 4x, 8x
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-32.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Expansion Cards – PCI Express Bus
+
+The most common expansion bus in modern computers
+
+Characteristics:
+Introduced in 2003
+Serial bus
+Four main lane configurations; most devices use x4 or x16
+Replaces earlier bus standards
+Versions: 1.0–6.0, with 7.0 coming soon
+Graphics cards, SSDs, network cards, sound cards, etc.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-33.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+PCI Express Specifications
+
+PCIe will remain the main expansion-card standard in the near future.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-34.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Chipset
+
+One or more integrated circuits that manage data flow between the CPU and other motherboard components.
+
+Main functions:
+Communication hub
+Memory controller
+PCI Express lanes
+System bus
+Power management
+Overclocking support
+Security features
+
+Image source
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-35.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+BIOS
+
+BIOS = Basic Input/Output System, the interface between the computer's hardware and software.
+
+Main functions
+POST (Power On Self Test)
+Initializing hardware components
+Selecting the boot device
+Defining the boot order
+Loading the operating system
+CMOS settings
+Security features
+Firmware update
+Handling hardware interrupts
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-36.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+CMOS
+
+CMOS = Complementary Metal-Oxide Semiconductor, a small memory used to store BIOS settings.
+
+Main functions
+Storing system settings
+(even when the computer is powered off)
+Communication with the BIOS
+Implementation
+Usually NVRAM (Non-Volatile RAM)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-37.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+CMOS Setup Utility
+
+A utility for configuring BIOS settings
+
+Some important functions:
+Basic and advanced settings
+Hardware information and status
+Security settings
+Power management
+Restoring default (factory) settings
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-38.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+BIOS vs UEFI
+
+UEFI = Unified Extensible Firmware Interface, the modern successor to BIOS.
+
+Image source
+
+Near future:
+BIOS gradually disappearing
+Automatic updates
+More modern user interface
+
+Advanced security features
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-39.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+TPM
+
+TPM = Trusted Platform Module
+
+A dedicated motherboard chip that provides security functions.
+Key storage
+Disk encryption
+Secure Boot
+Password protection
+Secure updates
+Windows 11 requires TPM 2.0.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-40.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Power Supply Connectors
+
+Provide power to the motherboard, processor, fans, and some peripherals.
+
+Power connector types:
+AT (older computers, ribbon-style connector)
+ATX (Advanced Technology Extended), 20/24-pin – motherboard power
+EPS (Extended Power Supply), 4+4 or 8+8-pin – CPU power
+PCIe – power for graphics cards and high-power expansion cards
+SATA 15-pin – primarily powers storage devices
+Molex (older computers, 4-pin)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-41.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Motherboard Cooling
+
+Main motherboard components requiring cooling:
+CPU → dedicated cooler (fan + heatsink, or liquid cooling).
+VRM (Voltage Regulator Module) → heatsinks around the CPU to maintain stable power delivery.
+Chipset → often actively cooled in older systems; usually a passive heatsink today.
+M.2 SSDs → often use dedicated heatsinks because they can run hot at high speeds.
+
+Cooling solutions:
+Passive cooling → aluminium heatsinks (chipset, VRM).
+Active cooling → small fan (older chipsets, high-end motherboards).
+Additional cooling → liquid-cooling blocks on premium motherboards.
+
+CPU fan
+
+heatsink
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-42.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Fan Connectors
+
+Older types
+Molex (4-pin peripheral connector)
+Powered directly from the PSU (typically 12 V).
+No speed control.
+Now obsolete; used with older case fans.
+
+Modern motherboard connectors
+3-pin fan connector (DC)
+1: ground, 2: +12 V, 3: tachometer (speed feedback).
+Controlled by voltage regulation.
+4-pin fan connector (PWM)
+1: ground, 2: +12 V, 3: tachometer, 4: PWM control signal.
+More precise speed control and quieter operation.
+Current standard for CPU and case fans.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-43.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Storage Connectors
+
+Enable communication between the computer and storage devices.
+
+Main types
+IDE (Integrated Drive Electronics)
+SCSI (Small Computer System Interface)
+SATA (Serial Advanced Technology Attachment)
+RAID (Redundant Array of Independent Disks)
+M.2, U.2
+PCIe
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-44.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Secondary Storage
+
+Storage devices can hold large amounts of data and retain their contents when the computer is powered off.
+
+Common storage devices
+Hard disk drive (HDD)
+CD, DVD, Blu-ray
+SSD
+USB flash drive
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-45.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Optical Storage – CD, DVD, Blu-ray
+
+Optical storage media in which information is encoded in the physical structure of the disc.
+
+Image source
+
+Light reflects differently from pits (indentations) and lands (surface)
+
+Typical interfaces: IDE, SATA, SCSI, USB
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-46.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Optical Storage – Advantages and Disadvantages
+
+Advantages
+Archiving and storing movies
+Capacity up to 100 GB (Blu-ray XL)
+Redundant data storage
+Potentially long lifespan
+Disadvantages
+Slow (CD: 150 KB/s – Blu-ray: 216 MB/s)
+Obsolete – many computers no longer include optical drives
+Prone to physical damage
+Future
+Declining use
+However: new technologies, e.g. holographic data storage
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-47.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Secondary Storage – Hard Disk Drives (HDDs)
+
+Magnetic storage devices in which information is stored in a magnetic layer.
+
+Image source
+
+Typical interfaces: IDE, SATA, SCSI
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-48.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+HDD – Advantages and Disadvantages
+
+Advantages
+High capacity (up to 24 TB)
+Low-cost storage
+Reliable for long-term storage
+Multiple interfaces: IDE, SCSI, SATA, SAS
+Disadvantages
+Slow (150–300 MB/s)
+Sensitive to physical shock
+Moving parts
+Future
+Servers and data centres (low cost, high capacity)
+New technologies, e.g. laser-assisted writing and reading
+Capacity expected to reach 30–40 TB
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-49.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Secondary Storage – SSDs
+
+An SSD (Solid State Drive) is an internal storage device based on NAND flash memory.
+
+NAND flash memory
+Memory cells are arranged in a grid
+
+A memory cell can store one or more bits
+(SLC – Single-Level Cell, MLC, TLC, QLC)
+Cells contain one or more floating-gate transistors
+
+The state of the memory cell is determined by the presence or absence of charge on the floating gate.
+
+Typical interfaces: SATA, M.2, U.2, PCIe
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-50.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+SSD – Advantages and Disadvantages
+
+Advantages
+Significantly faster data transfer than HDDs
+No moving parts
+Lower power consumption
+Compact size, multiple form factors
+Multiple interfaces/protocols: SATA, PCIe, NVMe, etc.
+Disadvantages
+Higher cost
+Limited write endurance
+Future
+Higher speeds (PCIe) and capacities (up to 100 TB), with broader adoption
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-51.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Data Storage – What to Expect
+
+Emergence of new memory technologies
+Memristor – fast, durable, non-volatile memory bridging RAM and secondary storage
+Phase-change memory (PCM) – stores 0 and 1 using phase changes in a material
+STT-MRAM (Spin-Transfer Torque Magnetic RAM) – magnetic, energy-efficient, durable memory
+ReRAM (Resistive RAM) – data storage based on changes in electrical resistance
+
+Increasing data density
+HAMR (Heat-Assisted Magnetic Recording) and MAMR (Microwave-Assisted Magnetic Recording) for HDDs
+Holographic storage – 3D laser-based storage with theoretical TB–PB capacities
+
+New theoretical directions
+Quantum data storage – using quantum bits (qubits)
+DNA data storage – storing data in biological molecules at extremely high density and with long lifespan
+
+Usage trends
+Growth of cloud storage – supplementing or replacing local physical storage
+Edge storage – handling data closer to its source (IoT, smart devices)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-52.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+USB Flash Drive
+
+A USB (Universal Serial Bus) flash drive is an external storage device based on NAND flash memory.
+
+Characteristics
+Portable storage
+Connects to a USB port
+Typical capacity: 32–512 GB
+Typical transfer speed:
+Limited write endurance
+
+USB Connector Types
+
+Latest USB Standards
+
+A USB-C port can support USB 2.0–USB4, Thunderbolt 3/4, and DisplayPort.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-53.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Thunderbolt 3 and 4
+
+A high-speed universal interface using the USB-C connector.
+
+Supported devices
+External storage
+External graphics cards
+External network adapters
+Monitors
+Docking stations, etc.
+
+Characteristics
+High data transfer speed
+Compatibility with USB-C devices
+Combined functions (data, video, power)
+
+Thunderbolt 3 vs. 4: What's The Difference? (iboysoft.com)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-54.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Monitor Connectors
+
+VGA (Video Graphics Array, D-Sub, analogue)
+Introduced in 1987; the PC monitor standard for decades.
+Analogue signal only; practical high-quality limit around Full HD.
+Now obsolete, but still occasionally found on projectors.
+
+DVI (Digital Visual Interface, digital/analogue)
+Introduced in 1999 as the digital successor to VGA.
+Variants: DVI-D (digital), DVI-A (analogue), DVI-I (combined).
+Max. 1920×1200 (Single Link) or 2560×1600 (Dual Link).
+Also being phased out.
+
+HDMI (High-Definition Multimedia Interface)
+Introduced in 2003, primarily for TVs and home entertainment devices.
+Digital video + audio over a single cable.
+Still widely used today, including on monitors and laptops.
+Versions include HDMI 1.4 (Full HD/4K), HDMI 2.0 (4K 60 Hz), HDMI 2.1 (8K, 120 Hz).
+
+DisplayPort (see later) + others (Mini DisplayPort, USB-C, Thunderbolt)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-55.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+HDMI (High-Definition Multimedia Interface)
+
+Primarily used to transmit audio and video between computers and monitors.
+
+Characteristics:
+Introduced: 2003
+Signal: digital video + audio over one cable + additional data
+Main uses: TVs, monitors, game consoles, home cinema
+
+Main versions
+HDMI 1.4 (2009) → 4K @ 30 Hz
+HDMI 2.0 (2013) → 4K @ 60 Hz
+HDMI 2.1 (2017) → 8K @ 60 Hz or 4K @ 120 Hz (gaming, VRR, eARC)
+HDMI 2.2 (2025) → 16K @ 60 Hz, 12K @ 120 Hz, 4K @ 240 Hz; new Ultra96 cable required
+
+Advantages
+Widely adopted and compatible
+Standard connector for TVs and consoles
+
+Disadvantages
+Less flexible than DisplayPort for monitors (fewer displays over one cable)
+Shorter supported cable lengths at high resolutions
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-56.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+DisplayPort
+
+Primarily used to transmit audio and video between computers and monitors.
+
+Characteristics
+Supports video signals up to 16K resolution
+Daisy-chaining displays
+Sharp, high-contrast image
+High bandwidth (up to 77 Gb/s)
+Multiple connector formats (standard, Mini DisplayPort, USB-C)
+
+Multiple versions (1.2, 1.3, 1.4, 2.0)
+Backward compatible with HDMI, DVI, and VGA via adapters
+
+Which Is Better: DisplayPort or HDMI? – iVANKY
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-57.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Monitor Resolutions
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-58.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Monitor Connectors and Resolutions
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-59.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+I/O Connectors
+
+Allow external peripherals to be connected to the computer.
+
+Older / disappearing: PS/2, VGA, serial/parallel ports
+Current basics: USB-A (2.0 / 3.x), LAN (RJ-45), audio jack
+Modern: USB-C, HDMI/DisplayPort, optical audio, Wi-Fi antenna
+Premium: multiple LAN ports, 2.5G/10G Ethernet, Thunderbolt 3/4 (USB-C connector)
+
+Motherboards Explained: I/O Panel
+:::
+
+
+---
+
+## {background-image="../slides/lecture-02/slide-60.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Jumpers
+
+Jumpers are small plastic caps containing a U-shaped conductor. They connect or disconnect two pins, allowing switching between two fixed hardware settings.
+
+Modern motherboards have few jumpers; typical uses include:
+CPU configuration (e.g. clock speed, voltage)
+Chipset configuration (e.g. bus speed)
+Boot configuration (e.g. boot order)
+CMOS reset
+PnP
+:::

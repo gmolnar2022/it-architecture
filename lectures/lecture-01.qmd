@@ -1,0 +1,969 @@
+---
+title: "IT Architecture – Lecture 01"
+format:
+  revealjs:
+    theme: simple
+    css: ../styles.css
+    slide-number: c/t
+    progress: true
+    controls: true
+    center: false
+    transition: none
+    width: 1600
+    height: 900
+    margin: 0
+    min-scale: 0.1
+    max-scale: 10
+    hash: true
+---
+
+## {background-image="../slides/lecture-01/slide-01.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IT Architecture – Lecture 01
+
+Introduction
+Hardware Fundamentals I
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-02.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we cover?
+
+Introduction
+Course requirements
+What will we learn?
+Hardware Fundamentals I
+Historical overview
+Computer components
+Von Neumann principles
+The processor, memory and peripherals
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-03.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Course requirements
+
+Requirements during the semester (prerequisites for taking the exam)
+Attendance at seminars (absences are permitted according to the Academic Regulations)
+Successful completion of the mid-term tests
+Submission of assignments by the deadlines
+End-of-semester requirement:
+Exam on the dates announced in Neptun
+Alternative option:
+Offered grade (for an overall result of at least Good)
+
+* For details, see Moodle
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-04.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Planned assessment schedule
+
+Test 1 – at the beginning of Seminar 6 (Windows + Azure Shell + Lectures 1–5)
+Test 2 – at the beginning of Seminar 10 (Linux + Git + Docker + Lectures 6–9)
+End-of-semester test  in Seminar 12     (all seminar topics + Lectures 10–12 + DevOps)
+Homework – 2 assignments, each with a one-week deadline (assigned in Seminars 4 and 8)
+Course assignment – 1 assignment     (assigned in Seminar 6, due by Seminar 12)
+Retake / make-up opportunity – Lecture/Seminar 13
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-05.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Assessment
+
+Mid-term tests – 30%
+Homework – 10%
+Course assignment – 20%
+End-of-semester test – 40%
+
+Offered grade: Excellent: from 90%, Good: from 80%
+Exam: from 60% to 80%
+ Not eligible for the exam: below 60%, failure to meet the semester requirements, or insufficient seminar attendance
+Up to 10% bonus points can be earned during the semester
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-06.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we learn?
+
+Theory
+Hardware fundamentals
+Operating systems
+Computer networks
+Cloud systems
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-07.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we learn?
+
+Seminars
+Azure fundamentals
+Windows 10/11 and Windows Server
+Debian Linux
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-08.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What will we learn?
+
+Optional topics:
+Other operating systems
+Kubernetes
+AWS fundamentals
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-09.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Why is knowledge of IT architecture useful?
+
+Writing software is not enough; it must also be operated so that it is
+available
+able to operate under load
+secure
+quickly recoverable
+cost-effective
+
+This requires specialized IT operations (Ops) knowledge.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-10.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+What does Ops do?
+
+Operates servers
+Builds and configures networks and infrastructure
+Monitors systems
+Ensures security
+Handles incidents
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-11.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Earlier trends
+
+Development (Dev) and Operations (Ops) were completely separated
+Developers (Dev) wrote the software
+Then handed it over to Operations
+In case of a software bug, the code went back to the developers
+Slow, cumbersome communication
+Many conflicts
+No one had an overview of both areas
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-12.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Current trends
+
+Today, Development and Operations are becoming increasingly closely
+integrated
+
+DevOps
+
+Image source:
+https://en.wikipedia.org/wiki/DevOps_toolchain
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-13.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+DevOps trends
+
+Image source: 8 Future DevOps Trends In 2025 – xMatters
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-14.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Hardware Fundamentals I
+
+Historical overview
+The concept and components of a computer
+Von Neumann principles
+The processor and its functions
+Memory and addressing
+Peripherals
+Bus system, interrupts and ports
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-15.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Historical overview
+
+From the beginnings … abacus, slide rule …
+Mechanical computers (Schickard, Pascal, Babbage)
+Electromechanical computers (Zuse)
+Electronic computers  computer generations
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-16.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Abacus (3rd millennium BC), slide rule (~1620)
+
+Primarily used for addition and subtraction
+The rods represent place values, while the beads represent digit values
+
+Abacus Simulator (uni-marburg.de)
+
+Slide Rule Simulator Emulator Replica Collection
+Scales that slide relative to each other
+In addition to basic arithmetic, it can be used to calculate roots, logarithms, and trigonometric functions
+Accuracy of 3–4 decimal digits
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-17.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Schickard’s calculating machine (1623)
+
+Capable of performing the four basic arithmetic operations
+Mechanical design: 
+   6 pairs of gears     	(with10 and 1 tooth)
+Handled carry operations automatically
+The prototype under construction was destroyed in a fire
+Two replicas were built much later
+
+Multiplication with the Schickard Calculator from 1623 and
+with Napier's Bones - YouTube
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-18.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Pascal’s adding machine (1643)
+
+Built using clock components
+Addition and subtraction only
+Also handled carry operations
+Pascal built 7 machines
+
+Pascaline – interactive simulations –
+eduMedia (edumedia-sciences.com)
+
+
+How the Pascaline Works - YouTube
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-19.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Babbage’s Difference Engine (~1820)
+
+Mechanical computer
+15 tonnes
+25,000 components
+Decimal number system
+Its construction was mainly hindered by technical limitations
+A working machine based on Babbage’s plans was not completed until 1991
+31-digit representation
+Mathematical (polynomial) tables
+
+Babbage's Difference Engine Simulation (drexel.edu)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-20.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Babbage’s Analytical Engine
+
+Programmable using punched cards
+Designed to store programs (addressable memory)
+Printer
+A precursor of modern computers
+The machine itself was never fully built, but programs were designed for it (Ada Lovelace)
+Web Analytical Engine Emulator (fourmilab.ch)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-21.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Zuse’s computers (Z1, Z2, Z3 …, from ~1941)
+
+Electromechanical computers (relays)
+More reliable than vacuum-tube computers
+Binary number system
+Program–controlled operation (Z3)
+Stored-program concept? (not published)
+Zuse Z3 (historicsimulations.com)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-22.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Computer generations
+
+Generations are the major stages in computer evolution.
+
+We distinguish 5 generations
+6th generation?
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-23.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+First-generation computers (~1945–55)
+
+Vacuum-tube computers
+Large size and weight
+Magnetic drum memory
+Unreliable operation
+Machine code
+Expensive
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-24.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+ENIAC (1946)
+
+Electronic Numerical Integrator And Computer
+Massive hardware
+18,000 vacuum tubes
+30 tonnes
+2.5 m high, 30 m long
+Operation time on the order of milliseconds
+Decimal number system
+Military purposes (ballistic calculations)
+eniacrun.png (1900×1070) (drexel.edu)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-25.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+EDVAC (1949)
+
+Electronic Discrete -Variable Automatic Computer
+John von Neumann also participated in its development
+General-purpose computer
+Program stored in memory
+Binary arithmetic
+Input via a typewriter-like device
+Output via a printer
+
+EDVAC - YouTube
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-26.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Second-generation computers (~1955–65)
+
+Transistors
+(much smaller and more reliable than vacuum tubes)
+Produced in larger quantities (e.g. about 17,000 IBM 1400-series systems)
+Modular design
+Emergence of the first high-level programming languages (COBOL, Fortran)
+~10⁵–10⁶ operations/s
+Batch processing – less idle time
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-27.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Third-generation computers (~1965–72)
+
+Integrated circuits (ICs)
+Smaller size and greater reliability – minicomputers also appeared
+Operating systems
+Keyboards and monitors became common
+Sales in the hundreds of thousands
+Semiconductor memory
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-28.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Fourth-generation computers (~1972–)
+
+Microprocessor
+High level of integration (LSI, VLSI, ULSI)
+100 million operations/s
+Personal computers
+Graphical user interface
+Mouse
+Small size
+Low cost
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-29.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Fifth-generation computers (1986–)
+
+Artificial intelligence
+Speech recognition
+Natural-language input
+Learning capability
+Parallel processing
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-30.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The development of semiconductors drives progress
+
+“The number of transistors on chips roughly doubles every two years” (Gordon Moore, 1965)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-31.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Computer
+
+Computer  Calculator
+
+A computer is a device capable of storing data and sequences of operations (programs) defined by humans and executing them automatically
+
+In a broader sense, the following devices can also be considered computers:
+Game consoles (Xbox, PlayStation)
+Embedded systems (mobile phones, smart devices, engine control electronics, GPS, etc.)
+some IoT* devices
+
+*IoT = Internet of Things
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-32.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Embedded systems
+
+Special-purpose computers designed to perform a specific task
+
+They do not look like computers from the outside
+They are usually small, but can also be large (e.g. traffic-light controllers)
+Their architecture usually includes:
+Central processing unit
+Sensors
+Output/communication interface
+Actuators (convert signals, e.g. into motion)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-33.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+IoT – Internet of Things
+
+Devices equipped with computing capability and network connectivity
+
+This also includes “smart” embedded systems. 
+
+Characteristics:
+Utility
+Intelligence
+Dynamic nature
+Heterogeneity
+Security?
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-34.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Components of a computer
+
+Three main functional components: processor, memory and I/O unit
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-35.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The bus system
+
+A set of communication lines connecting the functional components of a computer.
+Types:
+Control bus
+Address bus
+Data bus
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-36.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Von Neumann principles
+
+Stored-program concept
+(data and instructions are stored in the same memory in the same way)
+Sequential instruction execution
+A fully electronic machine operating with the binary number system
+Functional units: separate input/output unit, control and processing unit, and memory
+General-purpose applicability
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-37.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The von Neumann architecture problem
+
+The main problem of the architecture is that the processor often has to wait for memory operations, so most of its processing time is unused
+(“von Neumann bottleneck”)
+
+Other architectures also exist, e.g.:
+Harvard architecture
+Parallel architectures
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-38.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Harvard architecture
+
+Separate data and instruction memory
+Greater security
+Better performance
+More complex design
+Applications:
+Microcontrollers
+CPUs
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-39.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Parallel architecture
+
+Processing multiple data items and/or instructions simultaneously
+Higher performance
+Several models
+More difficult to program
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-40.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Parallel architecture – example
+
+UMA – Uniform Memory Access
+The processors share memory equally
+Either all processors have equal access to peripherals (symmetric multiprocessing) or only certain processors do (asymmetric multiprocessing)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-41.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Aside: quantum computers
+
+They operate based on
+quantum mechanics
+Quantum bits (qubits) instead of bits
+Two key properties
+Superposition
+Entanglement
+Compared with conventional computers,
+they can be many orders of magnitude faster
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-42.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Quantum computers
+
+Challenges:
+Sensitive even to very small disturbances
+As the number of qubits increases,
+error detection and correction become increasingly difficult
+They require new algorithms and
+software
+
+It may still take 10–30 years before
+they become widespread
+
+Image source
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-43.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The processor (CPU – Central Processing Unit)
+
+The central processing unit of the computer interprets and executes
+instructions
+Components:
+Control Unit
+Arithmetic Logic Unit
+Registers
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-44.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Control Unit (CU)
+
+The part of the processor that
+
+Controls data flow between the ALU and the registers
+Interprets
+instructions
+Converts instructions into
+control signals
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-45.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The machine instruction cycle
+
+Fetch: read the address of the next instruction
+from the PC
+register
+Decode: decode the instruction stored in the IR
+Execute: the CPU passes the required information to the ALU, which executes the instruction
+
+Image source: https://computersciencewiki.org/index.php/The_machine_ instruction_cycle
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-46.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The Arithmetic Logic Unit (ALU)
+
+Performs arithmetic and logical
+operations.
+
+Basic operations:
+Boolean operations
+Binary addition
+Complement operation
+Bit shifting
+right/left
+
+Image source
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-47.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Registers
+
+Small, very fast storage locations
+Typically 8, 16, 32 or 64 bits wide
+Usually implemented as static storage
+They can store
+
+Data: AX, BX, CX, DX
+Memory addresses: SI, DI, SP, BP, CS, DS, SS, ES, IR
+Status and control
+
+information: PC, IR, flags
+
+Image source
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-48.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+CISC and RISC processors
+
+CISC
+Complex instruction set   
+Compound instructions
+One instruction – multiple clock cycles   
+One register set
+Longer execution time
+
+RISC
+Reduced instruction set  
+Simple instructions
+One instruction – one clock cycle   
+Multiple register sets
+Shorter execution time
+
+CISC = Complex Instruction Set Computers
+RISC = Reduced Instruction Set Computers
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-49.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Main memory
+
+Stores programs currently being executed and the data they require
+Random access
+(RAM – Random Access Memory)
+The processor can access and address it directly
+Its contents are lost when power is turned off
+Usually dynamic RAM (DRAM) – requires refreshing
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-50.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory addressing
+
+Main addressing modes
+(addresses are hexadecimal)
+Direct memory addressing
+Segment:offset addressing
+(segment register + offset)
+Indirect addressing (the address is stored in a register)
+Base-relative addressing (base register + offset)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-51.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory addressing
+
+Segment-offset addressing
+
+Direct memory addressing
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-52.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory addressing
+
+Base-relative addressing
+
+Indirect memory addressing
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-53.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Memory hierarchy
+
+Cache memory bridges the speed gap between components operating at different speeds
+It has multiple levels; e.g. Level 1 cache between the CPU and main memory
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-54.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+The I/O unit (peripherals)
+
+Input devices
+(e.g. mouse, keyboard)
+Output devices
+(e.g. printer, monitor)
+I/O devices (e.g. hard disk drive)
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-55.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Ports
+
+A PORT is a computer
+interface used to communicate with peripheral devices.
+It provides a standardized
+connection between the CPU and peripherals via the system bus (external bus).
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-56.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Serial and parallel data transmission
+
+When data is transferred between the peripheral interface and the peripheral one bit at a time, sequentially, this is called serial data transmission.
+(e.g. mouse, modem)
+When groups of bits are transferred simultaneously between the peripheral interface and the peripheral, this is called parallel data transmission (e.g. printer).
+USB – high-speed serial transmission
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-57.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Interrupts
+
+The currently executing activity is suspended
+The data required to resume execution must be saved
+The interrupt service routine must be started
+
+The interrupt
+
+must be completed,
+
+and the original state must be restored
+Causes of interrupts: I/O devices, errors, keystrokes, etc.
+:::
+
+
+---
+
+## {background-image="../slides/lecture-01/slide-58.png" background-size="100% 100%" background-position="center" background-repeat="no-repeat"}
+
+::: {.notes}
+Interrupt vector table
+:::

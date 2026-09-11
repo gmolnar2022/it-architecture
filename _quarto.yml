@@ -1,0 +1,26 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "IT Architecture"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: lectures/lecture-01.qmd
+        text: Lecture 01
+      - href: lectures/lecture-02.qmd
+        text: Lecture 02
+      - href: lectures/lecture-03.qmd
+        text: Lecture 03
+      - href: lectures/lecture-04.qmd
+        text: Lecture 04
+      - href: lectures/lecture-05.qmd
+        text: Lecture 05
+      - href: lectures/lecture-06.qmd
+        text: Lecture 06
+
+format:
+  html:
+    toc: true

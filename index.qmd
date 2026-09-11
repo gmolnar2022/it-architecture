@@ -1,0 +1,15 @@
+---
+title: "IT Architecture"
+subtitle: "Course materials"
+---
+
+## Lectures
+
+- [Lecture 01 – Hardware Fundamentals I](lectures/lecture-01.html)
+- [Lecture 02 – Hardware Fundamentals II](lectures/lecture-02.html)
+- [Lecture 03 – Operating Systems: Introduction](lectures/lecture-03.html)
+- [Lecture 04 – Operating Systems: Process Scheduling](lectures/lecture-04.html)
+- [Lecture 05 – Operating Systems: Resource Management and I/O Scheduling](lectures/lecture-05.html)
+- [Lecture 06 – Operating Systems: Memory Management](lectures/lecture-06.html)
+
+The presentations use the completed English PowerPoint slides as full-canvas Reveal.js slides for consistent visual appearance.
